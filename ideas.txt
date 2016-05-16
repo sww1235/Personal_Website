@@ -1,0 +1,15 @@
+personal website
+
+horizontal nav bar
+-about
+-stuff
+--programming
+--
+-blog
+
+who i am (including resume)
+
+has log in page
+
+link to github
+
