@@ -2,6 +2,9 @@
 
 # this concatinates the various html scraps together into functional webpages
 
+# There must be a page-head and page-body in order for the full page to be
+# generated corectly
+
 # order is as follows
 # - generic/head.html This file contains the html declaration and stylesheet info
 # - page-specific/page-head.html This file contains the <head></head> for a particular page.
@@ -18,10 +21,42 @@ if [ $# -eq 0 ]; then
   exit
 fi
 
-cd $1
+rm $2/*.html
+
+# cd $1 || exit
+
+pages=($(find . -name "*-head.html"|cut -d'/' -f 4|cut -d'-' -f 1))
+
+# for ((i=0;i<${#pages[@]};i++));
+# do
+#   echo "${pages[i]}" #| tr '\n' 't'
+# done
 
 
-for file in files
+
+heads=($(find . -name "*-head.html"))
+bodies=($(find . -name "*-body.html"))
+
+banner=$(find . -name "banner.html")
+footer=$(find . -name "footer.html")
+head=$(find . -name "head.html")
+nav=$(find . -name "nav-bar.html")
+#echo $test
+
+for ((i=0;i<${#pages[@]};i++));
 do
-  echo "test"
+
+  if [[ "${pages[i]}" == $'\n' ]]; then # !  -z  "${pages[i]}" ||
+    echo "skipping" "${pages[i]}"
+    continue
+  fi
+  echo "${pages[i]}"
+  cat $head ${heads[i]} >> "$2/${pages[i]}.html"
+  #read -n1 -r -p "Press any key to continue..."
+  echo "<body>" >> "$2/${pages[i]}.html"
+  #read -n1 -r -p "Press any key to continue..."
+  cat $banner $nav ${bodies[i]} $footer >> "$2/${pages[i]}.html"
+  #read -n1 -r -p "Press any key to continue..."
+  echo "</body>" >> "$2/${pages[i]}.html"
+  echo "</html>" >> "$2/${pages[i]}.html"
 done
