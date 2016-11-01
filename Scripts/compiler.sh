@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# to run for my website, use the below command run in the Personal_Website directory
+# ./scripts/compiler.sh . ../sww1235.github.io/
+
 # this concatinates the various html scraps together into functional webpages
 
 # There must be a page-head and page-body in order for the full page to be
