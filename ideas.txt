@@ -14,8 +14,3 @@ has log in page
 link to github
 
 look at youmightnotneedjavascript.com for css ideas
-
-I am interested in electronics, ham radio, live production, boating, home
-automation, all things security, embedded devices and industrial automation,
-system integration, architecture, networking and system administration (maybe
-add bullets) 
