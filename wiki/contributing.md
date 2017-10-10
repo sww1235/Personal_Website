@@ -10,10 +10,9 @@ come back to this, I can remember the format and purpose.
 
 ## <a name="content-guidelines"></a>Content
 
--   test
--   [test link](#content-guidelines)
+-   
 
-## File Format
+## <a name="file-format"></a>File Format
 
 The file format is using markdown, and is as follows.
 
@@ -21,7 +20,8 @@ The file format is using markdown, and is as follows.
 -   At the end, put a tag block, which is a code block using ```` ``` ````, with
 the language indication as `tag`
 -   Use `<a name="name"></a>` in between each header start and the header text. This
-can be linked to with `[name](#name)` The `name` should be all lowercase.
+can be linked to with `[name](#name)` The `name` should be all lowercase. This
+will create a page relative link.
 
 
 
