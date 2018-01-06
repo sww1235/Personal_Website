@@ -1,4 +1,4 @@
-# <a name="Contributing"></a>Contributing
+# <a name="contributing"></a>Contributing
 
 
 
