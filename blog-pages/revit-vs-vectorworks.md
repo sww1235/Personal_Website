@@ -9,6 +9,14 @@ Revit plugins you can buy to duplicate this functionality, or you can spend a
 disproportionate amount of time designing custom families if you need custom
 products.
 
+This is somewhat offset by the fact that some manufacturers offer Revit families
+of their products, however these often lack flexibility and are somewhat
+confusing to use, especially for larger families such as elevators.
+
+Vectorworks has much better tools for creating custom generic objects such as
+doors, windows and elevators which allow for more creative flexibility as you
+are not restricted to manufacter provided sizes.
+
 Revit has a much better MEP toolset then Vectorworks as well as integrates the
 structural model of the building much better. Their structural members tool
 actually **works** and can be used to do structural analysis of the building.
