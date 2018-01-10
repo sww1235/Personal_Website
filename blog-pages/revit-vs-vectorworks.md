@@ -1,8 +1,8 @@
-after having used both Revit and Vectorworks, these are my first impressions of
+After having used both Revit and Vectorworks, these are my first impressions of
 both softwares
 
 Revit is much less user friendly, more complex but much more powerful. It has a
-small standard libarary of doors and windows, hardware, etc, but if you want to
+small standard library of doors and windows, hardware, etc, but if you want to
 introduce anything custom, there is a larger amount of work involved as Revit
 lacks the powerful door and window tools of Vectorworks by default. There are
 Revit plugins you can buy to duplicate this functionality, or you can spend a
@@ -15,11 +15,11 @@ actually **works** and can be used to do structural analysis of the building.
 
 Revit has a much larger userbase and is supported by Autodesk's large community forumns.
 
-revit is very easy to use if you stick to the defaults. I was able to create a
+Revit is very easy to use if you stick to the defaults. I was able to create a
 fairly complex architectural model of a building in about 16 hours of off and on
 work and learning. however it took me a similar amount of time to create a
 custom door and a similar amount of time to create a custom bookshelf.
 
-This was similar to Vectorworks, however the vectorworks plugin objects like
+This was similar to Vectorworks, however the Vectorworks plugin objects like
 doors and windows are much more flexible by default than revits so I did not
 need to create custom versions of those.
