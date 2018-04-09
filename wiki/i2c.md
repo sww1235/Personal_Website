@@ -1,11 +1,13 @@
-# <a name="i2c"></a> I2C
+<h1 id="top">I<sup>2</sup>C</h1>
 
 
 
-## <a name="digispark"></a>Digispark
+<h2 id="digispark">Digispark</h2>
 
 
 
 ```tags
-electronics
+
+electronics, protocols, i2c, communication
+
 ```

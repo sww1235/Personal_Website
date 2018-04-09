@@ -1,4 +1,4 @@
-# <a name="contributing"></a>Contributing
+<h1 id="top">Contributing</h1>
 
 
 
@@ -8,22 +8,24 @@ only subjet to the whims of my own equipment, not the internet.
 This contributing guide is as much for me as for anyone else, so that when I
 come back to this, I can remember the format and purpose.
 
-## <a name="content-guidelines"></a>Content
+<h2 name="content-guidelines">Content</h2>
 
 -
 
-## <a name="file-format"></a>File Format
+<h2 name="file-format">File Format</h2>
 
 The file format is using markdown, and is as follows.
 
--   The first line is the page title using one \#
+-   The first line is the page title using a header tag with the h1 header level
+and `id="top"`
 
 -   At the end, put a tag block, which is a code block using ```` ``` ````, with
-the language indication as `tag`
+the language indication as `tags`
 
--   Use `<a name="name"></a>` in between each header start and the header text. This
-can be linked to with `[name](#name)` The `name` should be all lowercase. This
-will create a page relative link.
+-   Use standard HTML header tags instead of markdown `#` headers like
+`<h2 id="name">Name</h2>` in order to comply with HTML5 specs as the `<a>`
+tag has no name attribute any more. This can be linked to with `[name](#name)`
+The `id` should be all lowercase. This will create a page relative link.
 
 -   First and second level headers are mandatory to contain relative links.
 Lower headers are optional.
