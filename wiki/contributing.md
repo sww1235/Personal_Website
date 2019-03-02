@@ -3,7 +3,7 @@
 
 
 This is my personal wiki. It is meant to document and collate research so I am
-only subjet to the whims of my own equipment, not the internet.
+only subject to the whims of my own equipment, not the internet.
 
 This contributing guide is as much for me as for anyone else, so that when I
 come back to this, I can remember the format and purpose.
