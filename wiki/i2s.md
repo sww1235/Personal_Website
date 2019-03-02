@@ -22,7 +22,5 @@ conversion, truncation or zero fill is applied. Quoting from the I2S spec:
 -   <https://web.archive.org/web/20070102004400/http://www.nxp.com/acrobat_download/various/I2SBUS.pdf>
 
 ```tags
-
 electronics, protocols, i2s, communication
-
 ```

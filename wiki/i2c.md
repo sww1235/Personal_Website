@@ -7,7 +7,5 @@
 
 
 ```tags
-
 electronics, protocols, i2c, communication
-
 ```

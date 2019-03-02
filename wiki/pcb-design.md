@@ -19,7 +19,5 @@ other inner layer should be used primarily for routing of power traces and only
 sparingly used for signal routing.
 
 ```tags
-
 PCB, design, electronics
-
 ```
