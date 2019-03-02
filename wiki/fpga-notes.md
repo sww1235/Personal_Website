@@ -1,6 +1,6 @@
-# FPGA Notes
+<h1 id="top">FPGA Notes</h1>
 
-## Lattice Ice40 FPGAs
+<h2 name="lattice-fpgas">Lattice Ice40 FPGAs</h2>
 
 Using internal libraries in VHDL need to look at actual contents of files in
 install directory, located at
@@ -49,4 +49,8 @@ component SB_RGB_DRV is
         port (RGBLEDEN, RGBPU, RGB0PWM, RGB1PWM, RGB2PWM: in std_logic;
                 RGB0, RGB1, RGB2: out std_logic);
 end component;
+```
+
+```tags
+Contributing, info
 ```
