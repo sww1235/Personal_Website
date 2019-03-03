@@ -53,7 +53,9 @@ and DNS server, along with a firewall and router config based on pf, to allow
 the network to exist without any other infrastructure. This would be easily
 disabled during the initial script options, as well as after the fact.
 
-<h2 name="brian">Brian</h2>
+<h2 name="hosts">Hosts</h2>
+
+<h3 name="brian">Brian</h3>
 
 Brian, (name subject to change), is currently intended to be my main
 authentication server, running a combination of Kerberos and openLDAP.
@@ -62,7 +64,7 @@ authentication server, running a combination of Kerberos and openLDAP.
 
 **Software:** stock OpenBSD without any x11 crap
 
-<h2 name="stephenpi">Stephenpi</h2>
+<h3 name="stephenpi">Stephenpi</h3>
 
 This currently only runs an IRC client in tmux. It might do some automation type
 stuff later.
@@ -71,7 +73,7 @@ stuff later.
 
 **Software:** Musl Void Linux for ARM
 
-<h2 name="ws-host">Main Workstation Host</h2>
+<h3 name="ws-host">Main Workstation Host</h3>
 
 This acts a both a vm host using kvm/qemu, and a file server with a btrfs pool
 shared over SAMBA.
@@ -97,13 +99,28 @@ shared over SAMBA.
 | **Other** |Old Rackmount Case|
 
 
-**Software:** Musl Void Linux for ARM
+**Software:** Musl Void Linux for x86_64
 
-<h3 name="vm-win10">Primary Windows 10 VM</h3>
+<h4 name="vm-win10">Primary Windows 10 VM</h4>
 
-<h2 name="pffirewall">PfFirewall</h2>
+Runs windows 10 for gaming and windows only applications.
 
-<h2 name="den1">Den1</h2>
+<h3 name="pffirewall">PfFirewall</h3>
+
+Primary firewall and router for local network. Runs OpenVPN client connected to
+the server running on [Den1](#den1).
+
+**Hardware:** SG-2220 pfSense appliance from Netgate
+
+**Software:** pfSense
+
+<h3 name="den1">Den1</h3>
+
+OpenVPN server and jump box. VPS from Mean Servers in Denver
+
+**Hardware:** Mean Servers VPS
+
+**Software:** pfSense Community Edition
 
 ```tags
 Homelab, Documentation
