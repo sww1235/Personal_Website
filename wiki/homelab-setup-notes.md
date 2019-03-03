@@ -76,7 +76,26 @@ stuff later.
 This acts a both a vm host using kvm/qemu, and a file server with a btrfs pool
 shared over SAMBA.
 
-**Hardware:** 
+**Hardware:**
+
+[PCPartPicker part list](https://pcpartpicker.com/list/zpwFbX) / [Price breakdown by merchant](https://pcpartpicker.com/list/zpwFbX/by_merchant/)
+
+|Type|Item|
+|:--------|:------------------------------------------------------------------|
+| **CPU** |Intel - Core i3-8350K 4 GHz Quad-Core Processor|
+| **CPU Cooler** |Noctua - NH-D9L 46.44 CFM CPU Cooler|
+| **Motherboard** |ASRock - Fatal1ty Z370 Gaming K6 ATX LGA1151 Motherboard|
+| **Memory** |Corsair - Vengeance LPX 16 GB (2 x 8 GB) DDR4-2133 Memory|
+| **Storage** |Samsung - 970 Pro 512 GB M.2-2280 Solid State Drive|
+| **Storage** |Western Digital - Red Pro 2 TB 3.5" 7200RPM Internal Hard Drive|
+| **Storage** |Western Digital - Gold 2 TB 3.5" 7200RPM Internal Hard Drive|
+| **Storage** |Western Digital - Gold 4 TB 3.5" 7200RPM Internal Hard Drive|
+| **Video Card** |EVGA - GeForce GTX 1060 6GB 6 GB SC GAMING Video Card|
+| **Power Supply** |Corsair - HX Platinum 750 W 80+ Platinum Certified Fully-Modular ATX Power Supply|
+| **Case Fan** |Noctua - NF-A8 PWM 32.66 CFM 80mm Fan|
+| **Case Fan** |Noctua - NF-A12x25 PWM 60.1 CFM 120mm Fan|
+| **Other** |Old Rackmount Case|
+
 
 **Software:** Musl Void Linux for ARM
 
