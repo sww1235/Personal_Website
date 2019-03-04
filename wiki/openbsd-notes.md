@@ -1,7 +1,7 @@
 <h1 id="top">OpenBSD  Notes</h1>
 
 
-<h2 name="doas">Doas Configuration</h2>
+<h2 id="doas">Doas Configuration</h2>
 
 see doas.conf(5) for more details.
 
@@ -20,7 +20,7 @@ this can be further customized based on need.
 
 sourced from openbsd doas mastery.
 
-<h2 name="power">Power Management</h2>
+<h2 id="power">Power Management</h2>
 
 poweroff/shutdown gracefully shutdown system
 

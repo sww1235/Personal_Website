@@ -1,6 +1,6 @@
 <h1 id="top">FPGA Notes</h1>
 
-<h2 name="lattice-fpgas">Lattice Ice40 FPGAs</h2>
+<h2 id="lattice-fpgas">Lattice Ice40 FPGAs</h2>
 
 Using internal libraries in VHDL need to look at actual contents of files in
 install directory, located at

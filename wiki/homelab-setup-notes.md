@@ -1,7 +1,7 @@
 <h1 id="top">Homelab Setup Notes</h1>
 
 
-<h2 name="overview">Overview</h2>
+<h2 id="overview">Overview</h2>
 
 Currently, my homelab consists of the following systems:
 
@@ -14,7 +14,7 @@ Currently, my homelab consists of the following systems:
 
 My website and DNS are hosted through NearlyFreeSpeech.net
 
-<h2 name="future-plans">Future Plans</h2>
+<h2 id="future-plans">Future Plans</h2>
 
 -   Move fileserver duties from main workstation to dedicated FreeNAS file
 server with ZFS
@@ -24,7 +24,7 @@ server with ZFS
 -   Setup pfsense box at parents house
 -   Setup reciprocal offsite backups at parents house.
 
-<h2 name="far-future-plans">Far Future Plans</h2>
+<h2 id="far-future-plans">Far Future Plans</h2>
 
 -   All servers either run OpenBSD or FreeBSD unless specific exception is
 needed.
@@ -53,9 +53,9 @@ and DNS server, along with a firewall and router config based on pf, to allow
 the network to exist without any other infrastructure. This would be easily
 disabled during the initial script options, as well as after the fact.
 
-<h2 name="hosts">Hosts</h2>
+<h2 id="hosts">Hosts</h2>
 
-<h3 name="brian">Brian</h3>
+<h3 id="brian">Brian</h3>
 
 Brian, (name subject to change), is currently intended to be my main
 authentication server, running a combination of Kerberos and openLDAP.
@@ -64,7 +64,7 @@ authentication server, running a combination of Kerberos and openLDAP.
 
 **Software:** stock OpenBSD without any x11 crap
 
-<h3 name="stephenpi">Stephenpi</h3>
+<h3 id="stephenpi">Stephenpi</h3>
 
 This currently only runs an IRC client in tmux. It might do some automation type
 stuff later.
@@ -73,7 +73,7 @@ stuff later.
 
 **Software:** Musl Void Linux for ARM
 
-<h3 name="ws-host">Main Workstation Host</h3>
+<h3 id="ws-host">Main Workstation Host</h3>
 
 This acts a both a vm host using kvm/qemu, and a file server with a btrfs pool
 shared over SAMBA.
@@ -101,11 +101,11 @@ shared over SAMBA.
 
 **Software:** Musl Void Linux for x86_64
 
-<h4 name="vm-win10">Primary Windows 10 VM</h4>
+<h4 id="vm-win10">Primary Windows 10 VM</h4>
 
 Runs windows 10 for gaming and windows only applications.
 
-<h3 name="pffirewall">PfFirewall</h3>
+<h3 id="pffirewall">PfFirewall</h3>
 
 Primary firewall and router for local network. Runs OpenVPN client connected to
 the server running on [Den1](#den1).
@@ -114,7 +114,7 @@ the server running on [Den1](#den1).
 
 **Software:** pfSense
 
-<h3 name="den1">Den1</h3>
+<h3 id="den1">Den1</h3>
 
 OpenVPN server and jump box. VPS from Mean Servers in Denver
 
