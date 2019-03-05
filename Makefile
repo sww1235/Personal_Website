@@ -26,11 +26,11 @@ define sequence
 	echo \<body\> >> $(TMPFILE)
 	cat html-parts/banner.html >> $(TMPFILE)
 	cat html-parts/nav-bar.html >> $(TMPFILE)
-	cat $< >> $(TMPFILE) # add body
+	pandoc -f markdown -t html $< >> $(TMPFILE) # add body
 	cat html-parts/footer.html >> $(TMPFILE)
 	echo \<\/body\> >> $(TMPFILE)
 	echo \<\/html\> >> $(TMPFILE)
-	pandoc -f markdown -t html -o $@ $(TMPFILE)
+	cat $(TMPFILE) >> $@
 	rm $(TMPFILE)
 endef
 
