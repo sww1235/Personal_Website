@@ -17,8 +17,6 @@ OHTML = $(addprefix $(OUTDIR)/,about.html contact.html index.html projects.html)
 
 define sequence
 	# create temporary markdown file
-	@echo $@
-	@echo $<
 	$(eval FILENAME=$(basename $(notdir $@)))
 	$(eval TMPFILE=$(addsuffix .md,$(TMPDIR)/$(FILENAME)))
 	touch $(TMPFILE)
@@ -39,8 +37,6 @@ endef
 .PHONY : all
 
 .PHONY : clean
-
-.PHONY : test
 
 # want output directory layout as follows:
 # The output directory becomes webroot when processed by travis
@@ -79,49 +75,16 @@ clean :
 	rm -rf $(OUTDIR)
 	rm -rf $(TMPDIR)
 
-
-test :
-	@echo wiki
-	@echo $(WHTML)
-	@echo $(WSOURCES)
-	@echo blog
-	@echo $(BHTML)
-	@echo $(BSOURCES)
-	@echo projects
-	@echo $(PHTML)
-	@echo $(PSOURCES)
-	@echo other
-	@echo $(OHTML)
-	@echo $(OSOURCES)
-
 # pipe to use order only prereqs
 
 $(WHTML) : $(OUTDIR)/$(WIKIDIR)/%.html : $(WIKIDIR)/%.md |  $(OUTDIR) $(TMPDIR)
-	@echo wiki
-	@echo $@
-	@echo $<
 	$(sequence)
 
 $(BHTML) : $(OUTDIR)/$(BLOGDIR)/%.html : $(BLOGDIR)/%.md |  $(OUTDIR) $(TMPDIR)
-	@echo blog
 	$(sequence)
 
 $(PHTML) : $(OUTDIR)/$(PROJDIR)/%.html : $(PROJDIR)/%.md |  $(OUTDIR) $(TMPDIR)
-	@echo projects
 	$(sequence)
 
 $(OHTML) : $(OUTDIR)/%.html : $(OTHERDIR)/%.md | $(OUTDIR) $(TMPDIR)
-	@echo others
 	$(sequence)
-#
-# about.html : $(OTHERDIR)/about.md | $(OUTDIR) $(TMPDIR)
-# 	$(sequence)
-#
-# contact.html : $(OTHERDIR)/contact.md | $(OUTDIR) $(TMPDIR)
-# 	$(sequence)
-#
-# index.html : $(OTHERDIR)/index.md | $(OUTDIR) $(TMPDIR)
-# 	$(sequence)
-#
-# projects.html : $(OTHERDIR)/index.md | $(OUTDIR) $(TMPDIR)
-# 	$(sequence)
