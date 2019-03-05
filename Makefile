@@ -2,7 +2,7 @@ WIKIDIR=wiki
 BLOGDIR=blog-contents
 OTHERDIR=other-pages
 PROJDIR=projects
-OUTDIR=out
+OUTDIR=www
 TMPDIR=tmp
 
 WSOURCES = $(wildcard $(WIKIDIR)/*.md)
@@ -10,13 +10,15 @@ BSOURCES = $(wildcard $(BLOGDIR)/*.md)
 PSOURCES = $(wildcard $(PROJDIR)/*.md)
 OSOURCES = $(wildcard $(OTHERDIR)/*.md)
 
-WHTML = $(patsubst %.md,$(WIKIDIR)/%.html,$(WSOURCES))
-BHTML = $(patsubst %.md,$(BLOGDIR)/%.html,$(BSOURCES))
-PHTML = $(patsubst %.md,$(PROJDIR)/%.html,$(PSOURCES))
-OHTML = about.html contact.html index.html projects.html
+WHTML = $(patsubst $(WIKIDIR)/%.md,$(OUTDIR)/$(WIKIDIR)/%.html,$(WSOURCES))
+BHTML = $(patsubst $(BLOGDIR)/%.md,$(OUTDIR)/$(BLOGDIR)/%.html,$(BSOURCES))
+PHTML = $(patsubst $(PROJDIR)/%.md,$(OUTDIR)/$(PROJDIR)/%.html,$(PSOURCES))
+OHTML = $(addprefix $(OUTDIR)/,about.html contact.html index.html projects.html)
 
-define sequence =
+define sequence
 	# create temporary markdown file
+	@echo $@
+	@echo $<
 	$(eval FILENAME=$(basename $(notdir $@)))
 	$(eval TMPFILE=$(addsuffix .md,$(TMPDIR)/$(FILENAME)))
 	touch $(TMPFILE)
@@ -38,6 +40,8 @@ endef
 
 .PHONY : clean
 
+.PHONY : test
+
 # want output directory layout as follows:
 # The output directory becomes webroot when processed by travis
 # out/index.html
@@ -53,15 +57,12 @@ all : $(WHTML) $(BHTML) $(OHTML)
 
 $(OUTDIR) :
 	mkdir $(OUTDIR)
+	mkdir $(OUTDIR)/$(WIKIDIR)
+	mkdir $(OUTDIR)/$(BLOGDIR)
+	mkdir $(OUTDIR)/$(PROJDIR)
 
 $(TMPDIR) :
 	mkdir $(TMPDIR)
-
-$(WIKIDIR) : | $(OUTDIR)
-	mkdir $(OUTDIR)/$(WIKIDIR)
-
-$(BLOGDIR) : | $(OUTDIR) # pipe to use order only prereqs
-		mkdir $(OUTDIR)/$(BLOGDIR)
 
 # order is as follows
 # - head.html This file contains the html declaration and stylesheet info
@@ -74,23 +75,53 @@ $(BLOGDIR) : | $(OUTDIR) # pipe to use order only prereqs
 # - insert </body> tag here
 # - insert </html> tag here
 
-$(WHTML)/%.html : $(WSOURCES)/%.md | $(WIKIDIR) $(OUTDIR) $(TMPDIR)
+clean :
+	rm -rf $(OUTDIR)
+	rm -rf $(TMPDIR)
+
+
+test :
+	@echo wiki
+	@echo $(WHTML)
+	@echo $(WSOURCES)
+	@echo blog
+	@echo $(BHTML)
+	@echo $(BSOURCES)
+	@echo projects
+	@echo $(PHTML)
+	@echo $(PSOURCES)
+	@echo other
+	@echo $(OHTML)
+	@echo $(OSOURCES)
+
+# pipe to use order only prereqs
+
+$(WHTML) : $(OUTDIR)/$(WIKIDIR)/%.html : $(WIKIDIR)/%.md |  $(OUTDIR) $(TMPDIR)
+	@echo wiki
+	@echo $@
+	@echo $<
 	$(sequence)
 
-$(BHTML)/%.html : $(BSOURCES)/%.md | $(BLOGDIR) $(OUTDIR) $(TMPDIR)
+$(BHTML) : $(OUTDIR)/$(BLOGDIR)/%.html : $(BLOGDIR)/%.md |  $(OUTDIR) $(TMPDIR)
+	@echo blog
 	$(sequence)
 
-$(PHTML)/%.html : $(PSOURCES)/%.md | $(PROJDIR) $(OUTDIR) $(TMPDIR)
+$(PHTML) : $(OUTDIR)/$(PROJDIR)/%.html : $(PROJDIR)/%.md |  $(OUTDIR) $(TMPDIR)
+	@echo projects
 	$(sequence)
 
-about.html : $(OSOURCES)/about.md | $(OUTDIR) $(TMPDIR)
+$(OHTML) : $(OUTDIR)/%.html : $(OTHERDIR)/%.md | $(OUTDIR) $(TMPDIR)
+	@echo others
 	$(sequence)
-
-contact.html : $(OSOURCES)/contact.md | $(OUTDIR) $(TMPDIR)
-	$(sequence)
-
-index.html : $(OSOURCES)/index.md | $(OUTDIR) $(TMPDIR)
-	$(sequence)
-
-projects.html : $(OSOURCES)/index.md | $(OUTDIR) $(TMPDIR)
-	$(sequence)
+#
+# about.html : $(OTHERDIR)/about.md | $(OUTDIR) $(TMPDIR)
+# 	$(sequence)
+#
+# contact.html : $(OTHERDIR)/contact.md | $(OUTDIR) $(TMPDIR)
+# 	$(sequence)
+#
+# index.html : $(OTHERDIR)/index.md | $(OUTDIR) $(TMPDIR)
+# 	$(sequence)
+#
+# projects.html : $(OTHERDIR)/index.md | $(OUTDIR) $(TMPDIR)
+# 	$(sequence)
