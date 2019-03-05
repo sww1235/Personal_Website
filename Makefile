@@ -22,7 +22,7 @@ define sequence
 	$(eval FILENAME=$(basename $(notdir $@)))
 	$(eval TMPFILE=$(addsuffix .md,$(TMPDIR)/$(FILENAME)))
 	touch $(TMPFILE)
-	cat html-parts/head.html >> $(TMPFILE)
+	cat html-parts/head.html > $(TMPFILE)
 	echo \<title\>$(FILENAME)\<\/title\> >> $(TMPFILE)
 	echo \<\/head\> >> $(TMPFILE)
 	echo \<body\> >> $(TMPFILE)
