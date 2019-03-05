@@ -15,6 +15,8 @@ BHTML = $(patsubst $(BLOGDIR)/%.md,$(OUTDIR)/$(BLOGDIR)/%.html,$(BSOURCES))
 PHTML = $(patsubst $(PROJDIR)/%.md,$(OUTDIR)/$(PROJDIR)/%.html,$(PSOURCES))
 OHTML = $(addprefix $(OUTDIR)/,about.html contact.html index.html projects.html)
 
+HTMLPTS = $(addprefix html-parts/,banner.html footer.html head.html nav-bar.html)
+
 define sequence
 	# create temporary markdown file
 	$(eval FILENAME=$(basename $(notdir $@)))
@@ -77,14 +79,14 @@ clean :
 
 # pipe to use order only prereqs
 
-$(WHTML) : $(OUTDIR)/$(WIKIDIR)/%.html : $(WIKIDIR)/%.md |  $(OUTDIR) $(TMPDIR)
+$(WHTML) : $(OUTDIR)/$(WIKIDIR)/%.html : $(WIKIDIR)/%.md $(HTMLPTS) |  $(OUTDIR) $(TMPDIR)
 	$(sequence)
 
-$(BHTML) : $(OUTDIR)/$(BLOGDIR)/%.html : $(BLOGDIR)/%.md |  $(OUTDIR) $(TMPDIR)
+$(BHTML) : $(OUTDIR)/$(BLOGDIR)/%.html : $(BLOGDIR)/%.md $(HTMLPTS) |  $(OUTDIR) $(TMPDIR)
 	$(sequence)
 
-$(PHTML) : $(OUTDIR)/$(PROJDIR)/%.html : $(PROJDIR)/%.md |  $(OUTDIR) $(TMPDIR)
+$(PHTML) : $(OUTDIR)/$(PROJDIR)/%.html : $(PROJDIR)/%.md $(HTMLPTS) |  $(OUTDIR) $(TMPDIR)
 	$(sequence)
 
-$(OHTML) : $(OUTDIR)/%.html : $(OTHERDIR)/%.md | $(OUTDIR) $(TMPDIR)
+$(OHTML) : $(OUTDIR)/%.html : $(OTHERDIR)/%.md $(HTMLPTS) | $(OUTDIR) $(TMPDIR)
 	$(sequence)
