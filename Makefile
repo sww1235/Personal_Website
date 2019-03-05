@@ -22,6 +22,7 @@ define sequence
 	$(eval FILENAME=$(basename $(notdir $@)))
 	$(eval TMPFILE=$(addsuffix .md,$(TMPDIR)/$(FILENAME)))
 	touch $(TMPFILE)
+	rm -f $@ # remove previous version of destination file
 	cat html-parts/head.html > $(TMPFILE)
 	echo \<title\>$(FILENAME)\<\/title\> >> $(TMPFILE)
 	echo \<\/head\> >> $(TMPFILE)
