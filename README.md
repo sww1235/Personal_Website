@@ -1,5 +1,7 @@
 # Personal Website Backend
 
+[![Build Status](https://travis-ci.org/sww1235/Personal_Website.svg?branch=master)](https://travis-ci.org/sww1235/Personal_Website)
+
 This repository provides backend resources to my [website](http://sww1235.github.io/index.html)
 
 ## Compiler script
