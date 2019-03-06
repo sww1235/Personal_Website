@@ -22,8 +22,8 @@ script:
 
 deploy:
   provider: pages
-  repo: sww123.github.io
-  local-dir: out
+  repo: sww1235.github.io
+  local-dir: www
   target-branch: master
   skip-cleanup: true
   github-token: $GITHUB_API_KEY  # Set in the settings page of your repository, as a secure variable
