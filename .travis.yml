@@ -20,6 +20,7 @@ before_script: # setup environment
 script:
   - make all
   - pwd
+  - ls
 
 deploy:
   provider: pages
