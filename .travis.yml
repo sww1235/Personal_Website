@@ -5,11 +5,12 @@ branches:
   only:
     - master
 
-language: R
+language: bash
 os: linux
 
 
 before_script: # setup environment
+  - sudo apt-get install pandoc
   - git clone https://${GH_TOKEN}@github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
   - cd $TRAVIS_REPO_SLUG
   - git checkout -qf $TRAVIS_BRANCH
