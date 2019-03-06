@@ -1,0 +1,31 @@
+# parts stolen from crunch.io/clatter's travis config
+
+# only run on master branch
+branches:
+  only:
+    - master
+
+language: R
+os: linux
+
+
+before_script: # setup environment
+  - git clone https://${GH_TOKEN}@github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
+  - cd $TRAVIS_REPO_SLUG
+  - git checkout -qf $TRAVIS_BRANCH
+  - git config --global user.email "sww1235@gmail.com"
+  - git config --global user.name "Stephen"
+
+script:
+  - make all
+
+deploy:
+  provider: pages
+  repo: sww123.github.io
+  local-dir: out
+  target-branch: master
+  skip-cleanup: true
+  github-token: $GITHUB_API_KEY  # Set in the settings page of your repository, as a secure variable
+  keep-history: true
+  on:
+    branch: master
