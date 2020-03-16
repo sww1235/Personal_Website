@@ -5,11 +5,14 @@ PROJDIR=projects
 OUTDIR=www
 TMPDIR=tmp
 
+
+# create arrays of markdown sources
 WSOURCES = $(wildcard $(WIKIDIR)/*.md)
 BSOURCES = $(wildcard $(BLOGDIR)/*.md)
 PSOURCES = $(wildcard $(PROJDIR)/*.md)
 OSOURCES = $(wildcard $(OTHERDIR)/*.md)
 
+# create arrays of proposed HTML outputs
 WHTML = $(patsubst $(WIKIDIR)/%.md,$(OUTDIR)/$(WIKIDIR)/%.html,$(WSOURCES))
 BHTML = $(patsubst $(BLOGDIR)/%.md,$(OUTDIR)/$(BLOGDIR)/%.html,$(BSOURCES))
 PHTML = $(patsubst $(PROJDIR)/%.md,$(OUTDIR)/$(PROJDIR)/%.html,$(PSOURCES))
@@ -37,6 +40,8 @@ define sequence
 	rm $(TMPFILE)
 endef
 
+
+
 .PHONY : all
 
 .PHONY : clean
@@ -50,15 +55,19 @@ endef
 # out/projects/*
 # out/wiki/*
 # out/blog-contents/*
+# out/styles/*
 
 
 all : $(WHTML) $(BHTML) $(OHTML)
 
+# prepare output directory (this is webroot)
 $(OUTDIR) :
 	mkdir $(OUTDIR)
 	mkdir $(OUTDIR)/$(WIKIDIR)
 	mkdir $(OUTDIR)/$(BLOGDIR)
 	mkdir $(OUTDIR)/$(PROJDIR)
+	mkdir $(OUTDIR)/styles
+	cp styles/* $(OUTDIR)/styles/
 
 $(TMPDIR) :
 	mkdir $(TMPDIR)
@@ -78,6 +87,7 @@ clean :
 	rm -rf $(OUTDIR)
 	rm -rf $(TMPDIR)
 
+# convert each set of files in sequence
 # pipe to use order only prereqs
 
 $(WHTML) : $(OUTDIR)/$(WIKIDIR)/%.html : $(WIKIDIR)/%.md $(HTMLPTS) |  $(OUTDIR) $(TMPDIR)
