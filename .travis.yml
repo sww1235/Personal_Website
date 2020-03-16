@@ -30,6 +30,7 @@ after_success:
   # clone ghpages repo to website folder
   - git clone https://${GITHUB_API_KEY}@github.com/sww1235/sww1235.github.io.git website
   # move www directory contents to ghpages repo
+  - ls
   - cp -rf  Personal_Website/www/. website/
   # cd into ghpages repo
   - cd website
