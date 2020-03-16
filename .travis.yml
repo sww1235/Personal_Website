@@ -10,8 +10,8 @@ os: linux
 
 
 before_script: # setup environment
-  - pwd
-  - ls
+  #- pwd
+  #- ls
   - sudo apt-get install pandoc
   - git checkout -qf $TRAVIS_BRANCH
   - git config --global user.email "travis-ci@sww1235.net"
@@ -20,15 +20,15 @@ before_script: # setup environment
 script:
 # now we have all files at /home/travis/build/sww1235/Personal_Website
   - make all
-  - pwd
-  - ls
+  #- pwd
+  #- ls
 
 after_success:
 # CD out of main repo
-  - cd ..
-  - pwd
+  #- cd ..
+  #- pwd
   # clone ghpages repo to website folder
-  - git clone https://${GITHUB_API_KEY}@github.com/sww1235.github.io.git website
+  - git clone https://${GITHUB_API_KEY}@github.com/sww1235/sww1235.git website
   # move www directory contents to ghpages repo
   - cp -rf  Personal_Website/www/. website/
   # cd into ghpages repo
