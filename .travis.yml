@@ -28,16 +28,15 @@ after_success:
   #- cd ..
   #- pwd
   # clone ghpages repo to website folder
-  - git clone https://${GITHUB_API_KEY}@github.com/sww1235/sww1235.git website
+  - git clone https://${GITHUB_API_KEY}@github.com/sww1235/sww1235.github.io.git website
   # move www directory contents to ghpages repo
   - cp -rf  Personal_Website/www/. website/
   # cd into ghpages repo
   - cd website
   # add files to gh pages repo and commit
   - git add -A
-  - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
   # commit files to gh pages
-  - git commit -m $MESSAGE
+  - git commit -m "Website as of $(date -Iseconds -u )"
   - git push
 
 
