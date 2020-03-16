@@ -12,48 +12,43 @@ os: linux
 before_script: # setup environment
   - pwd
   - ls
-  # - sudo apt-get install pandoc
-  # - cd .. # want to be in home directory, not repo directory
-  # # travis repo slug is owner_name/repo_name
-  # # get repo name only
-  # - REPO=$(echo $TRAVIS_REPO_SLUG | cut -f2 -d/)
-  # - git clone https://${GITHUB_API_KEY}@github.com/$TRAVIS_REPO_SLUG.git $REPO
-  # - cd $REPO
-  # - git checkout -qf $TRAVIS_BRANCH
-  # - git config --global user.email "travis-ci@sww1235.net"
-  # - git config --global user.name "Robots"
+  - sudo apt-get install pandoc
+  - git checkout -qf $TRAVIS_BRANCH
+  - git config --global user.email "travis-ci@sww1235.net"
+  - git config --global user.name "Robots"
 
-# script:
-# # now we have all files at /home/travis/build/sww1235/Personal_Website
-  # - make all
-  # - pwd
-  # - ls
+script:
+# now we have all files at /home/travis/build/sww1235/Personal_Website
+  - make all
+  - pwd
+  - ls
 
-# after_success:
+after_success:
+# CD out of main repo
+  - cd ..
+  - pwd
+  # clone ghpages repo to website folder
+  - git clone https://${GITHUB_API_KEY}@github.com/sww1235.github.io.git website
+  # move www directory contents to ghpages repo
+  - cp -rf  Personal_Website/www/. website/
+  # cd into ghpages repo
+  - cd website
+  # add files to gh pages repo and commit
+  - git add -A
+  - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
+  # commit files to gh pages
+  - git commit -m $MESSAGE
+  - git push
 
-  # - cd ..
-  # - pwd
-  # - git clone https://${GITHUB_API_KEY}@github.com/sww1235.github.io.git 
 
-# # CD out of main repo
-# # clone ghpages repo
-# # move www directory contents to ghpages repo
-# # cd into ghpages repo
-# # add files to gh pages
-# # commit files to gh pages
-# # push gh pages repo
-
-  # - 
-  # - git clone ghpages repo
-  # - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
-# #
-# # deploy:
-# #   provider: pages
-# #   repo: sww1235.github.io
-# #   local-dir: www
-# #   target-branch: master
-# #   skip-cleanup: true
-# #   github-token: $GITHUB_API_KEY  # Set in the settings page of your repository, as a secure variable
-# #   keep-history: true
-# #   on:
-#     branch: master
+#
+# deploy:
+#   provider: pages
+#   repo: sww1235.github.io
+#   local-dir: www
+#   target-branch: master
+#   skip-cleanup: true
+#   github-token: $GITHUB_API_KEY  # Set in the settings page of your repository, as a secure variable
+#   keep-history: true
+#   on:
+#    branch: master
