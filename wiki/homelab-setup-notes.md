@@ -6,7 +6,7 @@
 Currently, my homelab consists of the following systems:
 
 -   [Brian](#brian)
--   [Stephenpi](#stephenpi)
+-   [Rack Monitor](#rack-monitor)
 -   [Main Workstation Host](#ws-host)
 -   [Windows 10 VM](#vm-win10)
 -   [PfFirewall](#pffirewall)
@@ -19,7 +19,7 @@ My website and DNS are hosted through NearlyFreeSpeech.net
 -   Move fileserver duties from main workstation to dedicated FreeNAS file
 server with ZFS
 -   Migrate to 10Gb networking
--   Add UPS
+-   <s>Add UPS</s>
 -   Upgrade brian
 -   Setup pfsense box at parents house
 -   Setup reciprocal offsite backups at parents house.
@@ -60,23 +60,32 @@ disabled during the initial script options, as well as after the fact.
 Brian, (name subject to change), is currently intended to be my main
 authentication server, running a combination of Kerberos and openLDAP.
 
+See [the buildscript]() for more details
+
 **Hardware:** Ancient Mac Mini
 
 **Software:** stock OpenBSD without any x11 crap
 
-<h3 id="stephenpi">Stephenpi</h3>
+<h3 id="rack-monitor">Rack Monitor</h3>
 
-This currently only runs an IRC client in tmux. It might do some automation type
-stuff later.
+Runs Network UPS tools to monitor cyberpower UPS and tell other systems to shutdown
 
-**Hardware:** Raspberry Pi 2B V1.1
+Removes the need for the built in cyberpower $159 network card which also runs an ancient version of TLS
+
+This will also perform temperature monitoring of the rack and fan speed control eventually
+
+See [the buildscript]() for more details
+
+**Hardware:** Raspberry Pi 2B V1.1 with 64GB microSD card
 
 **Software:** Musl Void Linux for ARM
 
 <h3 id="ws-host">Main Workstation Host</h3>
 
-This acts a both a vm host using kvm/qemu, and a file server with a btrfs pool
+This acts as both a vm host using kvm/qemu, and a file server with a btrfs pool
 shared over SAMBA.
+
+See [the buildscript]() for more details
 
 **Hardware:**
 
@@ -99,11 +108,15 @@ shared over SAMBA.
 | **Other** |Old Rackmount Case|
 
 
-**Software:** Musl Void Linux for x86_64
+**Software:** Musl Void Linux for x86\_64
 
 <h4 id="vm-win10">Primary Windows 10 VM</h4>
 
 Runs windows 10 for gaming and windows only applications.
+
+Uses VFIO to pass through the GTX1060
+
+See [the buildscript]() for more details
 
 <h3 id="pffirewall">PfFirewall</h3>
 
@@ -117,6 +130,8 @@ the server running on [Den1](#den1).
 <h3 id="den1">Den1</h3>
 
 OpenVPN server and jump box. VPS from Mean Servers in Denver
+
+See [the buildscript]() for more details
 
 **Hardware:** Mean Servers VPS
 
