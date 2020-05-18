@@ -1,2 +1,4 @@
 www/
 tmp/
+# ignore vim temp files
+*.swp
