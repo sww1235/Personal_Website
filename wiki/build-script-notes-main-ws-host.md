@@ -44,8 +44,7 @@ This is the build script for my main workstation PC and associated VMs
 
 <h3 id="vfio-kvm-qemu-config">VFIO/KVM/QEMU Configuration</h3>
 
-1. `xbps-install dbus qemu libvirtd virt-manager bridge-utils iptables2`
-2. 
+1. `xbps-install dbus qemu libvirtd virt-manager bridge-utils iptables2` 
 
 ln -s /etc/sv/dbus /var/service
 ln -s /etc/sv/libvirtd /var/service
@@ -55,13 +54,13 @@ ln -s /etc/sv/virtlogd /var/service
 it is not in xbps so need to manually download from [https://www.kraxel.org/repos/jenkins/edk2/](https://www.kraxel.org/repos/jenkins/edk2/) as of the writing of this build. Download the ovmf appropriate either 32 or 64 bit version then use
 
 install rpmextract package xbps
-
-    rpm2cpio <file>.rpm | xz -d | cpio -idmv
-
+```bash
+rpm2cpio <file>.rpm | xz -d | cpio -idmv
+```
 otherwise you could try:
-
-    rpm2cpio <file>.rpm | lzma -d | cpio -idmv
-
+```bash
+rpm2cpio <file>.rpm | lzma -d | cpio -idmv
+```
 to extract the files needed.
 
 `./user/share` is inside the extracted filesystem
