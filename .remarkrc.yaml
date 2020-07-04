@@ -70,10 +70,10 @@ plugins:
   - lint-ordered-list-marker-value
   - 
     - lint-rule-style
-    - "***"
+    - '***'
   - 
     - lint-strong-marker
-    - *
+    - '*'
   - 
     - lint-table-cell-padding
     - padded
