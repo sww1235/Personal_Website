@@ -134,7 +134,7 @@
           "block-closing-brace-space-before": "never",
           "block-opening-brace-newline-after": "always-multi-line",
           "block-opening-brace-newline-before": "never",
-          "block-opening-brace-space-after": "never",
+          "block-opening-brace-space-after": "never-single-line",
           "block-opening-brace-space-before": "always",
           "selector-attribute-brackets-space-inside": "never",
           "selector-attribute-operator-space-after": "always",
