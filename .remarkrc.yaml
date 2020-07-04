@@ -70,7 +70,7 @@ plugins:
   - lint-ordered-list-marker-value
   - 
     - lint-rule-style
-    - ***
+    - "***"
   - 
     - lint-strong-marker
     - *
