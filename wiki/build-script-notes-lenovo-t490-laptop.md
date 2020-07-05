@@ -160,17 +160,19 @@ to boot into windows 10.
 
 	-	Do not set mount points for the `Windows recovery partion`, or the
 		`Microsoft reserved` partition.
+
 	-	Set the `EFI System` partition filesystem to `vfat` and the mount point
 		to `/boot/efi`.
+
 	-	Set the 500GB `Microsoft basic data` partition to filesystem `ntfs` and
 		mountpoint `/mnt/passthrough`.
+
 	-	Set the ~1.3TB `Linux filesystem` partition to filesystem `ext4` and
 		mountpoint `/`. 
 
 17.	Review settings and install. This will take a while.
 
 18.	Reboot and select Void Linux at rEFInd prompt.
-
 
 <h4 id="void-linux-configuration">Void Linux Configuration</h4>
 
@@ -185,37 +187,38 @@ to boot into windows 10.
 	#%wheel ALL=(ALL) ALL
 	```
 
-4. 	Enable NTP and DHCP services
+3. 	Enable NTP and DHCP services
 	```bash
 	ln -s /etc/sv/ntpd /var/service
 	ln -s /etc/sv/dhcpcd /var/service
 	```
-5.	Create `passthrough` folder under `/mnt/` to allow passthrough partition to
+4.	Create `passthrough` folder under `/mnt/` to allow passthrough partition to
 	mount correctly.
 
-6.	Update system by running command `xbps-install -Svu` until it shows no
+5.	Update system by running command `xbps-install -Svu` until it shows no
 	updates.
 
-7.	Install ntfs driver.
+6.	Install ntfs driver.
 	```bash
 	xbps-install ntfs-3g
 	```
 
-8.	Reboot system and login as normal user.
+7.	Reboot system and login as normal user.
 
-9.	Enable trim on SSD by editing `/ete/fstab` and adding `,discard` after the
+8.	Enable trim on SSD by editing `/ete/fstab` and adding `,discard` after the
 	defaults line on the `/` and `/mnt/passthrough` mountpoints.
 
-10.	Install and remove the following packages. Want to use simpler NTP
+9.	Install and remove the following packages. Want to use simpler NTP
 	implementation.
 	 ```bash
 	sudo xbps-install nano openntpd rng-tools thefuck vim htop socklog
 	sudo xbps-remove chrony
 	```
 
-11.	Need to set up bumblebee/optimus for graphics, set up power management,
+10.	Need to set up bumblebee/optimus for graphics, set up power management,
 	set up void-packages in order to build dwm and dmenu from scratch. Want
-	to add in some extra patches. Want to display wifi status, battery status in header	
+	to add in some extra patches. Want to display wifi status, battery 
+	status in header
 
 11.	Install commonly used applications.
 
@@ -223,7 +226,6 @@ to boot into windows 10.
 	sudo xbps-install firefox freecad git glow kicad lynx netcat p7zip powertop
 	rsync tmux unzip wget zip
 	```
-
 
 ```tags
 build-script, void-linux,laptop, lenovo, notes
