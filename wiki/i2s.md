@@ -7,15 +7,15 @@ clocks.
 I2S by spec represents data in 2s complement format. In any bit width
 conversion, truncation or zero fill is applied. Quoting from the I2S spec:
 
->When the system word length is greater than the transmitter word
->length, the word is truncated (least significant data bits are set to ‘0’)
->for data transmission. If the receiver is sent more bits than its word
->length, the bits after the LSB are ignored. On the other hand, if the
->receiver is sent fewer bits than its word length, the missing bits are
->set to zero internally. And so, the MSB has a fixed position, whereas
->the position of the LSB depends on the word length. The transmitter
->always sends the MSB of the next word one clock period after the
->WS changes.
+> When the system word length is greater than the transmitter word
+> length, the word is truncated (least significant data bits are set to ‘0’)
+> for data transmission. If the receiver is sent more bits than its word
+> length, the bits after the LSB are ignored. On the other hand, if the
+> receiver is sent fewer bits than its word length, the missing bits are
+> set to zero internally. And so, the MSB has a fixed position, whereas
+> the position of the LSB depends on the word length. The transmitter
+> always sends the MSB of the next word one clock period after the
+> WS changes.
 
 <h2 id="references">References</h2>
 
