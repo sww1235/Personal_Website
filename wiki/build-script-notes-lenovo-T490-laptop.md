@@ -206,12 +206,16 @@ to boot into windows 10.
 9.	Enable trim on SSD by editing `/ete/fstab` and adding `,discard` after the
 	defaults line on the `/` and `/mnt/passthrough` mountpoints.
 
-10.	Install and remove the following packages. Want to use simpler NTP implementation.
-	```bash
+10.	Install and remove the following packages. Want to use simpler NTP
+	implementation.
+	 ```bash
 	sudo xbps-install nano openntpd rng-tools thefuck vim htop socklog
 	sudo xbps-remove chrony
 	```
-11.	
+
+11.	Need to set up bumblebee/optimus for graphics, set up power management,
+	set up void-packages in order to build dwm and dmenu from scratch. Want
+	to add in some extra patches. Want to display wifi status, battery status in header	
 
 11.	Install commonly used applications.
 
