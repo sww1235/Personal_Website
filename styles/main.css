@@ -68,7 +68,7 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 #topnavbar ul ul li {
 	float: none;
 	border-top: 1px solid rgba(107 114 124 0);
-	border-bottom: 1px solid rgba(87 95 106 0;
+	border-bottom: 1px solid rgba(87 95 106 0);
 	position: relative;
 }
 
