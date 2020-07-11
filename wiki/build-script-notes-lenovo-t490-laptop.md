@@ -215,17 +215,60 @@ to boot into windows 10.
 	sudo xbps-remove chrony
 	```
 
-10.	Need to set up bumblebee/optimus for graphics, set up power management,
-	set up void-packages in order to build dwm and dmenu from scratch. Want
-	to add in some extra patches. Want to display wifi status, battery 
-	status in header
-
-11.	Install commonly used applications.
+10.	Install commonly used applications.
 
 	```bash
 	sudo xbps-install firefox freecad git glow kicad lynx netcat p7zip powertop
 	rsync tmux unzip wget zip
 	```
+
+11.	Create Projects directory tree in `~` as follows:
+	`~/Projects/src/github.com/sww1235`. This mirrors the structure of how
+	golang wants to set things up.
+
+12.	Clone projects from github into Projects tree as desired.
+
+13.	Set up void-packages per the [instructions](void-packages-setup.html) in
+	this wiki.
+
+14.	Make sure `build-branch` in fork of `void-packages` is checked out, and up
+	to date with desired patches. See the [suckless
+	page](void-suckless-config.html) for more info.
+
+15.	Build binary packages of `dwm`, `dmenu`, `st` and `slstatus` as follows:
+
+	```bash
+	cd ~/Projects/src/github.com/sww1235/void-packages
+	./xbps-src pkg slstatus
+	./xbps-src pkg dwm
+	./xbps-src pkg dmenu
+	./xbps-src pkg st
+	```
+
+15.	Install `dwm`, `dmenu`, `st` and `slstatus` with the command:
+	
+	```bash
+	sudo xbps-install --repository=hostdir/binpkgs/ slstatus dwm dmenu st
+	```
+
+16.	Modify ~/.xinitrc to contain the following:
+
+	```xinitrc
+	slstatus &
+	exec dwm
+	```
+
+17.	Install `tlp` for power management:
+	
+	```bash
+	sudo xbps-install tlp
+	sudo ln -s /etc/sv/tlp /var/service
+	```
+
+18.	Need to set up bumblebee/optimus for graphics, set up dotfiles, set up
+	ssh-agent, set up dropbox and 1password cli client.
+
+
 
 ```tags
 build-script, void-linux,laptop, lenovo, notes
