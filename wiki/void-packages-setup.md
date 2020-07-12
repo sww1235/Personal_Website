@@ -31,15 +31,19 @@ contributions in.
 
 2. 	To enable both custom contributions to void-packages, and building modified
 	software with patches, use a separate git branch to actually build your
-	custom packages from. I use a branch called `build-branch` created with
-	`git checkout -b build-branch`. Whenever you want to build your custom
-	software, checkout that branch first.
+	custom packages from. I use a branch called `build-branch-$hostname`
+	created with `git checkout -b build-branch-$hostname`. Whenever you want to
+	build your custom software, checkout that branch first. I use a branch per
+	hostname to enable unique changes per machine. This is especially important
+	for suckless software such as dwm.
 
-A side effect of using a custom `build-branch` is that all custom changes will
+A side effect of using a custom `build-branch-$hostname` is that all custom changes will
 have full git history and can be easily applied without having to go through
 all the effort of rebuilding the patch files.
 
 patches are stored in `srcpkgs/<pkgname>/patches`
+
+To install custom software from a branch, need to use --repository=hostdir/binpkgs/$branch
 
 
 ```tags
