@@ -205,7 +205,7 @@ to boot into windows 10.
 
 7.	Reboot system and login as normal user.
 
-8.	Enable trim on SSD by editing `/ete/fstab` and adding `,discard` after the
+8.	Enable trim on SSD by editing `/etc/fstab` and adding `,discard` after the
 	defaults line on the `/` and `/mnt/passthrough` mountpoints.
 
 9.	Install and remove the following packages. Want to use simpler NTP
@@ -233,16 +233,93 @@ to boot into windows 10.
 12.	Clone dotfiles repo from GitHub and install vim and bash files using
 	`install.sh` script.
 
-13.	Clone projects from github into Projects tree as desired.
+13.	Set up ssh-agent using user specific services. Instructions taken from
+	<https://www.daveeddy.com/2018/09/15/using-void-linux-as-my-daily-driver/>
 
-14.	Set up void-packages per the [instructions](void-packages-setup.html) in
+	1.	Create user specific service directory:
+
+	```bash
+	sudo mkdir /etc/sv/runit-user-toxicsauce
+	```
+
+	2.	Create run script for user specific service by adding the following
+		into `/etc/sv/runit-user-toxicsauce/run`
+
+	```bash
+	#!/bin/sh
+	exec 2>&1
+	exec chpst -u toxicsauce:toxicsauce runsvdir /home/toxicsauce/runit/service
+	```
+
+	3.	Mark it as executable:
+
+	```bash
+	sudo chmod +x /etc/sv/runit-user-toxicsauce/run
+	```
+
+	4.	Create necessary user specific service directories:
+
+	```bash
+	mkdir ~/runit
+	mkdir ~/runit/sv
+	mkdir ~/runit/service
+	```
+
+	5.	Start this service of services with:
+
+	```bash
+	sudo ln -s /etc/sv/runit-user-toxicsauce /var/service
+	```
+
+	6.	Now set up `ssh-agent` service:
+
+	```bash
+	mkdir ~/runit/sv/ssh-agent
+	```
+
+	7.	Create run script for `ssh-agent` service by adding the following into `~/runit/sv/ssh-agent/run`.
+
+	```bash
+	#!/usr/bin/env bash
+	#
+	# Start ssh-agent from runit
+
+	file=~/.ssh/ssh-agent-env
+
+	exec > "$file"
+
+	echo "# started $(date)"
+
+	# For some reason, this line doesn't get emitted by ssh-agent when it is run
+	# with -d or -D.  Since we are starting the program with exec we already know
+	# the pid ahead of time though so we can create this line manually
+	echo "SSH_AGENT_PID=$$; export SSH_AGENT_PID"
+
+	exec ssh-agent -D
+	```
+
+	8.	Mark run file as executable with:
+
+	```bash
+	chmod +x ~/runit/sv/ssh-agent/run
+	```
+
+	9.	Now start the service with:
+
+	```bash
+	ln -s ~/runit/sv/ssh-agent ~/runit/service
+	```
+
+14.	Clone projects from github into Projects tree as desired.
+
+15.	Set up void-packages per the [instructions](void-packages-setup.html) in
 	this wiki.
 
-15.	Make sure `build-branch-the-machine` in my fork of `void-packages` is
+16.	Make sure `build-branch-the-machine` in my fork of `void-packages` is
 	checked out, and up to date with desired patches. See the [suckless
 	page](void-suckless-config.html) for more info.
 
-16.	Build binary packages of `dwm`, `dmenu`, `st` and `slstatus` as follows:
+17.	Build binary packages of `dwm`, `dmenu`, `st` and `slstatus` as follows:
 
 	```bash
 	cd ~/Projects/src/github.com/sww1235/void-packages
@@ -252,30 +329,28 @@ to boot into windows 10.
 	./xbps-src pkg slstatus
 	```
 
-17.	Install `dwm`, `dmenu`, `st` and `slstatus` with the command:
+18.	Install `dwm`, `dmenu`, `st` and `slstatus` with the command:
 
 	```bash
 	sudo xbps-install --repository=hostdir/binpkgs/build-branch-the-machine dwm dmenu st slstatus
 	```
 
-18.	Modify ~/.xinitrc to contain the following:
+19.	Modify ~/.xinitrc to contain the following:
 
 	```xinitrc
 	slstatus &
 	exec dwm
 	```
 
-19.	Install `tlp` for power management:
+20.	Install `tlp` for power management:
 
 	```bash
 	sudo xbps-install tlp
 	sudo ln -s /etc/sv/tlp /var/service
 	```
 
-20.	Need to set up bumblebee/optimus for graphics, set up
-	ssh-agent, set up dropbox and 1password cli client.
-
-
+21.	Need to set up bumblebee/optimus for graphics, set up dropbox and 1password
+	cli client.
 
 ```tags
 build-script, void-linux,laptop, lenovo, notes
