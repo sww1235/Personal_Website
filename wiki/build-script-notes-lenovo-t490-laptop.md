@@ -13,7 +13,7 @@ Reimage then setup dual booting.
 
 <h4 id="windows-installation">Windows Installation</h4>
 
-1. Download a copy of Windows 10 Pro from Microsoft
+1.  Download a copy of Windows 10 Pro from Microsoft
 
 2.	Create bootable USB stick using instructions on Microsoft website.
 
