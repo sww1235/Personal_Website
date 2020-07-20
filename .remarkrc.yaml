@@ -5,7 +5,7 @@ plugins:
     - 2
   - lint-checkbox-character-style
   - lint-checkbox-content-indent
-  - 
+  -
     - lint-code-block-style
     - fenced
   - lint-definition-case
@@ -20,17 +20,19 @@ plugins:
   - lint-hard-break-spaces
   - lint-heading-increment
   - lint-heading-style
-  - 
+  -
     - lint-linebreak-style
     - unix
-  - 
+  -
     - lint-link-title-style
     - '"'
   - lint-list-item-bullet-indent
   - lint-list-item-content-indent
-  - lint-list-item-indent
+  -
+    - lint-list-item-indent
+    - tab-size
   - lint-list-item-spacing
-  - 
+  -
     - lint-maximum-line-length
     - 80
   - lint-no-auto-link-without-protocol
@@ -64,22 +66,21 @@ plugins:
   - lint-no-unneeded-full-reference-image
   - lint-no-unneeded-full-reference-link
   - lint-no-unused-definitions
-  - 
+  -
     - lint-ordered-list-marker-style
     - .
   - lint-ordered-list-marker-value
-  - 
+  -
     - lint-rule-style
     - '***'
-  - 
+  -
     - lint-strong-marker
     - '*'
-  - 
+  -
     - lint-table-cell-padding
     - padded
   - lint-table-pipes
-  - 
+  -
     - lint-unordered-list-marker-style
     - -
-
 
