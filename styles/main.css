@@ -16,7 +16,7 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 	border-radius: 10px;
 	list-style: none;
 	position: relative;
-	display: inline-table;
+	display: inline-table
 }
 
 #topnavbar ul ul {
@@ -25,11 +25,11 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 	border-radius: 0;
 	padding: 0;
 	position: absolute;
-	top: 100%;
+	top: 100%
 }
 
 #topnavbar li {
-	float: left;
+	float: left
 }
 
 #topnavbar ul li:hover > ul {
@@ -39,7 +39,7 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 #topnavbar ul::after {
 	content: "";
 	clear: both;
-	display: block;
+	display: block
 }
 
 #topnavbar ul li {
@@ -58,31 +58,31 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 	text-transform: uppercase;
 	padding: 5px 10px;
 	color: rgba(178 0 0 0%);
-	text-decoration: none;
+	text-decoration: none
 }
 
 #topnavbar ul ul li {
 	float: none;
 	border-top: 1px solid rgba(107 114 124 0%);
 	border-bottom: 1px solid rgba(87 95 106 0%);
-	position: relative;
+	position: relative
 }
 
 #topnavbar ul li:hover a {
-	color: #white;
+	color: white
 }
 
 #topnavbar ul ul li a {
 	padding: 15px 40px;
-	color: white;
+	color: white
 }
 
 #topnavbar ul ul li a:hover {
-	background: rgba(75 84 95 0%);
+	background: rgba(75 84 95 0%)
 }
 
 #topnavbar ul ul ul {
 	position: absolute;
 	left: 100%;
-	top: 0;
+	top: 0
 }
