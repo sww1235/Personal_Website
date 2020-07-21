@@ -7,7 +7,6 @@ You can find the most recent copy of my resume on
 [Github](https://github.com/sww1235/LaTeX-Resume/blob/master/LaTeX-Resume-2016.pdf)
 here.
 
-
 ## Interests
 
 I am interested in diverse and often illogical combinations of things, of which,

@@ -74,16 +74,16 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 	text-decoration: none
 }
 
-#topnavbar ul ul li a:hover {
-	background: rgba(75 84 95 0%)
+#topnavbar ul ul li a {
+	padding: 15px 40px;
+	color: white
 }
 
 #topnavbar ul li:hover a {
 	color: white
 }
 
-#topnavbar ul ul li a {
-	padding: 15px 40px;
-	color: white
+#topnavbar ul ul li a:hover {
+	background: rgba(75 84 95 0%)
 }
 
