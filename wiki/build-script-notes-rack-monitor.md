@@ -3,7 +3,6 @@
 This is the build script and notes for the raspberry pi that monitors my Rack
 and UPS.
 
-
 <h2 id="notes">Notes</h2>
 
 <h2 id="build-script">Build Script</h2>
@@ -133,7 +132,6 @@ sudo ln -s /etc/sv/upsd/ /var/service
 
 check status of ups with the following command to make sure it is detected
 properly
-
 
 ```tags
 build-script, rack-monitor, notes

@@ -2,20 +2,25 @@
 
 This is the build script for my main workstation PC and associated VMs 
 
-
 <h2 id="notes">Notes</h2>
-
--
 
 <h2 id="build-script">Build Script</h2>
 
 <h3 id="initial-configuration">Initial Configuration</h3>
 
-1. Download the void-live-musl\_x86-64 .iso of void linux from reputable sources, currently [here](https://alpha.de.repo.voidlinux.org/live/current/)
-2. Burn image to USB thumbdrive using either `dd` or whatever windows tool is the popular thing and preferably doesn't use electron.
+1. Download the void-live-musl\_x86-64 .iso of void linux from reputable
+   sources, currently [here](https://alpha.de.repo.voidlinux.org/live/current/)
+
+2. Burn image to USB thumbdrive using either `dd` or whatever windows tool is
+   the popular thing and preferably doesn't use electron.
+
 3. Login as root with default password of `void-linux` to live image.
-4. Make sure you are booted using UEFI by validating presence of `/sys/firmware/efi` directory
+
+4. Make sure you are booted using UEFI by validating presence of
+   `/sys/firmware/efi` directory
+
 4. run `void-installer`
+
 5. Proceed through installation wizard
 	1. Keyboard=us
 	2. Either interface is fine, along with DHCP. This will get changed when we set up the VMs
