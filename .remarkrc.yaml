@@ -30,7 +30,7 @@ plugins:
   - lint-list-item-content-indent
   -
     - lint-list-item-indent
-    - mixed
+    - tab-size
   - lint-list-item-spacing
   -
     - lint-maximum-line-length
