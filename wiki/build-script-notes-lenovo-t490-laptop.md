@@ -222,7 +222,19 @@ to boot into windows 10.
 	rsync tmux unzip wget zip
 	```
 
-11.	Create Projects directory tree in `~` as follows:
+11.	Setup system logging using socklog
+
+	```bash
+	sudo xbps-install socklog-void
+	# enable services
+	sudo ln -s /etc/sv/socklog-unix/ /var/service
+	sudo ln -s /etc/sv/nanoklogd/ /var/service
+	# add user to log group
+	sudo usermod -a -G socklog $USER
+	# log out and log back in
+	```
+
+12.	Create Projects directory tree in `~` as follows:
 
 	```bash
 	mkdir -p ~/Projects/src/github.com/sww1235
@@ -230,10 +242,10 @@ to boot into windows 10.
 
 	This mirrors the structure of how golang wants to set things up.
 
-12.	Clone dotfiles repo from GitHub and install vim and bash files using
+13.	Clone dotfiles repo from GitHub and install vim and bash files using
 	`install.sh` script.
 
-13.	Set up ssh-agent using user specific services. Instructions taken from
+14.	Set up ssh-agent using user specific services. Instructions taken from
 	<https://www.daveeddy.com/2018/09/15/using-void-linux-as-my-daily-driver/>
 
 	1.	Create user specific service directory:
@@ -310,16 +322,16 @@ to boot into windows 10.
 	ln -s ~/runit/sv/ssh-agent ~/runit/service
 	```
 
-14.	Clone projects from github into Projects tree as desired.
+15.	Clone projects from github into Projects tree as desired.
 
-15.	Set up void-packages per the [instructions](void-packages-setup.html) in
+16.	Set up void-packages per the [instructions](void-packages-setup.html) in
 	this wiki.
 
-16.	Make sure `build-branch-the-machine` in my fork of `void-packages` is
+17.	Make sure `build-branch-the-machine` in my fork of `void-packages` is
 	checked out, and up to date with desired patches. See the [suckless
 	page](void-suckless-config.html) for more info.
 
-17.	Build binary packages of `dwm`, `dmenu`, `st` and `slstatus` as follows:
+18.	Build binary packages of `dwm`, `dmenu`, `st` and `slstatus` as follows:
 
 	```bash
 	cd ~/Projects/src/github.com/sww1235/void-packages
@@ -329,27 +341,27 @@ to boot into windows 10.
 	./xbps-src pkg slstatus
 	```
 
-18.	Install `dwm`, `dmenu`, `st` and `slstatus` with the command:
+19.	Install `dwm`, `dmenu`, `st` and `slstatus` with the command:
 
 	```bash
 	sudo xbps-install --repository=hostdir/binpkgs/build-branch-the-machine dwm dmenu st slstatus
 	```
 
-19.	Modify ~/.xinitrc to contain the following:
+20.	Modify ~/.xinitrc to contain the following:
 
 	```xinitrc
 	slstatus &
 	exec dwm
 	```
 
-20.	Install `tlp` for power management:
+21.	Install `tlp` for power management:
 
 	```bash
 	sudo xbps-install tlp
 	sudo ln -s /etc/sv/tlp /var/service
 	```
 
-21.	Need to set up bumblebee/optimus for graphics, set up dropbox and 1password
+22.	Need to set up bumblebee/optimus for graphics, set up dropbox and 1password
 	cli client.
 
 ```tags
