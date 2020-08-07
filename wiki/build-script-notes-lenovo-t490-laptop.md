@@ -361,6 +361,20 @@ to boot into windows 10.
 	sudo ln -s /etc/sv/tlp /var/service
 	```
 
+22.	Setup CUPS for printing:
+
+	1.	Install and enable the service:
+
+	```bash
+	sudo xbps-install cups
+	sudo ln -s /etc/sv/cupsd/ /var/service
+	```
+	2.	Edit /etc/cups/cupsd.conf, find line that starts with `<Limit CUPS-Add-Modify-Printer` and add `toxicsauce` after `@SYSTEM`
+
+	3.	Restart `cupsd` service
+	
+	4. go to <http://localhost:631/> to configure 
+
 22.	Need to set up bumblebee/optimus for graphics, set up dropbox and 1password
 	cli client.
 
