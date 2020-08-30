@@ -30,10 +30,16 @@ and UPS.
 		`ip` commands in `/etc/rc.local` to take advantage of other aspects of
 		DHCP including auto DNS server population and domain name.
 
+		also uncomment ntp_servers option
+
+		dns server is usually pfsense default gateway
+
 		```conf
 		interface eth0
+		inform ip_address=$IPaddress
 		static ip_address=$IPaddress
 		static routers=$defaultgateway
+		static domain_name_servers=$dnsserver
 		```
 
 	2.	edit `/etc/rc.conf` and change the following lines to set keymap and
@@ -54,7 +60,11 @@ and UPS.
 	4.	Check `/etc/ntpd.conf` for constraints line, and comment out. This
 		doesn't work on Raspi due to lack of HWCLK
 
-	5.	Create new non-root user, replacing $newusername with the actual name
+	5.	Add `server $gateway` to `/etc/ntpd.conf` since it doesn't seem to pick
+		it up from DHCP. NTP server will usually be the pfsense gateway, but
+		use whatever machine is actually the NTP server
+
+	6.	Create new non-root user, replacing $newusername with the actual name
 		of the user. This command adds the user to the wheel group, which
 		allows `sudo` access
 
@@ -62,7 +72,7 @@ and UPS.
 		useradd -m -s /bin/bash -U -G wheel,users,audio,video,cdrom,input $newusername
 		```
 
-	6.	Set system hostname by editing `/etc/hostname`
+	7.	Set system hostname by editing `/etc/hostname`
 
 6.	Reboot the system using `reboot` command. This should allow DHCP and NTP to
 	do their thing and allow us to update the system and install new packages.
@@ -75,12 +85,27 @@ and UPS.
 	sudo xbps-install -Svu
 	```
 
-9.	Install and remove the following packages. Want to use simpler NTP
-	implementation.
+9.	Install the following packages.
+
 
 	```bash
-	sudo xbps-install nano network-ups-tools openntpd rng-tools thefuck vim htop
-	sudo xbps-remove chrony
+	sudo xbps-install nano network-ups-tools rng-tools thefuck vim htop
+	```
+
+10.	Install terminfo package to fix issues with ssh
+
+	```bash
+	sudo xbps-install st-terminfo
+	```
+
+11.	Setup syslog daemon
+
+	```bash
+	sudo xbps-install socklog-void
+	sudo ln -s /etc/sv/socklog-unix /var/service
+	sudo ln -s /etc/sv/nanoklogd /var/service
+	# so normal user can access logs
+	sudo usermod -a -G socklog $USER
 	```
 
 <h3 id="nut-config">NUT Configuration</h3>
