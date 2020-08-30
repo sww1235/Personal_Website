@@ -158,6 +158,10 @@ sudo ln -s /etc/sv/upsd/ /var/service
 check status of ups with the following command to make sure it is detected
 properly
 
+```bash
+upsc cyberpower
+```
+
 ```tags
 build-script, rack-monitor, notes
 ```
