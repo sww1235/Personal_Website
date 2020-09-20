@@ -4,8 +4,6 @@
 
 <h2 id="pcb-design">PCB Design</h2>
 
-
-
 <h2 id="schematic-design">Schematic Design</h2>
 
 When using busses, make sure to place junction dots at every intersection. This

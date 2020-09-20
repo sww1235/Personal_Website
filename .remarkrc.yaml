@@ -1,0 +1,86 @@
+plugins:
+  - lint
+  -
+    - lint-blockquote-indentation
+    - 2
+  - lint-checkbox-character-style
+  - lint-checkbox-content-indent
+  -
+    - lint-code-block-style
+    - fenced
+  - lint-definition-case
+  - lint-definition-spacing
+  - lint-emphasis-marker
+  - lint-fenced-code-flag
+  - lint-fenced-code-marker
+  - lint-file-extension
+  - lint-final-definition
+  - lint-final-newline
+  - lint-first-heading-level
+  - lint-hard-break-spaces
+  - lint-heading-increment
+  - lint-heading-style
+  -
+    - lint-linebreak-style
+    - unix
+  -
+    - lint-link-title-style
+    - '"'
+  - lint-list-item-bullet-indent
+  - lint-list-item-content-indent
+  -
+    - lint-list-item-indent
+    - tab-size
+  - lint-list-item-spacing
+  -
+    - lint-maximum-line-length
+    - 80
+  - lint-no-auto-link-without-protocol
+  - lint-no-blockquote-without-marker
+  - lint-no-consecutive-blank-lines
+  - lint-no-duplicate-defined-urls
+  - lint-no-duplicate-definitions
+  - lint-no-duplicate-headings-in-section
+  - lint-no-emphasis-as-heading
+  - lint-no-empty-url
+  - lint-no-file-name-articles
+  - lint-no-file-name-consecutive-dashes
+  - lint-no-file-name-irregular-characters
+  - lint-no-file-name-mixed-case
+  - lint-no-file-name-outer-dashes
+  - lint-no-heading-content-indent
+  - lint-no-heading-indent
+  - lint-no-heading-like-paragraph
+  - lint-no-heading-punctuation
+  - lint-no-inline-padding
+  - lint-no-literal-urls
+  - lint-no-missing-blank-lines
+  - lint-no-multiple-toplevel-headings
+  - lint-no-paragraph-content-indent
+  - lint-no-reference-like-url
+  - lint-no-shell-dollars
+  - lint-no-shortcut-reference-image
+  - lint-no-shortcut-reference-link
+  - lint-no-table-indentation
+  - lint-no-undefined-references
+  - lint-no-unneeded-full-reference-image
+  - lint-no-unneeded-full-reference-link
+  - lint-no-unused-definitions
+  -
+    - lint-ordered-list-marker-style
+    - .
+  - lint-ordered-list-marker-value
+  -
+    - lint-rule-style
+    - '***'
+  -
+    - lint-strong-marker
+    - '*'
+  -
+    - lint-table-cell-padding
+    - padded
+  - lint-table-pipes
+  -
+    - lint-unordered-list-marker-style
+    - -
+

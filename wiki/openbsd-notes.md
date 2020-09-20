@@ -54,7 +54,7 @@ chmod 775 ports src
 
 add the following lines to `doas.conf` and add `SUDO=doas` to `/etc/mk.conf`
 
-```
+```doas
 permit keepenv nopass toxic as _pbuild
 permit keepenv nopass toxic as _pfetch
 ```
