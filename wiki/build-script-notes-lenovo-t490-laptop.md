@@ -234,10 +234,10 @@ to boot into windows 10.
 	# log out and log back in
 	```
 
-12.	Create Projects directory tree in `~` as follows:
+12.	Create projects directory tree in `~` as follows:
 
 	```bash
-	mkdir -p ~/Projects/src/github.com/sww1235
+	mkdir -p ~/projects/src/github.com/sww1235
 	```
 
 	This mirrors the structure of how golang wants to set things up.
