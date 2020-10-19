@@ -1,6 +1,6 @@
 <h1 id="top">Main Workstation Build Script and Notes</h1>
 
-This is the build script for my main workstation PC and associated VMs 
+This is the build script for my main workstation PC and associated VMs.
 
 <h2 id="notes">Notes</h2>
 
@@ -48,15 +48,15 @@ VM specific buildscripts are in their own files and are linked at the bottom of 
 	sudo xbps-install -Svu
 	```
 
-9. Install the following packages. The st-terminfo install fixes `st-256color
+8. Install the following packages. The st-terminfo install fixes `st-256color
    unknown terminal type` issues as well as backspace and tab issues when
-   sshing in from other computers using the `st` terminal emulator
+   sshing in from other computers using the `st` terminal emulator.
 
 	```bash
 	sudo xbps-install nano thefuck vim st-terminfo
 	```
 
-10.	Setup system logging using socklog
+9.	Setup system logging using socklog
 
 	```bash
 	sudo xbps-install socklog-void
@@ -249,12 +249,12 @@ TODO: add in instructions around btrfs and mounting separate file systems
 	`vm-manager.sh` script and will need to be changed if ovmf is installed in
 	another location.
 
-	smm varients include secure boot code, csm varients include legacy compat modules. 
+	smm varients include secure boot code, csm varients include legacy compat modules.
 	code and vars are separate files that are both contained in OVMF base.
 
 
 7.	create/reuse existing qcow2 win10 image
-	
+
 	1.	To create a new qcow2 image, use the below commands.
 
 		```bash
@@ -272,9 +272,9 @@ TODO: add in instructions around btrfs and mounting separate file systems
 	ip link set vmbridge up
 	```
 
-11.	need to add interface to bridge 
+11.	need to add interface to bridge
 
-12.	create acl file at `/etc/qemu/bridge.conf`
+12.	create acl file at `/etc/qemu/bridge.conf` and set contents to `allow all`
 
 13.	since we are running as -user kvm, need to edit `/etc/security/limits.conf` and
 	increase them for user kvm, as well as root and main user. This allows us to
@@ -291,7 +291,66 @@ TODO: add in instructions around btrfs and mounting separate file systems
 	root		hard	memlock	unlimited
 	```
 
-14.	
+	From: <https://stackoverflow.com/questions/39187619/vfio-dma-map-error-when-passthrough-gpu-using-libvirt>
+
+14.	Set up kernel drivers for PCIe passthrough.
+
+	1.	Create file `blacklist.conf` in `/etc/modprobe.d/ and add the following
+		to the contents. This prevents the nouveau driver from loading and
+		taking over the nvidia card before the vfio-pci driver can load.
+
+		```bash
+		blacklist nouveau
+		```
+
+	2.	Create file `vfio.conf` in `/etc/modprobe.d/ and then set contents to
+		the following, changing pcie ids as needed to those found via `lspci`
+
+		```bash
+		# 10de:1c03
+		# 10de:10f1
+		# 1912:0014 - usb3 pcie card
+		# 8086:15b8 - V219 ethernet card
+		options vfio-pci ids=10de:1c03,10de:10f1,1912:0014
+
+		# load vfio-pci before xhci-hcd else the usb3 ports are claimed by xhci_hcd
+		softdep xhci_hcd pre: vfio_pci
+		```
+
+		This tells `vfio-pci` to attach to the specified PCIe devices. It also
+		creates a soft dependancy of `vfio-pci` on `xhci_hcd` so `vfio-pci`
+		will in theory load before `xhci_hcd` and attach to the usb controller
+		before `xhci_hcd` does.
+
+	3.	Create file `vfio.conf` in /etc/modules-load.d` with the contents:
+
+		```bash
+		vfio
+		vfio-pci
+		vfio-virqfd
+		```
+
+		This loads the specified kernel drivers for VFIO use.
+
+	4.	Create file `dracut.conf` in `/etc/dracut.conf.d/` with the contents:
+
+		```bash
+		add_drivers+=" vfio vfio-pci vfio_iommu_type1 vfio_virqfd "
+		add_dracutmodules+=" kernel-modules "
+		omit_drivers+=" nouveau "
+		hostonly=yes
+
+		```
+		
+		This adds the correct drivers into the initramfs and prevents the
+		nouveau driver from being loaded.
+
+	5.	Now run regenerate initramfs and DKMS modules with:
+
+		```bash
+		sudo xbps-reconfigure --force linux
+		```
+
 
 <h2 id="resources">Resources</h2>
 
