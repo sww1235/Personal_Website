@@ -4,6 +4,8 @@ This is the build script for my main workstation PC and associated VMs
 
 <h2 id="notes">Notes</h2>
 
+VM specific buildscripts are in their own files and are linked at the bottom of the page
+
 <h2 id="build-script">Build Script</h2>
 
 <h3 id="initial-configuration">Initial Configuration</h3>
@@ -22,6 +24,7 @@ This is the build script for my main workstation PC and associated VMs
 4. run `void-installer`
 
 5. Proceed through installation wizard
+
 	1. Keyboard=us
 	2. Either interface is fine, along with DHCP. This will get changed when we set up the VMs
 	3. Source=network
@@ -36,16 +39,23 @@ This is the build script for my main workstation PC and associated VMs
 	12. Install
 	13. Wait
 	14. Reboot
+
 6. Log in as the new user you created
+
 7. Update the system by running the following command until there is no output.
+
 	```bash
 	sudo xbps-install -Svu
 	```
-9. Install and remove the following packages. Want to use simpler NTP implementation.
+
+9. Install the following packages. The st-terminfo install fixes `st-256color
+   unknown terminal type` issues as well as backspace and tab issues when
+   sshing in from other computers using the `st` terminal emulator
+
 	```bash
-	sudo xbps-install nano openntpd thefuck
-	sudo xbps-remove chrony
+	sudo xbps-install nano thefuck vim st-terminfo
 	```
+
 10.	Setup system logging using socklog
 
 	```bash
@@ -57,18 +67,6 @@ This is the build script for my main workstation PC and associated VMs
 	sudo usermod -a -G socklog $USER
 	# log out and log back in
 	```
-
-11.	Create Projects directory tree in `~` as follows:
-
-	```bash
-	mkdir -p ~/Projects/src/github.com/sww1235
-	```
-
-	This mirrors the structure of how golang wants to set things up.
-
-12.	Clone dotfiles repo from GitHub and install vim and bash files using
-	`install.sh` script.
-
 13.	Set up ssh-agent using user specific services. Instructions taken from
 	<https://www.daveeddy.com/2018/09/15/using-void-linux-as-my-daily-driver/>
 
@@ -146,6 +144,35 @@ This is the build script for my main workstation PC and associated VMs
 	ln -s ~/runit/sv/ssh-agent ~/runit/service
 	```
 
+	**NOTE**: you need the following line in bashrc in order to get it working
+	in new shells. This is already in my dotfiles bashrc
+
+	```bash
+	# source ssh-agent file
+
+	[ -f $HOME/.ssh/ssh-agent-env ] && source $HOME/.ssh/ssh-agent-env
+	```
+
+TODO: add in instructions around btrfs and mounting separate file systems
+
+11.	Create Projects directory tree in `~` as follows:
+
+	```bash
+	mkdir -p ~/projects/src/github.com/sww1235
+	```
+
+	This mirrors the structure of how golang wants to set things up.
+
+12.	Make symlink in `~` as follows:
+
+	```bash
+	ln -s ~/projects/src/github.com/sww1235 myprojects
+	```
+
+12.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
+	`install.sh` script.
+
+
 14.	Clone projects from github into Projects tree as desired.
 
 15.	Set up void-packages per the [instructions](void-packages-setup.html) in
@@ -180,36 +207,93 @@ This is the build script for my main workstation PC and associated VMs
 
 <h3 id="vfio-kvm-qemu-config">VFIO/KVM/QEMU Configuration</h3>
 
-1. `xbps-install dbus qemu libvirtd virt-manager bridge-utils iptables2` 
+1.	install qemu and socat
 
-ln -s /etc/sv/dbus /var/service
-ln -s /etc/sv/libvirtd /var/service
-ln -s /etc/sv/virtlockd /var/service
-ln -s /etc/sv/virtlogd /var/service
+	```bash
+	sudo xbps-install qemu socat
+	```
 
-it is not in xbps so need to manually download from [https://www.kraxel.org/repos/jenkins/edk2/](https://www.kraxel.org/repos/jenkins/edk2/) as of the writing of this build. Download the ovmf appropriate either 32 or 64 bit version then use
+2.	Create QEMU directory
 
-install rpmextract package xbps
-```bash
-rpm2cpio <file>.rpm | xz -d | cpio -idmv
-```
-otherwise you could try:
-```bash
-rpm2cpio <file>.rpm | lzma -d | cpio -idmv
-```
-to extract the files needed.
+	```bash
+	sudo mkdir /etc/qemu
+	```
 
-`./user/share` is inside the extracted filesystem
+3. download ovmf. It is not in xbps so need to manually download from
+   <https://www.kraxel.org/repos/jenkins/edk2/>
+   as of the writing of this build. Download the ovmf appropriate either 32 or
+   64 bit version. This will be in RPM format, so need to:
 
-copy files in `./usr/share/edk2.git/ovmf-x64` to `/usr/share/ovmf`
+4.	Install rpmextract.
 
-and then set the config option in `/etc/libvirt/qemu.conf`
+	```bash
+	sudo xbps-install rpmextract
+	```
 
-`nvram` to the appropriate locations. smm varients include secure boot code, csm varients include legacy compat modules.
+5.	Then run either:
 
-code and vars are separate files that are both contained in OVMF base.
+	```bash
+	rpm2cpio <file>.rpm | xz -d | cpio -idmv
+	```
 
-<h2 id="sources">Sources</h2>
+	or
+
+	```bash
+	rpm2cpio <file>.rpm | lzma -d | cpio -idmv
+	```
+
+	to extract the files needed.
+
+6.	Copy the files inside the `./usr/share/edk2.git/ovmf-x64` directory inside
+	the extracted files, to `/usr/share/ovmf/`. This path is hardcoded in the
+	`vm-manager.sh` script and will need to be changed if ovmf is installed in
+	another location.
+
+	smm varients include secure boot code, csm varients include legacy compat modules. 
+	code and vars are separate files that are both contained in OVMF base.
+
+
+7.	create/reuse existing qcow2 win10 image
+	
+	1.	To create a new qcow2 image, use the below commands.
+
+		```bash
+		qemu-img create -f qcow2 -o preallocation=metadata filename.qcow2 size
+		```
+
+8.	Create kvm:kvm user/group as system group
+
+9.	Clone vm-manager repo into projects directory, and symlink to good location for executable scripts in path
+
+10.	Create vmbridge interface using iproute2 package
+
+	```bash
+	ip link add name vmbridge type bridge
+	ip link set vmbridge up
+	```
+
+11.	need to add interface to bridge 
+
+12.	create acl file at `/etc/qemu/bridge.conf`
+
+13.	since we are running as -user kvm, need to edit `/etc/security/limits.conf` and
+	increase them for user kvm, as well as root and main user. This allows us to
+	grant large amounts of memory to the guest.
+
+	Add the following lines to the file.
+
+	```conf
+	@kvm		soft	memlock	unlimited
+	@kvm		hard	memlock	unlimited
+	toxicsauce	soft	memlock	unlimited
+	toxicsauce	hard	memlock	unlimited
+	root		soft	memlock	unlimited
+	root		hard	memlock	unlimited
+	```
+
+14.	
+
+<h2 id="resources">Resources</h2>
 
 <https://www.reddit.com/r/voidlinux/comments/ghwvv5/guide_how_to_setup_qemukvm_emulation_on_void_linux/>
 
