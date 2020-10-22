@@ -10,47 +10,48 @@ VM specific buildscripts are in their own files and are linked at the bottom of 
 
 <h3 id="initial-configuration">Initial Configuration</h3>
 
-1. Download the void-live-musl\_x86-64 .iso of void linux from reputable
-   sources, currently [here](https://alpha.de.repo.voidlinux.org/live/current/)
+1.	Download the void-live-musl\_x86-64 .iso of void linux from reputable
+	sources, currently
+	[here](https://alpha.de.repo.voidlinux.org/live/current/)
 
-2. Burn image to USB thumbdrive using either `dd` or whatever windows tool is
-   the popular thing and preferably doesn't use electron.
+2.	Burn image to USB thumbdrive using either `dd` or whatever windows tool is
+	the popular thing and preferably doesn't use electron.
 
-3. Login as root with default password of `void-linux` to live image.
+3.	Login as root with default password of `void-linux` to live image.
 
-4. Make sure you are booted using UEFI by validating presence of
-   `/sys/firmware/efi` directory
+4.	Make sure you are booted using UEFI by validating presence of
+	`/sys/firmware/efi` directory
 
-4. run `void-installer`
+4.	run `void-installer`
 
-5. Proceed through installation wizard
+5.	Proceed through installation wizard
 
-	1. Keyboard=us
-	2. Either interface is fine, along with DHCP. This will get changed when we set up the VMs
-	3. Source=network
-	4. Hostname=main-ws-host
-	5. Timezone=America/Denver or appropriate
-	6. Root password from password manager - generated
-	7. User account from password manager
-	8. Select grub to autoinstall GRUB2 bootloader. TODO: change to rEFInd instead
-	9. Partition main SSD using GPT scheme
-	10. Set filesystems
-	11. Review settings
-	12. Install
-	13. Wait
-	14. Reboot
+	1.	Keyboard=us
+	2.	Either interface is fine, along with DHCP. This will get changed when we set up the VMs
+	3.	Source=network
+	4.	Hostname=main-ws-host
+	5.	Timezone=America/Denver or appropriate
+	6.	Root password from password manager - generated
+	7.	User account from password manager
+	8.	Select grub to autoinstall GRUB2 bootloader. TODO: change to rEFInd instead
+	9.	Partition main SSD using GPT scheme
+	10.	Set filesystems
+	11.	Review settings
+	12.	Install
+	13.	Wait
+	14.	Reboot
 
-6. Log in as the new user you created
+6.	Log in as the new user you created
 
-7. Update the system by running the following command until there is no output.
+7.	Update the system by running the following command until there is no output.
 
 	```bash
 	sudo xbps-install -Svu
 	```
 
-8. Install the following packages. The st-terminfo install fixes `st-256color
-   unknown terminal type` issues as well as backspace and tab issues when
-   sshing in from other computers using the `st` terminal emulator.
+8.	Install the following packages. The st-terminfo install fixes `st-256color
+	unknown terminal type` issues as well as backspace and tab issues when
+	sshing in from other computers using the `st` terminal emulator.
 
 	```bash
 	sudo xbps-install nano thefuck vim st-terminfo
@@ -219,10 +220,10 @@ TODO: add in instructions around btrfs and mounting separate file systems
 	sudo mkdir /etc/qemu
 	```
 
-3. download ovmf. It is not in xbps so need to manually download from
-   <https://www.kraxel.org/repos/jenkins/edk2/>
-   as of the writing of this build. Download the ovmf appropriate either 32 or
-   64 bit version. This will be in RPM format, so need to:
+3.	download ovmf. It is not in xbps so need to manually download from
+	<https://www.kraxel.org/repos/jenkins/edk2/> as of the writing of this
+	build. Download the ovmf appropriate either 32 or 64 bit version. This will
+	be in RPM format, so need to:
 
 4.	Install rpmextract.
 
@@ -341,7 +342,7 @@ TODO: add in instructions around btrfs and mounting separate file systems
 		hostonly=yes
 
 		```
-		
+
 		This adds the correct drivers into the initramfs and prevents the
 		nouveau driver from being loaded.
 
@@ -350,6 +351,13 @@ TODO: add in instructions around btrfs and mounting separate file systems
 		```bash
 		sudo xbps-reconfigure --force linux
 		```
+
+	6.	Reboot
+
+15.	Check lscpi -v to make sure that `vfio-pci` has correctly bound to the
+	graphics card and usb card.
+
+16.	start VM to test using script in vm-manager repo.
 
 
 <h2 id="resources">Resources</h2>
