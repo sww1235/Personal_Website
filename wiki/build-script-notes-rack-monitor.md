@@ -24,7 +24,7 @@ and UPS.
 	install packages (as root) Remember that the only available text editor is
 	`vi`!
 
-	1.	Configure static IP address by editing `/etc/dhcpd.conf` with the
+	1.	Configure static IP address by editing `/etc/dhcpcd.conf` with the
 		following lines at the bottom of the file.  Actual IP addresses are
 		found in the network documentation.  We use DHCP rather than manual
 		`ip` commands in `/etc/rc.local` to take advantage of other aspects of
