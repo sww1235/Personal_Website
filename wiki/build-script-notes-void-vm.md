@@ -32,40 +32,68 @@ my main workstation.
 	static domain_name_servers=$gateway
 	```
 
+6.	sv restart dhcpcd
+
 6.	run `void-installer`
 
 7.	Proceed through installation wizard
 
 	1.	Keyboard=us
+
 	2.	Select DHCP
+
 	3.	Source=network
+
 	4.	Hostname=void-vm
+
 	5.	System Locale=en\_US.UTF-8
+
 	6.	Timezone=America/Denver or appropriate
+
 	7.	Root password from password manager - generated
+
 	8.	User account from password manager
-	9.	Select none, and no for graphical terminal
+
+	9.	Select sda1, and no for graphical terminal. (We will blow grub away after the system boots)
+
 	10.	Partition main SSD using GPT scheme
 
 		1.	Create a 500MiB partition of type `EFI system`
-		2.	Create a second partition with the remaining space of type `linux-filesystem`
+
+		2.	Create a second partition with the remaining space of type
+			`linux-filesystem`
+
 		3.	Select write to write partitions to disk
 
-	11.	Set filesystems
-		1.	Set 500MiB partition `vfat` filesystem and mount it at /boot/efi
-		2.	Set second partition to `ext4` and mount it at `/`
-	11.	Review settings
-	12.	Install
-	13.	Wait
-	14.	Reboot
+	11.	Set filesystem
 
-6.	Log in as the new user you created
+		1.	Set 500MiB partition `vfat` filesystem and mount it at `/boot/efi`
+
+		2.	Set second partition to `ext4` and mount it at `/`
+
+	11.	Review settings
+
+	12.	Install
+
+	13.	Wait
+
+	14.	Exit installer
+
+	15. Shutdown system with `shutdown -h now`
+
+	15.	Comment out cdrom directives in vm-manager script
+
+	16. Start up VM again
+
+6.	Log in as the new user you created.
 
 7.	Update the system by running the following command until there is no output.
 
 	```bash
 	sudo xbps-install -Svu
 	```
+
+8.	Install refind and wipe out grub.
 
 8.	Install the following packages. The st-terminfo install fixes `st-256color
 	unknown terminal type` issues as well as backspace and tab issues when
