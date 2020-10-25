@@ -25,7 +25,7 @@ my main workstation.
 	`/etc/dhcpcd.conf`
 
 	```conf
-	interface enp0s1
+	interface enp0s2
 	inform ip_address=$ipaddress
 	static ip_address=$ipaddress/subnet
 	static routers=$gateway
