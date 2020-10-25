@@ -22,9 +22,9 @@ VM specific buildscripts are in their own files and are linked at the bottom of 
 4.	Make sure you are booted using UEFI by validating presence of
 	`/sys/firmware/efi` directory
 
-4.	run `void-installer`
+5.	run `void-installer`
 
-5.	Proceed through installation wizard
+6.	Proceed through installation wizard
 
 	1.	Keyboard=us
 	2.	Either interface is fine, along with DHCP. This will get changed when we set up the VMs
@@ -41,15 +41,26 @@ VM specific buildscripts are in their own files and are linked at the bottom of 
 	13.	Wait
 	14.	Reboot
 
-6.	Log in as the new user you created
+7.	Log in as the new user you created
 
-7.	Update the system by running the following command until there is no output.
+8.	Static IP address setup. Add the following to `/etc/dhcpcd.conf` and
+	restart dhcpcd service `sudo sv restart dhcpcd`.
+
+	```conf
+	interface eno1
+	inform ip_address=$ipaddress
+	static ip_address=$ipaddress/subnet
+	static routers=$gateway
+	static domain_name_servers=$gateway
+	```
+
+9.	Update the system by running the following command until there is no output.
 
 	```bash
 	sudo xbps-install -Svu
 	```
 
-8.	Install the following packages. The st-terminfo install fixes `st-256color
+10.	Install the following packages. The st-terminfo install fixes `st-256color
 	unknown terminal type` issues as well as backspace and tab issues when
 	sshing in from other computers using the `st` terminal emulator.
 
@@ -57,7 +68,7 @@ VM specific buildscripts are in their own files and are linked at the bottom of 
 	sudo xbps-install nano thefuck vim st-terminfo
 	```
 
-9.	Setup system logging using socklog
+11.	Setup system logging using socklog
 
 	```bash
 	sudo xbps-install socklog-void
@@ -68,7 +79,7 @@ VM specific buildscripts are in their own files and are linked at the bottom of 
 	sudo usermod -a -G socklog $USER
 	# log out and log back in
 	```
-13.	Set up ssh-agent using user specific services. Instructions taken from
+12.	Set up ssh-agent using user specific services. Instructions taken from
 	<https://www.daveeddy.com/2018/09/15/using-void-linux-as-my-daily-driver/>
 
 	1.	Create user specific service directory:
@@ -156,7 +167,7 @@ VM specific buildscripts are in their own files and are linked at the bottom of 
 
 TODO: add in instructions around btrfs and mounting separate file systems
 
-11.	Create Projects directory tree in `~` as follows:
+13.	Create Projects directory tree in `~` as follows:
 
 	```bash
 	mkdir -p ~/projects/src/github.com/sww1235
@@ -164,47 +175,20 @@ TODO: add in instructions around btrfs and mounting separate file systems
 
 	This mirrors the structure of how golang wants to set things up.
 
-12.	Make symlink in `~` as follows:
+14.	Make symlink in `~` as follows:
 
 	```bash
 	ln -s ~/projects/src/github.com/sww1235 myprojects
 	```
 
-12.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
+15.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
 	`install.sh` script.
 
 
-14.	Clone projects from github into Projects tree as desired.
+16.	Clone projects from github into Projects tree as desired.
 
-15.	Set up void-packages per the [instructions](void-packages-setup.html) in
+17.	Set up void-packages per the [instructions](void-packages-setup.html) in
 	this wiki.
-
-16.	Make sure `build-branch-the-machine` in my fork of `void-packages` is
-	checked out, and up to date with desired patches. See the [suckless
-	page](void-suckless-config.html) for more info.
-
-17.	Build binary packages of `dwm`, `dmenu`, `st` and `slstatus` as follows:
-
-	```bash
-	cd ~/Projects/src/github.com/sww1235/void-packages
-	./xbps-src pkg dwm
-	./xbps-src pkg dmenu
-	./xbps-src pkg st
-	./xbps-src pkg slstatus
-	```
-
-18.	Install `dwm`, `dmenu`, `st` and `slstatus` with the command:
-
-	```bash
-	sudo xbps-install --repository=hostdir/binpkgs/build-branch-the-machine dwm dmenu st slstatus
-	```
-
-19.	Modify ~/.xinitrc to contain the following:
-
-	```xinitrc
-	slstatus &
-	exec dwm
-	```
 
 <h3 id="vfio-kvm-qemu-config">VFIO/KVM/QEMU Configuration</h3>
 
@@ -253,31 +237,11 @@ TODO: add in instructions around btrfs and mounting separate file systems
 	smm varients include secure boot code, csm varients include legacy compat modules.
 	code and vars are separate files that are both contained in OVMF base.
 
+7.	Create kvm:kvm user/group as system group
 
-7.	create/reuse existing qcow2 win10 image
+8.	Clone vm-manager repo into projects directory, and symlink to good location for executable scripts in path
 
-	1.	To create a new qcow2 image, use the below commands.
-
-		```bash
-		qemu-img create -f qcow2 -o preallocation=metadata filename.qcow2 size
-		```
-
-8.	Create kvm:kvm user/group as system group
-
-9.	Clone vm-manager repo into projects directory, and symlink to good location for executable scripts in path
-
-10.	Create vmbridge interface using iproute2 package
-
-	```bash
-	ip link add name vmbridge type bridge
-	ip link set vmbridge up
-	```
-
-11.	need to add interface to bridge
-
-12.	create acl file at `/etc/qemu/bridge.conf` and set contents to `allow all`
-
-13.	since we are running as -user kvm, need to edit `/etc/security/limits.conf` and
+9.	since we are running as -user kvm, need to edit `/etc/security/limits.conf` and
 	increase them for user kvm, as well as root and main user. This allows us to
 	grant large amounts of memory to the guest.
 
@@ -294,7 +258,7 @@ TODO: add in instructions around btrfs and mounting separate file systems
 
 	From: <https://stackoverflow.com/questions/39187619/vfio-dma-map-error-when-passthrough-gpu-using-libvirt>
 
-14.	Set up kernel drivers for PCIe passthrough.
+10.	Set up kernel drivers for PCIe passthrough.
 
 	1.	Create file `blacklist.conf` in `/etc/modprobe.d/ and add the following
 		to the contents. This prevents the nouveau driver from loading and
@@ -311,11 +275,14 @@ TODO: add in instructions around btrfs and mounting separate file systems
 		# 10de:1c03
 		# 10de:10f1
 		# 1912:0014 - usb3 pcie card
-		# 8086:15b8 - V219 ethernet card
-		options vfio-pci ids=10de:1c03,10de:10f1,1912:0014
+		# 8086:15b8 - 219V ethernet card
+		# 8086:1539 - I211 ethernet card
+		options vfio-pci ids=10de:1c03,10de:10f1,1912:0014,8086:1539
 
-		# load vfio-pci before xhci-hcd else the usb3 ports are claimed by xhci_hcd
+		# load vfio-pci before xhci-hcd and igb else the usb3 pcie card
+		# and intel nic are claimed by xhci_hcd
 		softdep xhci_hcd pre: vfio_pci
+		softdep igb pre: vfio_pci
 		```
 
 		This tells `vfio-pci` to attach to the specified PCIe devices. It also
@@ -349,15 +316,21 @@ TODO: add in instructions around btrfs and mounting separate file systems
 	5.	Now run regenerate initramfs and DKMS modules with:
 
 		```bash
-		sudo xbps-reconfigure --force linux
+		sudo xbps-reconfigure --force $linux-kernel-package
 		```
 
 	6.	Reboot
 
-15.	Check lscpi -v to make sure that `vfio-pci` has correctly bound to the
-	graphics card and usb card.
+11.	Check lscpi -v to make sure that `vfio-pci` has correctly bound to the
+	graphics card, usb card and nic.
 
-16.	start VM to test using script in vm-manager repo.
+12.	start VM to test using script in vm-manager repo.
+
+<h3 id="vm-specifics">VM Specific Setup</h3>
+
+[Void VM](build-script-notes-void-vm.html)
+[Win10 VM](build-script-notes-win10-vm.html)
+
 
 
 <h2 id="resources">Resources</h2>
