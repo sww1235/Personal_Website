@@ -133,12 +133,28 @@ Configuration steps as follows:
 4.	Edit `/etc/ups/upsd.conf` and update listen directive to the IP address of
 	the local system.
 
-5.	Edit `/etc/ups/upsd.users` and add an `admin` user, and `upsmon` users with
-	passwords from password safe. One `upsmon` user per machine connected to
-	UPS.
+5.	Edit `/etc/ups/upsd.users` and add an `admin` user, `upsmonMaster` and
+	`upsmonSlave` users with passwords from password safe.
 
-	-	admin user has set actions and all instcmds
-	-	upsmon user is set up per example in config file with slave attributes
+	-	`admin` user has set actions and all instcmds
+
+	-	`upsmonMaster` user is set up per example in config file with master
+		attributes for local monitoring by the raspi.
+
+	-	`upsmonSlave` user is set up per example in config file with slave
+		attributes for remote monitoring by other clients.
+
+
+6.	Edit `/etc/ups/upsmon.conf` to set up local UPS monitoring. Add the
+	following lines to the config file.
+
+	```conf
+	# raspi has 1 power supply connected to this UPS. It is master
+	# because it is the monitoring system for the ups.
+	# other systems will be listed as slaves
+	MONITOR cyberpower@localhost 1 upsmonMaster $password master
+	# all other values can be left as defaults for now
+	```
 
 Need to change ownership of config files on void linux as the default is set up
 incorrectly:
@@ -153,6 +169,7 @@ start the following services:
  ```bash
 sudo ln -s /etc/sv/upsdrvctl/ /var/service
 sudo ln -s /etc/sv/upsd/ /var/service
+sudo ln -s /etc/sv/upsmon/ /var/service
 ```
 
 check status of ups with the following command to make sure it is detected
