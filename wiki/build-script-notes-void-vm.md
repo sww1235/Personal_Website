@@ -21,22 +21,9 @@ my main workstation.
 4.	Make sure you are booted using UEFI by validating presence of
 	`/sys/firmware/efi` directory
 
-5.	Manually configure network in installer. Add the following lines to
-	`/etc/dhcpcd.conf`
+5.	run `void-installer`
 
-	```conf
-	interface enp0s2
-	inform ip_address=$ipaddress
-	static ip_address=$ipaddress/subnet
-	static routers=$gateway
-	static domain_name_servers=$gateway
-	```
-
-6.	sv restart dhcpcd
-
-6.	run `void-installer`
-
-7.	Proceed through installation wizard
+6.	Proceed through installation wizard
 
 	1.	Keyboard=us
 
@@ -54,7 +41,7 @@ my main workstation.
 
 	8.	User account from password manager
 
-	9.	Select sda1, and no for graphical terminal. (We will blow grub away after the system boots)
+	9.	Select sda1, and no for graphical terminal.
 
 	10.	Partition main SSD using GPT scheme
 
@@ -79,31 +66,29 @@ my main workstation.
 
 	14.	Exit installer
 
-	15. Shutdown system with `shutdown -h now`
+	15.	Shutdown system with `shutdown -h now`
 
 	15.	Comment out cdrom directives in vm-manager script
 
 	16. Start up VM again
 
-6.	Log in as the new user you created.
+7.	Log in as the new user you created.
 
-7.	Update the system by running the following command until there is no output.
+8.	Update the system by running the following command until there is no output.
 
 	```bash
 	sudo xbps-install -Svu
 	```
 
-8.	Install refind and wipe out grub.
-
-8.	Install the following packages. The st-terminfo install fixes `st-256color
+9.	Install the following packages. The st-terminfo install fixes `st-256color
 	unknown terminal type` issues as well as backspace and tab issues when
 	sshing in from other computers using the `st` terminal emulator.
 
 	```bash
-	sudo xbps-install nano thefuck vim st-terminfo
+	sudo xbps-install nano thefuck vim st-terminfo git
 	```
 
-9.	Setup system logging using socklog
+10.	Setup system logging using socklog
 
 	```bash
 	sudo xbps-install socklog-void
@@ -114,7 +99,21 @@ my main workstation.
 	sudo usermod -a -G socklog $USER
 	# log out and log back in
 	```
-13.	Set up ssh-agent using user specific services. Instructions taken from
+
+11.	Start ssh service `sudo ln -s /etc/sv/sshd/ /var/service` so you can log in remotely.
+
+12. Generate ssh-keys `ssh-keygen -t ed25519` and enter passphrase from password manager
+
+13. Add public key to github.
+
+14.	Set up git.
+
+	```bash
+	git config --global user.email "sww1235@gmail.com"
+	git config --global user.namer "Stephen Walker-Weinshenker"
+	```
+
+12.	Set up ssh-agent using user specific services. Instructions taken from
 	<https://www.daveeddy.com/2018/09/15/using-void-linux-as-my-daily-driver/>
 
 	1.	Create user specific service directory:
@@ -200,8 +199,6 @@ my main workstation.
 	[ -f $HOME/.ssh/ssh-agent-env ] && source $HOME/.ssh/ssh-agent-env
 	```
 
-TODO: add in instructions around btrfs and mounting separate file systems
-
 11.	Create Projects directory tree in `~` as follows:
 
 	```bash
@@ -225,191 +222,33 @@ TODO: add in instructions around btrfs and mounting separate file systems
 15.	Set up void-packages per the [instructions](void-packages-setup.html) in
 	this wiki.
 
-16.	Make sure `build-branch-the-machine` in my fork of `void-packages` is
+16.	Make sure `build-branch-void-vm` in my fork of `void-packages` is
 	checked out, and up to date with desired patches. See the [suckless
 	page](void-suckless-config.html) for more info.
 
-17.	Build binary packages of `dwm`, `dmenu`, `st` and `slstatus` as follows:
+17.	Build binary packages of `dwm`, `dmenu`, and `st` as follows:
 
 	```bash
 	cd ~/Projects/src/github.com/sww1235/void-packages
 	./xbps-src pkg dwm
 	./xbps-src pkg dmenu
 	./xbps-src pkg st
-	./xbps-src pkg slstatus
 	```
 
-18.	Install `dwm`, `dmenu`, `st` and `slstatus` with the command:
+18.	Install `dwm`, `dmenu`, and `st` with the command:
 
 	```bash
-	sudo xbps-install --repository=hostdir/binpkgs/build-branch-the-machine dwm dmenu st slstatus
+	sudo xbps-install --repository=hostdir/binpkgs/build-branch-void-vm dwm dmenu st
 	```
 
 19.	Modify ~/.xinitrc to contain the following:
 
 	```xinitrc
-	slstatus &
 	exec dwm
 	```
 
-<h3 id="vfio-kvm-qemu-config">VFIO/KVM/QEMU Configuration</h3>
-
-1.	install qemu and socat
-
-	```bash
-	sudo xbps-install qemu socat
-	```
-
-2.	Create QEMU directory
-
-	```bash
-	sudo mkdir /etc/qemu
-	```
-
-3.	download ovmf. It is not in xbps so need to manually download from
-	<https://www.kraxel.org/repos/jenkins/edk2/> as of the writing of this
-	build. Download the ovmf appropriate either 32 or 64 bit version. This will
-	be in RPM format, so need to:
-
-4.	Install rpmextract.
-
-	```bash
-	sudo xbps-install rpmextract
-	```
-
-5.	Then run either:
-
-	```bash
-	rpm2cpio <file>.rpm | xz -d | cpio -idmv
-	```
-
-	or
-
-	```bash
-	rpm2cpio <file>.rpm | lzma -d | cpio -idmv
-	```
-
-	to extract the files needed.
-
-6.	Copy the files inside the `./usr/share/edk2.git/ovmf-x64` directory inside
-	the extracted files, to `/usr/share/ovmf/`. This path is hardcoded in the
-	`vm-manager.sh` script and will need to be changed if ovmf is installed in
-	another location.
-
-	smm varients include secure boot code, csm varients include legacy compat modules.
-	code and vars are separate files that are both contained in OVMF base.
-
-
-7.	create/reuse existing qcow2 win10 image
-
-	1.	To create a new qcow2 image, use the below commands.
-
-		```bash
-		qemu-img create -f qcow2 -o preallocation=metadata filename.qcow2 size
-		```
-
-8.	Create kvm:kvm user/group as system group
-
-9.	Clone vm-manager repo into projects directory, and symlink to good location for executable scripts in path
-
-10.	Create vmbridge interface using iproute2 package
-
-	```bash
-	ip link add name vmbridge type bridge
-	ip link set vmbridge up
-	```
-
-11.	need to add interface to bridge
-
-12.	create acl file at `/etc/qemu/bridge.conf` and set contents to `allow all`
-
-13.	since we are running as -user kvm, need to edit `/etc/security/limits.conf` and
-	increase them for user kvm, as well as root and main user. This allows us to
-	grant large amounts of memory to the guest.
-
-	Add the following lines to the file.
-
-	```conf
-	@kvm		soft	memlock	unlimited
-	@kvm		hard	memlock	unlimited
-	toxicsauce	soft	memlock	unlimited
-	toxicsauce	hard	memlock	unlimited
-	root		soft	memlock	unlimited
-	root		hard	memlock	unlimited
-	```
-
-	From: <https://stackoverflow.com/questions/39187619/vfio-dma-map-error-when-passthrough-gpu-using-libvirt>
-
-14.	Set up kernel drivers for PCIe passthrough.
-
-	1.	Create file `blacklist.conf` in `/etc/modprobe.d/ and add the following
-		to the contents. This prevents the nouveau driver from loading and
-		taking over the nvidia card before the vfio-pci driver can load.
-
-		```bash
-		blacklist nouveau
-		```
-
-	2.	Create file `vfio.conf` in `/etc/modprobe.d/ and then set contents to
-		the following, changing pcie ids as needed to those found via `lspci`
-
-		```bash
-		# 10de:1c03
-		# 10de:10f1
-		# 1912:0014 - usb3 pcie card
-		# 8086:15b8 - V219 ethernet card
-		options vfio-pci ids=10de:1c03,10de:10f1,1912:0014
-
-		# load vfio-pci before xhci-hcd else the usb3 ports are claimed by xhci_hcd
-		softdep xhci_hcd pre: vfio_pci
-		```
-
-		This tells `vfio-pci` to attach to the specified PCIe devices. It also
-		creates a soft dependancy of `vfio-pci` on `xhci_hcd` so `vfio-pci`
-		will in theory load before `xhci_hcd` and attach to the usb controller
-		before `xhci_hcd` does.
-
-	3.	Create file `vfio.conf` in /etc/modules-load.d` with the contents:
-
-		```bash
-		vfio
-		vfio-pci
-		vfio-virqfd
-		```
-
-		This loads the specified kernel drivers for VFIO use.
-
-	4.	Create file `dracut.conf` in `/etc/dracut.conf.d/` with the contents:
-
-		```bash
-		add_drivers+=" vfio vfio-pci vfio_iommu_type1 vfio_virqfd "
-		add_dracutmodules+=" kernel-modules "
-		omit_drivers+=" nouveau "
-		hostonly=yes
-
-		```
-
-		This adds the correct drivers into the initramfs and prevents the
-		nouveau driver from being loaded.
-
-	5.	Now run regenerate initramfs and DKMS modules with:
-
-		```bash
-		sudo xbps-reconfigure --force linux
-		```
-
-	6.	Reboot
-
-15.	Check lscpi -v to make sure that `vfio-pci` has correctly bound to the
-	graphics card and usb card.
-
-16.	start VM to test using script in vm-manager repo.
-
 
 <h2 id="resources">Resources</h2>
-
-<https://www.reddit.com/r/voidlinux/comments/ghwvv5/guide_how_to_setup_qemukvm_emulation_on_void_linux/>
-
 
 ```tags
 build-script, main-ws-host, workstation, notes, QEMU, KVM, VFIO, Passthrough
