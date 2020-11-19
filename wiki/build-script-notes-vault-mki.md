@@ -139,6 +139,41 @@ F2 or Enter for BIOS, F11 for boot menu
 
 19.	Clone projects from github into Projects tree as desired.
 
+<h3 id="ups-config">UPS Configuration</h3>
+
+1.	Install Network UPS Tools from packages. `sudo pkg install nut`
+
+2.	Edit `/usr/local/etc/nut/upsmon.conf` and add in the following lines:
+
+	```conf
+	MONITOR cyberpower@$ipaddress 1 upsmonSlave $password slave
+	```
+
+3.	Edit `/etc/rc.conf` and add the following line:
+
+	```conf
+	nut_upsmon_enable="YES"
+	```
+
+4.	Start `nut_upsmon` service with `sudo service nut_upsmon start` and make
+	sure it doesn't error out.
+
+5.	Reboot system to make sure everything comes up normally.
+
+6.	Run a shutdown test to make sure nut is working properly.
+
+	1.	Login to `rack-monitor` system and run `upsdrvctl -t shutdown`. This
+		will show you what will happen during a shutdown without actually
+		shutting the systems down.
+
+	2.	Now run the command `upsmon -c fsd`. This will simulate a power failure
+		and send the shutdown signal to all connected machines before shutting
+		down itself.
+	
+	3.	This should have worked, so now you need to manually remove power and
+		apply power from all machines connected to the UPS to get them to come
+		back up.
+
 <h3 id="zfs-config">ZFS Configuration</h3>
 
 <h3 id="filesharing">Fileshare Configuration</h3>
@@ -146,6 +181,7 @@ F2 or Enter for BIOS, F11 for boot menu
 
 <h2 id="resources">Resources</h2>
 
+-	<https://people.freebsd.org/~thierry/nut_FreeBSD_HowTo.txt>
 
 ```tags
 build-script, main-ws-host, workstation, notes, QEMU, KVM, VFIO, Passthrough

@@ -326,6 +326,21 @@ TODO: add in instructions around btrfs and mounting separate file systems
 
 12.	start VM to test using script in vm-manager repo.
 
+<h3 id="extra-host-config">Extra Host Configuration</h3>
+
+1.	Install network-ups-tools.
+	
+	```sh
+	sudo xbps-install network-ups-tools
+	```
+2.	Edit `/etc/ups/upsmon.conf` and add the following lines:
+
+	```conf
+	MONITOR cyberpower@$rackmonitorIP 1 upsmonSlave $password slave
+	```
+
+3.	Start `upsmon` service `ln -s /etc/sv/upsmon/ /var/service`
+
 <h3 id="vm-specifics">VM Specific Setup</h3>
 
 [Void VM](build-script-notes-void-vm.html)
