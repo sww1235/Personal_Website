@@ -343,8 +343,8 @@ TODO: add in instructions around btrfs and mounting separate file systems
 
 <h3 id="vm-specifics">VM Specific Setup</h3>
 
-[Void VM](build-script-notes-void-vm.html)
-[Win10 VM](build-script-notes-win10-vm.html)
+-	[Void VM](build-script-notes-void-vm.html)
+-	[Win10 VM](build-script-notes-win10-vm.html)
 
 
 

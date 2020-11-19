@@ -12,11 +12,16 @@ F2 or Enter for BIOS, F11 for boot menu
 
 1.	Connect to IPMI interface of the server by going to $ip in a web browser.
 
+	-	If this is first startup of system, then configure static IP for IPMI,
+		and admin user and password.
+
 <h3 id="initial-configuration">Initial Configuration</h3>
 
-1.	Download the bootonly ISO of the current release of FreeBSD from reputable sources. (12.2 as of 11/07/2020)
+1.	Download the bootonly ISO of the current release of FreeBSD from reputable
+	sources. (12.2 as of 11/07/2020)
 
-2.	Enable cd/dvd instance in IPMI under Settings -> Media Redirection Settings -> VMedia Instance Settings
+2.	Enable cd/dvd instance in IPMI under Settings -> Media Redirection Settings
+	-> VMedia Instance Settings
 
 3.	Open up HTML5 viewer for IPMI, and attach ISO to virtual CD rom.
 
@@ -27,21 +32,23 @@ F2 or Enter for BIOS, F11 for boot menu
 6.	Press enter to start the instllation process.
 
 7.	Proceed through installation wizard. Press space to select options.
-	
+
 	1.	Keymap = United States of America. Space will not work here, just
 		scroll down and hit enter.
 
 	2.	Hostname = `the-vault`
-	
+
 	3.	Disable kernel-dbg system component, and add the ports tree.
 
 	4.	Hit Ok to configure network for installation.
 
 	5.	Select gigabit interface 0, or whatever is actually connected.
 
-	6.	Configure IPv4 and use DHCP for now. We will configure static networking later.
+	6.	Configure IPv4 and use DHCP for now. We will configure static
+		networking later.
 
-	7.	Confirm resolver config. (Defaults picked up from DHCP should be good to go.)
+	7.	Confirm resolver config. (Defaults picked up from DHCP should be good
+		to go.)
 
 	8.	Select mirror
 
@@ -69,7 +76,7 @@ F2 or Enter for BIOS, F11 for boot menu
 		and `disable_sendmail`. Sendmail will be replaced later.
 
 	19.	Add new admin user.
-		
+
 		1.	Username = `toxicsauce`
 		2.	Full Name = `toxicsauce`
 		3.	UID = (hit enter to accept default)
@@ -86,9 +93,9 @@ F2 or Enter for BIOS, F11 for boot menu
 		14.	lock account = no
 		15.	check options and type in yes to confirm.
 		16.	add additional users = no.
-	
+
 	20.	hit exit, and no to exit installer.
-	
+
 	21. Hit reboot.
 
 	22.	Stop CD media after system has rebooted.
@@ -108,13 +115,28 @@ F2 or Enter for BIOS, F11 for boot menu
 	freebsd-update install
 
 	pkg update
-	# answer yes to install pkg system 
+	# answer yes to install pkg system
 	pkg upgrade
 
 	pkg install nano sudo
 	```
 
 13.	Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
+
+14.	Configure static IP addressing. First, run `ifconfig` to see what interface
+	is actually connected, then add the following lines to `/etc/rc.conf` and
+	modify existing lines so they read as follows.
+
+	```conf
+	ifconfig_igb0="inet $ipaddress netmask $netmask"
+	defaultrouter="$gateway"
+	```
+
+	Also, add the following line to `/etc/resolv.conf`
+
+	```conf
+	nameserver $gateway
+	```
 
 14.	Setup system logging
 
