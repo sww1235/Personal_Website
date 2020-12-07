@@ -191,12 +191,66 @@ F2 or Enter for BIOS, F11 for boot menu
 	2.	Now run the command `upsmon -c fsd`. This will simulate a power failure
 		and send the shutdown signal to all connected machines before shutting
 		down itself.
-	
+
 	3.	This should have worked, so now you need to manually remove power and
 		apply power from all machines connected to the UPS to get them to come
 		back up.
 
 <h3 id="zfs-config">ZFS Configuration</h3>
+
+Also see the [ZFS chapter of the FreeBSD
+handbook](https://www.freebsd.org/doc/handbook/zfs.html)
+
+The current vdev design is 6 identical disks running in a RAIDZ2
+configuration. When the storage is expanded, a new group of 6 disks will be
+added to a new vdev and added to the zpool.
+
+vdev = group of drives. You cannot add more drives to a vdev once it is
+created.
+
+zpool = group of vdevs. Redundancy is given by vdev configuration, not by
+multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
+
+1.	Install smartmontools and e2fsprogs packages.
+
+2.	If the hard drives are new, Test hard drives with `sudo badblocks -b 4096
+	-wsv /dev/da* > da*.log`, replacing * with the number for each HDD. This
+	will take a while depending on the size of the hard drives.
+
+3.	Add the following line to `/etc/rc.conf`, then start the service manually
+	`sudo service zfs start` so you don't have to reboot.
+
+	```conf
+	zfs_enable="YES"
+	```
+
+4.	Add the following lines to `/boot/loader.conf` if they are not already
+	there and reboot. This enables unique and static labels per disk, similar
+	to `/dev/disk/by-id/` on linux.
+
+	```conf
+	geom_label_load="YES"
+	kern.geom.label.disk_ident.enable="1"
+	```
+
+5.	Now create and configure the zpool and vdevs as follows:
+
+	```sh
+	# replace /dev/diskid/... with the names of the disks you are using in the zpool
+	sudo zpool create the-vault raidz2 /dev/diskid/...
+	# add any additional 6 disk sets
+	sudo zpool add the-vault raidz2 /dev/diskid/...
+	```
+
+6.	Now create ZFS datasets as follows:
+
+	```tags
+	sudo zfs create -o compress=lz4 the-vault/backups
+	sudo zfs create -o compress=lz4 the-vault/storage
+	sudo zfs create -o compress=lz4 the-vault/media
+	```
+
+5.	Install zfsbackup-go either from packages/ports or github directly.
 
 <h3 id="filesharing">Fileshare Configuration</h3>
 
