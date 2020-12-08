@@ -1,0 +1,45 @@
+name: Build and Deploy
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      - name: Install Pandoc
+        run: apt-get install pandoc
+
+      - name: build
+        run: make all
+        
+      - name: deploy
+        run: |
+          pwd
+          cd ..
+          pwd
+          git clone https://${GITHUB_API_KEY}@github.com/sww1235/sww1235.github.io.git website
+          # move www directory contents to ghpages repo
+          cp -rf  Personal_Website/www/. website/
+          # cd into ghpages repo
+          cd website
+          # add files to gh pages repo and commit
+          git add -A
+          # commit files to gh pages
+          git commit -m "Website as of $(date -Iseconds -u )"
+          git push
+            
