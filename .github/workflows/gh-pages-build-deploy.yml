@@ -29,6 +29,8 @@ jobs:
         
       - name: deploy
         run: |
+          git config --global user.email "gh-actions@sww1235.net"
+          git config --global user.name "Robots"
           pwd
           cd ..
           pwd
