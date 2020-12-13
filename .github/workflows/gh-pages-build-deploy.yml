@@ -34,7 +34,7 @@ jobs:
           pwd
           cd ..
           pwd
-          git clone https://${secrets.GHA_DEPLOY}@github.com/sww1235/sww1235.github.io.git website
+          git clone https://${{secrets.GHA_DEPLOY}}@github.com/sww1235/sww1235.github.io.git website
           # move www directory contents to ghpages repo
           cp -rf  Personal_Website/www/. website/
           # cd into ghpages repo
