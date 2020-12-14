@@ -31,17 +31,19 @@ jobs:
         run: |
           git config --global user.email "gh-actions@sww1235.net"
           git config --global user.name "Robots"
-          pwd
-          cd ..
-          pwd
+
           git clone https://${{secrets.GHA_DEPLOY}}@github.com/sww1235/sww1235.github.io.git website
           # move www directory contents to ghpages repo
           cp -rf  Personal_Website/www/. website/
           # cd into ghpages repo
           cd website
+          # check if there were differences between existing website and newly built files.
+          # allows build to succeed if the actual website pages didn't change at all.
+          if ! git diff-index --quiet HEAD --; then
           # add files to gh pages repo and commit
           git add -A
           # commit files to gh pages
           git commit -m "Website as of $(date -Iseconds -u )"
           git push
+          fi
             
