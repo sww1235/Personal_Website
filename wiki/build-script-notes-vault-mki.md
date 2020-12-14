@@ -118,7 +118,7 @@ F2 or Enter for BIOS, F11 for boot menu
 	# answer yes to install pkg system
 	pkg upgrade
 
-	pkg install nano sudo
+	pkg install nano sudo ipmitool openipmi
 	```
 
 13.	Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
