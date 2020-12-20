@@ -39,7 +39,9 @@ jobs:
         run: |
           git config --global user.email "gh-actions@sww1235.net"
           git config --global user.name "Robots"
-
+          ls
+          cd
+          ls
           git clone https://${{secrets.GHA_DEPLOY}}@github.com/sww1235/sww1235.github.io.git website
           # move www directory contents to ghpages repo
           cp -rf  Personal_Website/www/. website/
