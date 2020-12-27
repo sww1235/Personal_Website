@@ -247,6 +247,8 @@ my main workstation.
 	exec dwm
 	```
 
+20.	Install `xorg` and `xorg-fonts` to get graphics working
+
 
 <h2 id="resources">Resources</h2>
 
