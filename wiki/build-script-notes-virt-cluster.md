@@ -51,6 +51,14 @@ Current status of cluster, is 3 Intel NUCs, each running XCP-ng as a tier 1 hype
 
 <h3 id="hypervisor-install">Install Hypervisor</h3>
 
+1.	Download XCP-ng ISO from reputable sources.
+
+2.	Connect to system using Mesh Commander.
+
+3.	Mount ISO using IDE-R, and select `Reset to IDE-R` in `Power Actions` menu.
+
+4.	Wait for system to finish booting
+
 
 <h2 id="cluster-setup">Cluster Setup</h2>
 
