@@ -51,7 +51,7 @@ Current status of cluster, is 3 Intel NUCs, each running XCP-ng as a tier 1 hype
 
 <h3 id="hypervisor-install">Install Hypervisor</h3>
 
-1.	Download XCP-ng ISO from reputable sources.
+1.	Download FreeBSD-bootonly ISO from reputable sources. Use this to reduce loading times
 
 2.	Connect to system using Mesh Commander.
 
@@ -59,6 +59,17 @@ Current status of cluster, is 3 Intel NUCs, each running XCP-ng as a tier 1 hype
 
 4.	Wait for system to finish booting
 
+5.	Select Install
+
+6.	Select us keymap
+
+7.	enter hostname
+
+8.	configure network - IPv4 and DHCP
+
+9.	use Auto (UFS) partitioning scheme and accept defaults
+
+10.	Select default (main) FreeBSD mirror.
 
 <h2 id="cluster-setup">Cluster Setup</h2>
 
