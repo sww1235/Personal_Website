@@ -18,7 +18,7 @@ Current status of cluster, is 3 Intel NUCs, each running XCP-ng as a tier 1 hype
 4.	Under `Advanced->Onboard Devices`: Disable HD Audio, WLAN, Bluetooth,
 	Gaussian Mixture Models, HDMI CEC Control, and Enable IOMMU during pre-boot
 
-5.	Under `Advanced->Video`: Set IGD Primary Video Port to HDMI
+5.	Under `Advanced->Video`: Set IGD Primary Video Port to HDMI and enable `Virtual Display Emulation` under `Display Emulation`
 
 6.	Under `Security`: Enable USB Provisioning of Intel AMT.
 
@@ -28,7 +28,7 @@ Current status of cluster, is 3 Intel NUCs, each running XCP-ng as a tier 1 hype
 8.	Under `Boot->Secure Boot`: Disable Secure Boot
 
 9.	Under `Boot->Boot Priority`: Enable Boot USB Devices First, and disable
-	Boot Network Devices Last. Disable Optical boot.
+	Boot Network Devices Last.
 
 10.	Under `Boot->Boot Display Configuration`: Disable Suppress Alert Messages
 	At Boot, and Enable F12 for network boot.
