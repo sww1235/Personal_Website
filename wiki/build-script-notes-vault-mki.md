@@ -248,9 +248,54 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	sudo zfs create -o compress=lz4 the-vault/backups
 	sudo zfs create -o compress=lz4 the-vault/storage
 	sudo zfs create -o compress=lz4 the-vault/media
+	sudo zfs create -o compress=lz4 the-vault/archive
 	```
 
-5.	Install zfsbackup-go either from packages/ports or github directly.
+7.	Install zfsbackup-go either from packages/ports or github directly.
+	(Download release binary and copy to `/usr/bin/` for now and rename to
+	zfsbackup.)
+
+8.	Install `gnupg` from packages, and make sure gpg is set up as described in
+	[GnuPG Configuration](gnupg-config.html).
+
+9.	Also, you need to export your keys into a form that `zfsbackup` can understand.
+
+	```sh
+	gpg --output public.pgp --armor --export domain@domain
+	gpg --output private.pgp --armor --export-secret-key domain@domain
+	```
+
+6.	Install `freebsd-snapshot` from pkg.
+
+7.	Edit `/etc/crontab` and include the following:
+
+	```crontab
+
+	# Perform hourly/daily/weekly maintenance (FreeBSD UFS2/ZFS snapshots only).
+	0       *       *       *       *       root    /usr/local/sbin/periodic-snapshot hourly
+	0       0       *       *       *       root    /usr/local/sbin/periodic-snapshot daily
+	0       0       *       *       0       root    /usr/local/sbin/periodic-snapshot weekly
+
+	PGP_PASSPHRASE= #from password manager
+	B2_ACCOUNT_ID= # from b2 setup
+	B2_ACCOUNT_KEY= # from b2 setup
+	# auto backup zfs snapshots to B2 at 11am every day.
+	0		11		*		*		*		root	/usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/backups b2://the-vault-remote/backups
+	0		11		*		*		*		root	/usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/storage b2://the-vault-remote/storage
+	0		11		*		*		*		root	/usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/media b2://the-vault-remote/media
+	0		11		*		*		*		root	/usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/archive b2://the-vault-remote/archive
+	```
+
+8.	Edit `/etc/periodic.conf` and configure according to the datasets. Current config as below.
+
+	```conf
+	snapshot_enable="YES"
+	# :4:7:0 = 4 weekly snapshots (1 per week, and storing the last 4,
+	# 1 per day and storing the last 7, and 0 per hour, storing the last 0.
+	snapshot_schedule="/the-vault/backups:4:7:0 /the-vault/storage:4:7:0 /the-vault/media:2:3:0 /the-vault/archive:2:3:0"
+	```
+
+
 
 <h3 id="filesharing">Fileshare Configuration</h3>
 

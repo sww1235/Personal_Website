@@ -62,6 +62,8 @@ Now make sure to [backup](#backing-up-keys) and [manage](#managing-keys) your ke
 		and revocation files, then store them in a safe location, preferably a
 		fireproof safe.
 
+Enscript reference: <https://east.fm/posts/adding-fonts-to-enscript/index.html>
+
 
 <h2 id="managing-keys">Managing Keys</h2>
 
