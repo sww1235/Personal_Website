@@ -211,7 +211,7 @@ created.
 zpool = group of vdevs. Redundancy is given by vdev configuration, not by
 multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 
-1.	Install smartmontools and e2fsprogs packages.
+1.	Install `smartmontools` and `e2fsprogs` packages.
 
 2.	If the hard drives are new, Test hard drives with `sudo badblocks -b 4096
 	-wsv /dev/da* > da*.log`, replacing * with the number for each HDD. This
@@ -265,7 +265,7 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	gpg --output private.pgp --armor --export-secret-key domain@domain
 	```
 
-6.	Install `freebsd-snapshot` from pkg.
+6.	Install `freebsd-snapshot and flock` from pkg.
 
 7.	Edit `/etc/crontab` and include the following:
 
@@ -280,10 +280,10 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	B2_ACCOUNT_ID= # from b2 setup
 	B2_ACCOUNT_KEY= # from b2 setup
 	# auto backup zfs snapshots to B2 at 11am every day.
-	0		11		*		*		*		root	/usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/backups b2://the-vault-remote/backups
-	0		11		*		*		*		root	/usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/storage b2://the-vault-remote/storage
-	0		11		*		*		*		root	/usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/media b2://the-vault-remote/media
-	0		11		*		*		*		root	/usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/archive b2://the-vault-remote/archive
+	0		11		*		*		*		root	/usr/local/bin/flock -xn /root/zfsbackup-backup.lock -c /usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/backups b2://the-vault-remote/backups
+	0		11		*		*		*		root	/usr/local/bin/flock -xn /root/zfsbackup-storage.lock -c /usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/storage b2://the-vault-remote/storage
+	0		11		*		*		*		root	/usr/local/bin/flock -xn /root/zfsbackup-media.lock -c /usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/media b2://the-vault-remote/media
+	0		11		*		*		*		root	/usr/local/bin/flock -xn /root/zfsbackup-archive.lock -c /usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/archive b2://the-vault-remote/archive
 	```
 
 8.	Edit `/etc/periodic.conf` and configure according to the datasets. Current config as below.
