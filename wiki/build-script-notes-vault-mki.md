@@ -322,6 +322,13 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 
 6.	Install `freebsd-snapshot and flock` from pkg.
 
+7.	Edit `/etc/periodic.conf` and add the following lines:
+
+	```conf
+	daily_status_zfs
+
+	```
+
 7.	Edit `/etc/crontab` and include the following:
 
 	```crontab
@@ -330,20 +337,50 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	0       *       *       *       *       root    /usr/local/sbin/periodic-snapshot hourly
 	0       0       *       *       *       root    /usr/local/sbin/periodic-snapshot daily
 	0       0       *       *       0       root    /usr/local/sbin/periodic-snapshot weekly
-
-	PGP_PASSPHRASE= #from password manager
-	B2_ACCOUNT_ID= # from b2 setup
-	B2_ACCOUNT_KEY= # from b2 setup
-	# auto backup zfs snapshots to B2 at 11am every day.
-	0		11		*		*		*		root	/usr/local/bin/flock -xn /root/zfsbackup-backup.lock -c /usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/backups b2://the-vault-remote/backups
-	0		11		*		*		*		root	/usr/local/bin/flock -xn /root/zfsbackup-storage.lock -c /usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/storage b2://the-vault-remote/storage
-	0		11		*		*		*		root	/usr/local/bin/flock -xn /root/zfsbackup-media.lock -c /usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/media b2://the-vault-remote/media
-	0		11		*		*		*		root	/usr/local/bin/flock -xn /root/zfsbackup-archive.lock -c /usr/bin/zfsbackup send --encryptTo user@domain --signFrom user@domain --publicKeyRingPath /home/user/.gnupg/public.pgp --secretKeyRingPath private.pgp --increment the-vault/archive b2://the-vault-remote/archive
 	```
+
+8.	Create `/etc/periodic/daily/600.zfsbackup-backblaze` and chmod it to 710,
+	so only root can read and wheel can execute if need be. This is because it
+	will have passphrases in it.
+
+	Put in the following contents.
+
+	```
+	#!/bin/sh
+	#
+
+	# If there is a global system configuration file, suck it in.
+	#
+
+	newline="
+	" # A single newline
+
+	if [ -r /etc/defaults/periodic.conf ]
+	then
+		. /etc/defaults/periodic.conf
+		source_periodic_confs
+	fi
+
+
+	export PGP_PASSPHRASE= $from password manager
+	export B2_ACCOUNT_ID= $from password manager
+	export B2_ACCOUNT_KEY= $ from password manager
+
+	# backups pool
+	/usr/local/bin/flock -xn /root/zfsbackup-backups.lock -c "/usr/bin/zfsbackup send --encryptTo domain@domain.net --signFrom domain@domain.net --publicKeyRingPath /home/toxicsauce/.gnupg/public.pgp --secretKeyRingPath /home/toxicsauce/.gnupg/private.pgp --increment the-vault/backups b2://the-vault-remote/backups"
+	# storage pool
+	/usr/local/bin/flock -xn /root/zfsbackup-storage.lock -c "/usr/bin/zfsbackup send --encryptTo domain@domain.net --signFrom domain@domain.net --publicKeyRingPath /home/toxicsauce/.gnupg/public.pgp --secretKeyRingPath /home/toxicsauce/.gnupg/private.pgp --increment the-vault/storage b2://the-vault-remote/storage"
+	# media pool
+	/usr/local/bin/flock -xn /root/zfsbackup-media.lock -c "/usr/bin/zfsbackup send --encryptTo domain@domain.net --signFrom domain@domain.net --publicKeyRingPath /home/toxicsauce/.gnupg/public.pgp --secretKeyRingPath /home/toxicsauce/.gnupg/private.pgp --increment the-vault/media b2://the-vault-remote/media"
+	# archive pool
+	/usr/local/bin/flock -xn /root/zfsbackup-archive.lock -c "/usr/bin/zfsbackup send --encryptTo domain@domain.net --signFrom domain@domain.net --publicKeyRingPath /home/toxicsauce/.gnupg/public.pgp --secretKeyRingPath /home/toxicsauce/.gnupg/private.pgp --increment the-vault/archive b2://the-vault-remote/archive"
+```
+
 
 8.	Edit `/etc/periodic.conf` and configure according to the datasets. Current config as below.
 
 	```conf
+	daily_scrub_zfs_enable="YES"
 	snapshot_enable="YES"
 	# :4:7:0 = 4 weekly snapshots (1 per week, and storing the last 4,
 	# 1 per day and storing the last 7, and 0 per hour, storing the last 0.
