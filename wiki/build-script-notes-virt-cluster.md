@@ -28,11 +28,7 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 
 8.	Under `Boot->Secure Boot`: Disable Secure Boot
 
-9.	under `Boot->Boot Priority`: Disable UEFI boot and enable Legacy Boot. This
-	is due to a quirk with FreeBSD and Xen (Multiboot vs Multiboot 2 issues).
-	Change once FreeBSD bug is fixed.
-
-10.	Under `Boot->Boot Priority`: Enable Boot USB Devices First, and disable
+9.	Under `Boot->Boot Priority`: Enable Boot USB Devices First, and disable
 	Boot Network Devices Last.
 
 11.	Under `Boot->Boot Display Configuration`: Disable Suppress Alert Messages
