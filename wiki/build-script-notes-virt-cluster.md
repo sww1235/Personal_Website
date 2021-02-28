@@ -18,7 +18,8 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 4.	Under `Advanced->Onboard Devices`: Disable HD Audio, WLAN, Bluetooth,
 	Gaussian Mixture Models, HDMI CEC Control, and Enable IOMMU during pre-boot
 
-5.	Under `Advanced->Video`: Set IGD Primary Video Port to HDMI and enable `Virtual Display Emulation` under `Display Emulation`
+5.	Under `Advanced->Video`: Set IGD Primary Video Port to HDMI and enable
+	`Virtual Display Emulation` under `Display Emulation`
 
 6.	Under `Security`: Enable USB Provisioning of Intel AMT.
 
@@ -27,7 +28,9 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 
 8.	Under `Boot->Secure Boot`: Disable Secure Boot
 
-9.	under `Boot->Boot Priority`: Disable UEFI boot and enable Legacy Boot. This is due to a quirk with FreeBSD and Xen (Multiboot vs Multiboot 2 issues)
+9.	under `Boot->Boot Priority`: Disable UEFI boot and enable Legacy Boot. This
+	is due to a quirk with FreeBSD and Xen (Multiboot vs Multiboot 2 issues).
+	Change once FreeBSD bug is fixed.
 
 10.	Under `Boot->Boot Priority`: Enable Boot USB Devices First, and disable
 	Boot Network Devices Last.
@@ -47,7 +50,8 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 3.	Under `Intel AMT Configuration->User Consent`: Change User Opt-in to NONE.
 
 4.	Under `Intel AMT Configuration->Network Setup->Intel ME Network Name
-	Settings`: Set hostname and domain to desired values. Leave Shared/Dedicated FQDN set to shared.
+	Settings`: Set hostname and domain to desired values. Leave
+	Shared/Dedicated FQDN set to shared.
 
 5.	Set static DHCP lease in DHCP server if not done already.
 
@@ -77,7 +81,7 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 
 12.	Set root password
 
-13.	Choose No for BIOS set to UTC for now. 
+13.	Choose No for BIOS set to UTC for now.
 
 14.	Select America -> USA -> Mountain (most areas) timezone
 
