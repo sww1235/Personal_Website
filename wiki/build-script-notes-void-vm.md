@@ -246,10 +246,14 @@ my main workstation.
 20.	Install and run `arandr` to generate a `xrandr` command to fix the monitor
 	rotation. Save the script as `~/.screenlayout/main.sh`
 
+21.	Install `xscreensaver`, then run `xscreensaver-demo` and unselect the
+	screensavers that you don't want to run.
+
 21.	Modify ~/.xinitrc to contain the following:
 
 	```xinitrc
 	~/.screenlayout/main.sh
+	xscreensaver &
 	exec dwm
 	```
 
