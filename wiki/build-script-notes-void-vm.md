@@ -241,13 +241,18 @@ my main workstation.
 	sudo xbps-install --repository=hostdir/binpkgs/build-branch-void-vm dwm dmenu st
 	```
 
-19.	Modify ~/.xinitrc to contain the following:
+19.	Install `xorg` and `xorg-fonts` to get graphics working
+
+20.	Install and run `arandr` to generate a `xrandr` command to fix the monitor
+	rotation. Save the script as `~/.screenlayout/main.sh`
+
+21.	Modify ~/.xinitrc to contain the following:
 
 	```xinitrc
+	~/.screenlayout/main.sh
 	exec dwm
 	```
 
-20.	Install `xorg` and `xorg-fonts` to get graphics working
 
 
 <h2 id="resources">Resources</h2>
