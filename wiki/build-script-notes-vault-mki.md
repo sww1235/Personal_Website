@@ -29,7 +29,7 @@ F2 or Enter for BIOS, F11 for boot menu
 
 5.	Let FreeBSD boot to the install menu. Don't exit out of the autoboot menu.
 
-6.	Press enter to start the instllation process.
+6.	Press enter to start the installation process.
 
 7.	Proceed through installation wizard. Press space to select options.
 
@@ -139,7 +139,7 @@ F2 or Enter for BIOS, F11 for boot menu
 
 14.	Setup system logging and disable sendmail:
 
-	1.	edit `/etc/rc.conf` and add the following lines to disable sendmail and enable syslog.
+	1.	Edit `/etc/rc.conf` and add the following lines to disable sendmail and enable syslog.
 		```conf
 		# disable sendmail and enable syslog
 		syslogd_enable="YES"
@@ -152,7 +152,7 @@ F2 or Enter for BIOS, F11 for boot menu
 		cron_flags="-m ''"
 		```
 
-	2.	create log files needed for next step:
+	2.	Create log files needed for next step:
 
 		```sh
 		sudo touch /var/log/console.log
@@ -161,7 +161,7 @@ F2 or Enter for BIOS, F11 for boot menu
 		sudo chmod 600 /var/log/all.log
 		```
 
-	3.	edit `/etc/syslog.conf` and uncomment the lines for `console.log` and
+	3.	Edit `/etc/syslog.conf` and uncomment the lines for `console.log` and
 		`all.log`. TODO: setup remote logging.
 
 	4.	Check `/etc/newsyslog.conf` to confirm log rotation is setup correctly.
@@ -182,9 +182,10 @@ F2 or Enter for BIOS, F11 for boot menu
 		daily_submit_queuerun="NO"
 		```
 
-	6.	Fix crontab logging by appending `2>&1 | /usr/bin/logger -t cron_xxx`
-		and replacing xxx with whatever the cron command was doing. Do not need
-		to do this for periodic and periodic snapshot sections.
+	6.	Fix crontab logging by editing `/etc/crontab` and appending `2>&1 |
+		/usr/bin/logger -t cron_xxx` and replacing xxx with whatever the cron
+		command was doing. Do not need to do this for periodic and periodic
+		snapshot sections.
 
 15.	Random sysadmin tweaks:
 
