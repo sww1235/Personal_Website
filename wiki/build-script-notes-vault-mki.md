@@ -69,7 +69,7 @@ F2 or Enter for BIOS, F11 for boot menu
 
 	16.	Skip time and date setup if it is correct.
 
-	17.	Enable `local_unbound`, `sshd`, `ntpd`, `powerd` and `dumpdev` services
+	17.	Enable `local_unbound`, `sshd`, `ntpdate`, `ntpd`, `powerd` and `dumpdev` services
 		to be started at boot
 
 	18.	Enable all security options except `disable_syslogd`, and `secure_console`.
@@ -103,11 +103,7 @@ F2 or Enter for BIOS, F11 for boot menu
 
 9.	Become root with `su -`. You will need root's password.
 
-10.	Change root's shell to `sh`: `chsh -s sh`
-
-11.	Log out and su back in again
-
-12.	Update system and install software
+10.	Update system and install software
 
 	```sh
 	freebsd-update fetch
