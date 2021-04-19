@@ -31,10 +31,10 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 9.	Under `Boot->Boot Priority`: Enable Boot USB Devices First, and disable
 	Boot Network Devices Last.
 
-11.	Under `Boot->Boot Display Configuration`: Disable Suppress Alert Messages
-	At Boot, and Enable F12 for network boot.
+11.	Under `Boot->Boot Display Configuration`: Disable Suppress Alert
+	Messages At Boot, and Enable F12 for network boot.
 
-12.	Set BIOS clock to UTC time.
+12.	Under `Main` Select System Time and Set BIOS clock to UTC time.
 
 13.	Press F10 to save and Exit. On Reboot, press `CTRL-P` to get into Intel AMT configuration
 
