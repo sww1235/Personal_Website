@@ -215,6 +215,40 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 
 <h2 id="cluster-setup">Cluster Setup</h2>
 
+1.	Before UEFI support for XEN is merged in a freebsd release version, need to
+	fetch and compile from source. Wait until commit `97527e9c4fd37140` is
+	merged into master before removing these instructions and running on
+	release version.
+
+2.	Run the following commands as root to build and install FreeBSD from source
+
+	```sh
+	git clone --branch releng/10.3 https://git.FreeBSD.org/src.git /usr/src
+	cd /usr/src/
+	make buildworld && make buildkernel
+	make installkernel
+	shutdown -r now
+	cd /usr/src/
+	make installworld
+	shutdown -r now
+	```
+
+3.	Once the reboots have completed, need to merge config files, and check for
+	outdated libraries. Run as root.
+
+	```sh
+	etcupdate diff # to see what changed in settings
+	etcupdate # to automagically merge changes
+	etcupdate resolve # if needed to resolve any changes that couldn't be merged automatically
+	cd /usr/src/
+	make check-old # obsolete files or directories
+	make delete-old
+	make check-old-libs # obsolete libraries
+	make delete-old-libs
+	shutdown -r now
+	```
+
+4.	Finally start installing Xen
 
 ```tags
 cluster, virtualization, virt, NUC, xcp-ng
