@@ -248,7 +248,32 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 	shutdown -r now
 	```
 
-4.	Finally start installing Xen
+4.	Finally start installing Xen. All commands run as root.
+
+	1.	sudo pkg install xen-kernel xen-tools. May have to regenerate pkg database
+
+	2.	add the line `vm.max_user_wired=-1` to `/etc/sysctl.conf`
+
+	3.	add the line `xc0     "/usr/libexec/getty Pc"         xterm   onifconsole  secure` to `/etc/ttys`
+
+	4.	edit `/boot/loader.conf` and add the following lines for 2G memory and 1vCPU core dom0:
+
+		```conf
+		if_tap_load="YES"
+		xen_kernel="/boot/xen"
+		xen_cmdline="dom0_mem=2048M dom0_max_vcpus=1 dom0=pvh com1=115200,8n1 guest_loglvl=all loglvl=all console=vga,com1"
+		boot_multicons="YES"
+		boot_serial="YES"
+		console="commconsole,vidconsole"
+		```
+	5.	run the following commands:
+		```sh
+		sysrc xencommons_enable=yes
+		sysrc closed_interfaces="bridge0"
+		sysrc ifconfig_bridge0="addm em0 SYNCDNCP"
+		sysrc ifconfig_em0="up"
+		```
+	6.	Reboot system
 
 ```tags
 cluster, virtualization, virt, NUC, xcp-ng
