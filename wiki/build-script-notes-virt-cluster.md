@@ -72,8 +72,7 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 
 	2.	Enter hostname
 
-	3.	Add the ports tree. Optionally, add the src tree (prior to multiboot2
-		xen patch being included in a release version).
+	3.	Add the ports tree.
 
 	4.	Hit Ok to configure network for installation.
 
@@ -86,27 +85,27 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 
 	8.	Select Auto (UFS) and then Entire Disk.
 
-	10.	Select GPT for partition scheme
+	9.	Select GPT for partition scheme
 
-	11.	Review autogen partition layout, which should be good for our usages
+	10.	Review autogen partition layout, which should be good for our usages
 		then hit finish and Commit.
 
-	12.	Wait for download, verification and extraction.
+	11.	Wait for download, verification and extraction.
 
-	13.	Enter root password from password manager.
+	12.	Enter root password from password manager.
 
-	14.	Choose yes at CMOS clock prompt. Make sure this gets set in BIOS properly.
+	13.	Choose yes at CMOS clock prompt. Make sure this gets set in BIOS properly.
 
-	15.	Choose timezone.
+	14.	Choose timezone.
 
-	16.	Skip time and date setup if it is correct.
+	15.	Skip time and date setup if it is correct.
 
-	17.	Enable `local_unbound`, `sshd`, `ntpdate`, `ntpd`, `powerd` and `dumpdev` services
-		to be started at boot
+	16.	Enable `local_unbound`, `sshd`, `ntpdate`, `ntpd`, `powerd` and
+		`dumpdev` services to be started at boot
 
-	18.	Enable all security options except `disable_syslogd`, and `secure_console`.
+	17.	Enable all security options except `disable_syslogd`, and `secure_console`.
 
-	19.	Add new admin user.
+	18.	Add new admin user.
 
 		1.	Username = `toxicsauce`
 		2.	Full Name = `toxicsauce`
@@ -125,11 +124,11 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 		15.	check options and type in yes to confirm.
 		16.	add additional users = no.
 
-	20.	hit exit, and no to exit installer.
+	19.	hit exit, and no to exit installer.
 
-	21. Hit reboot.
+	20. Hit reboot.
 
-	22.	Stop CD media after system has rebooted.
+	21.	Stop CD media after system has rebooted.
 
 7.	Login as the new user you created
 
@@ -145,22 +144,24 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 	# answer yes to install pkg system
 	pkg upgrade
 
-	pkg install nano sudo
+	pkg install nano sudo vim-console
 	```
 
 10.	Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
 
 11.	Setup system logging and disable sendmail:
 
-	1.	Edit `/etc/rc.conf` and add the following lines to disable sendmail and enable syslog.
+	1.	Edit `/etc/rc.conf` and add the following lines to disable sendmail and
+		enable syslog.
+
 		```conf
 		# disable sendmail and enable syslog
 		syslogd_enable="YES"
+		newsyslog_enable="YES" # make sure this doesn't break in future defaults
 		sendmail_enable="NO" # modify existing line
 		sendmail_submit_enable="NO"
 		sendmail_outbound_enable="NO"
 		sendmail_msp_queue_enable="NO"
-		newsyslog_enable="YES" # make sure this doesn't break in future defaults
 		# fix cron trying to send mail
 		cron_flags="-m ''"
 		```
@@ -205,7 +206,7 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 	1.	Edit `/etc/periodic.conf` and include the following lines:
 
 		```conf
-		# never going to use locate on a fileserver
+		# never going to use locate on a virtualization host
 		weekly_locate_enable="NO"	#Disable weekly locate run.
 		```
 
