@@ -269,8 +269,8 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 	5.	run the following commands:
 		```sh
 		sysrc xencommons_enable=yes
-		sysrc closed_interfaces="bridge0"
-		sysrc ifconfig_bridge0="addm em0 SYNCDNCP"
+		sysrc cloned_interfaces="bridge0"
+		sysrc ifconfig_bridge0="addm em0 SYNCDHCP"
 		sysrc ifconfig_em0="up"
 		```
 	6.	Reboot system
