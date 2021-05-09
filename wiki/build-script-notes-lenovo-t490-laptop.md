@@ -372,11 +372,13 @@ to boot into windows 10.
 	2.	Edit /etc/cups/cupsd.conf, find line that starts with `<Limit CUPS-Add-Modify-Printer` and add `toxicsauce` after `@SYSTEM`
 
 	3.	Restart `cupsd` service
-	
-	4. go to <http://localhost:631/> to configure 
+
+	4. go to <http://localhost:631/> to configure
 
 22.	Need to set up bumblebee/optimus for graphics, set up dropbox and 1password
 	cli client.
+
+	install alsa-utils to get audio working
 
 ```tags
 build-script, void-linux,laptop, lenovo, notes

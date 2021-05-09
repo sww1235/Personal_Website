@@ -256,7 +256,38 @@ my main workstation.
 	xscreensaver &
 	exec dwm
 	```
+22.	Setup CUPS for printing:
 
+	1.	Install and enable the service:
+
+	```bash
+	sudo xbps-install cups
+	sudo ln -s /etc/sv/cupsd/ /var/service
+	```
+	2.	Edit /etc/cups/cupsd.conf, find line that starts with `<Limit CUPS-Add-Modify-Printer` and add `toxicsauce` after `@SYSTEM`
+
+	3.	Restart `cupsd` service
+	
+	4. go to <http://localhost:631/> to configure 
+
+
+install alas-utils to get audio working
+
+FIXME: Install NVIDIA drivers
+
+1.	Take snapshot of VM before installing drivers.
+
+2.	Install the `nonfree-repository`.
+
+	```sh
+	sudo xbps-install void-repo-nonfree
+	```
+
+3.	Upgrade the system
+
+4.	Install the `nvidia` package.
+
+5.	Reboot. It should just work.
 
 
 <h2 id="resources">Resources</h2>
