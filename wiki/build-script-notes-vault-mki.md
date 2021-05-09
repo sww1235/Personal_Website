@@ -267,7 +267,8 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 
 2.	If the hard drives are new, Test hard drives with `sudo badblocks -b 4096
 	-wsv /dev/da* > da*.log`, replacing * with the number for each HDD. This
-	will take a while depending on the size of the hard drives.
+	will take a while depending on the size of the hard drives. TODO: add in
+	instructions to import an existing pool.
 
 3.	Add the following line to `/etc/rc.conf`, then start the service manually
 	`sudo service zfs start` so you don't have to reboot.
@@ -302,31 +303,16 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	sudo zfs create -o compress=lz4 the-vault/media
 	sudo zfs create -o compress=lz4 the-vault/archive
 	```
+7.	Install `freebsd-snapshot` from pkg.
 
-7.	Install zfsbackup-go either from packages/ports or github directly.
-	(Download release binary and copy to `/usr/bin/` for now and rename to
-	zfsbackup.)
-
-8.	Install `gnupg` from packages, and make sure gpg is set up as described in
-	[GnuPG Configuration](gnupg-config.html).
-
-9.	Also, you need to export your keys into a form that `zfsbackup` can understand.
-
-	```sh
-	gpg --output public.pgp --armor --export domain@domain
-	gpg --output private.pgp --armor --export-secret-key domain@domain
-	```
-
-6.	Install `freebsd-snapshot and flock` from pkg.
-
-7.	Edit `/etc/periodic.conf` and add the following lines:
+8.	Edit `/etc/periodic.conf` and add the following lines:
 
 	```conf
 	daily_status_zfs
 
 	```
 
-7.	Edit `/etc/crontab` and include the following:
+9.	Edit `/etc/crontab` and include the following:
 
 	```crontab
 
@@ -335,8 +321,37 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	0       0       *       *       *       root    /usr/local/sbin/periodic-snapshot daily
 	0       0       *       *       0       root    /usr/local/sbin/periodic-snapshot weekly
 	```
+9.	Edit `/etc/periodic.conf` and configure according to the datasets. Current config as below.
 
-8.	Create `/etc/periodic/daily/600.zfsbackup-backblaze` and chmod it to 710,
+	```conf
+	daily_scrub_zfs_enable="YES"
+	snapshot_enable="YES"
+	# :4:7:0 = 4 weekly snapshots (1 per week, and storing the last 4,
+	# 1 per day and storing the last 7, and 0 per hour, storing the last 0.
+	snapshot_schedule="/the-vault/backups:4:7:0 /the-vault/storage:4:7:0 /the-vault/media:2:3:0 /the-vault/archive:2:3:0"
+	```
+
+
+
+<h3 id="backups-config">Backups Configuration</h3>
+
+1.	Install zfsbackup-go either from packages/ports or github directly.
+	(Download release binary and copy to `/usr/bin/` for now and rename to
+	zfsbackup.)
+
+2.	Install `gnupg` from packages, and make sure gpg is set up as described in
+	[GnuPG Configuration](gnupg-config.html).
+
+3.	Also, you need to export your keys into a form that `zfsbackup` can understand.
+
+	```sh
+	gpg --output public.pgp --armor --export domain@domain
+	gpg --output private.pgp --armor --export-secret-key domain@domain
+	```
+
+4.	Install `flock` from pkg.
+
+5.	Create `/etc/periodic/daily/600.zfsbackup-backblaze` and chmod it to 710,
 	so only root can read and wheel can execute if need be. This is because it
 	will have passphrases in it.
 
@@ -373,16 +388,6 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	/usr/local/bin/flock -xn /root/zfsbackup-archive.lock -c "/usr/bin/zfsbackup send --encryptTo domain@domain.net --signFrom domain@domain.net --publicKeyRingPath /home/toxicsauce/.gnupg/public.pgp --secretKeyRingPath /home/toxicsauce/.gnupg/private.pgp --increment the-vault/archive b2://the-vault-remote/archive"
 ```
 
-
-8.	Edit `/etc/periodic.conf` and configure according to the datasets. Current config as below.
-
-	```conf
-	daily_scrub_zfs_enable="YES"
-	snapshot_enable="YES"
-	# :4:7:0 = 4 weekly snapshots (1 per week, and storing the last 4,
-	# 1 per day and storing the last 7, and 0 per hour, storing the last 0.
-	snapshot_schedule="/the-vault/backups:4:7:0 /the-vault/storage:4:7:0 /the-vault/media:2:3:0 /the-vault/archive:2:3:0"
-	```
 
 
 
