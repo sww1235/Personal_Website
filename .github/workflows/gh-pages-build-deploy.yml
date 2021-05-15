@@ -1,6 +1,6 @@
 name: Build and Deploy
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
@@ -11,30 +11,30 @@ on:
       - 'styles/**'
       - 'wiki/**'
       - 'Makefile'
-    branches: [ master ]
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-     
+
   # build the website
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    
+
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
       - name: Install Pandoc
         run: sudo apt-get install pandoc
 
       - name: build
         run: make all
-        
+
       - name: deploy
         run: |
           git config --global user.email "gh-actions@sww1235.net"
@@ -56,4 +56,4 @@ jobs:
           git commit -m "Website as of $(date -Iseconds -u )"
           git push
           fi
-            
+
