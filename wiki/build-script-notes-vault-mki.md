@@ -335,61 +335,132 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 
 <h3 id="backups-config">Backups Configuration</h3>
 
-1.	Install zfsbackup-go either from packages/ports or github directly.
-	(Download release binary and copy to `/usr/bin/` for now and rename to
-	zfsbackup.)
+Heavily borrowed from <https://blog.alt255.com/post/restic/>
 
-2.	Install `gnupg` from packages, and make sure gpg is set up as described in
-	[GnuPG Configuration](gnupg-config.html).
+1.	Install `restic` from pkgs.
 
-3.	Also, you need to export your keys into a form that `zfsbackup` can understand.
+2.	Create `/root/.restic/restic-password.sh` which exports `RESTIC_PASSWORD`
+	set to the password of your repository. This is in password manager
+
+3.	Create `/root/.restic/b2-credentials.sh` which exports `B2_ACCOUNT_ID` and
+	`B2_ACCOUNT_KEY`. These are set up on backblaze's website.
+
+4.	`su` to root and then run the following commands to initialize the repository.
 
 	```sh
-	gpg --output public.pgp --armor --export domain@domain
-	gpg --output private.pgp --armor --export-secret-key domain@domain
+	. /root/.restic/b2-credentials.sh
+	. /root/.restic/restic-password.sh
+	# multiple repos can be in one bucket.
+	# need to set up each repo individually
+	# RESTIC_REPOSITORY=b2:bucketname:path/to/repo
+	# path/to/repo is the path under the root of the bucket.
+	# it does not affect which files will actually be backed up.
+
+	export RESTIC_REPOSITORY=b2:the-vault-remote:archive
+	restic init
+
+	export RESTIC_REPOSITORY=b2:the-vault-remote:backups
+	restic init
+
+	export RESTIC_REPOSITORY=b2:the-vault-remote:media
+	restic init
+
+	export RESTIC_REPOSITORY=b2:the-vault-remote:storage
+	restic init
 	```
 
-4.	Install `flock` from pkg.
+5.	Initialize the first backups of the repositories. If you do not do this
+	now, make sure to exit your root shell session to purge the environment
+	variables.
 
-5.	Create `/etc/periodic/daily/600.zfsbackup-backblaze` and chmod it to 710,
-	so only root can read and wheel can execute if need be. This is because it
-	will have passphrases in it.
+	```sh
+	# make sure to only run initial backups when we have enough bandwidth left
+	export RESTIC_REPOSITORY=b2:the-vault-remote:archive
+	restic backup --exclude-caches --exclude-if-present '.nobackup' /the-vault/archive
 
-	Put in the following contents.
+	export RESTIC_REPOSITORY=b2:the-vault-remote:backups
+	restic backup --exclude-caches --exclude-if-present '.nobackup' /the-vault/backups
 
+	export RESTIC_REPOSITORY=b2:the-vault-remote:media
+	restic backup --exclude-caches --exclude-if-present '.nobackup' /the-vault/media
+
+	export RESTIC_REPOSITORY=b2:the-vault-remote:storage
+	restic backup --exclude-caches --exclude-if-present '.nobackup' /the-vault/storage
 	```
+
+
+
+6.	Create `/etc/periodic/daily/601.restic-backblaze-backups` with the following
+	contents, and chmod it to 710, so only root can read and wheel can execute
+	if need be.
+
+	```sh
 	#!/bin/sh
-	#
 
-	# If there is a global system configuration file, suck it in.
-	#
+	# modified from script at <https://blog.alt255.com/post/restic/>
 
-	newline="
-	" # A single newline
+	# i18n, some files have non ASCII characters
+	export LC_ALL=en_US.UTF-8
 
-	if [ -r /etc/defaults/periodic.conf ]
-	then
-		. /etc/defaults/periodic.conf
-		source_periodic_confs
+	# load credentials
+	. /root/.restic/b2-credentials.sh
+	. /root/.restic/restic-password.sh
+
+	QUIET="--quiet"
+	if [ -n "${NOQUIET}" ] || [ -n ${VERBOSE}" ]; then
+		QUIET=""
 	fi
 
+	[ -z "${QUIET}" ] && echo "Starting backup set: archive"
+	export RESTIC_REPOSITORY=b2:the-vault-remote:archive
+	restic backup ${QUIET} \
+		--exclude-caches \
+		--exclude-if-present '.no-backup' \
+		/the-vault/archive
 
-	export PGP_PASSPHRASE= $from password manager
-	export B2_ACCOUNT_ID= $from password manager
-	export B2_ACCOUNT_KEY= $ from password manager
+	[ -z "${QUIET}" ] && echo "Starting backup set: backups"
+	export RESTIC_REPOSITORY=b2:the-vault-remote:backups
+	restic backup ${QUIET} \
+		--exclude-caches \
+		--exclude-if-present '.no-backup' \
+		/the-vault/backups
 
-	# backups pool
-	/usr/local/bin/flock -xn /root/zfsbackup-backups.lock -c "/usr/bin/zfsbackup send --encryptTo domain@domain.net --signFrom domain@domain.net --publicKeyRingPath /home/toxicsauce/.gnupg/public.pgp --secretKeyRingPath /home/toxicsauce/.gnupg/private.pgp --increment the-vault/backups b2://the-vault-remote/backups"
-	# storage pool
-	/usr/local/bin/flock -xn /root/zfsbackup-storage.lock -c "/usr/bin/zfsbackup send --encryptTo domain@domain.net --signFrom domain@domain.net --publicKeyRingPath /home/toxicsauce/.gnupg/public.pgp --secretKeyRingPath /home/toxicsauce/.gnupg/private.pgp --increment the-vault/storage b2://the-vault-remote/storage"
-	# media pool
-	/usr/local/bin/flock -xn /root/zfsbackup-media.lock -c "/usr/bin/zfsbackup send --encryptTo domain@domain.net --signFrom domain@domain.net --publicKeyRingPath /home/toxicsauce/.gnupg/public.pgp --secretKeyRingPath /home/toxicsauce/.gnupg/private.pgp --increment the-vault/media b2://the-vault-remote/media"
-	# archive pool
-	/usr/local/bin/flock -xn /root/zfsbackup-archive.lock -c "/usr/bin/zfsbackup send --encryptTo domain@domain.net --signFrom domain@domain.net --publicKeyRingPath /home/toxicsauce/.gnupg/public.pgp --secretKeyRingPath /home/toxicsauce/.gnupg/private.pgp --increment the-vault/archive b2://the-vault-remote/archive"
-```
+	[ -z "${QUIET}" ] && echo "Starting backup set: media"
+	export RESTIC_REPOSITORY=b2:the-vault-remote:media
+	restic backup ${QUIET} \
+		--exclude-caches \
+		--exclude-if-present '.no-backup' \
+		/the-vault/media
 
+	[ -z "${QUIET}" ] && echo "Starting backup set: storage"
+	export RESTIC_REPOSITORY=b2:the-vault-remote:storage
+	restic backup ${QUIET} \
+		--exclude-caches \
+		--exclude-if-present '.no-backup' \
+		/the-vault/storage
 
+	```
 
+7.	Create `/etc/periodic/daily/600.restic-check` with the following contents,
+	and chmod it to 710, so only root can read and wheel cna execute if need
+	be.
+
+	```sh
+	#!/bin/sh
+	export RESTIC_REPOSITORY=b2:the-vault-remote:archive
+	restic check
+
+	export RESTIC_REPOSITORY=b2:the-vault-remote:backups
+	restic check
+
+	export RESTIC_REPOSITORY=b2:the-vault-remote:media
+	restic check
+
+	export RESTIC_REPOSITORY=b2:the-vault-remote:storage
+	restic check
+	```
+
+8.	Configure snapshot policies and pruning. TODO
 
 <h3 id="filesharing">Fileshare Configuration</h3>
 
