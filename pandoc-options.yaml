@@ -1,0 +1,35 @@
+from: markdown
+to: html5
+template: main
+standalone: true
+self-contained: false
+eol: lf
+
+verbosity: ERROR
+#dpi: 96 - default may need to change
+
+# enable table of contents - TODO: need to think about this
+table-of-contents: true # sets $toc variable
+toc-depth: 3
+number-sections: false
+# promote top level heading in markdown files to title
+shift-heading-level-by: -1
+# need to figure out if this makes sense
+section-divs: true
+title-prefix: ""
+tab-stop: 4
+preserve-tabs: true
+# need to re-evaluate
+#reference-links: true
+#reference-location: [block, section, document]
+#css: # needs to be defined
+
+resource-path:
+  - .
+  - ./html-parts/
+  - ./templates/
+
+include-before-body: [banner.html, header.html, nav-bar.html]
+include-after-body: [footer.html]
+
+
