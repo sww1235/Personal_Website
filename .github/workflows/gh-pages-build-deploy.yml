@@ -33,17 +33,42 @@ jobs:
         run: sudo apt-get install pandoc
 
       - name: build
-        run: make all
+        run: ./build.sh
+
+        # may want to add caching here if the external link testing takes
+        # too long
+
+      - name: Lint generated HTML and CSS
+        uses: chabad360/htmlproofer@v1.1
+        with:
+          directory: "./www"
+          # hash-href links to top of page
+          arguments: "--allow-hash-href --check-favicon --check-html
+            --check-img-http --enforce-https --error-sort=path --report-invalid-tags
+            --report-missing-names --report-missing-doctype --report-eof-tags
+            --report-mismatched-tags"
+
+
+      - name: HTML5 validation
+        uses: Cyb3r-Jak3/html5validator-action@v0.6
+        with:
+          css: true
+          root: www/
+
+      - name: upload validation logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: validation-log
+          path: log.log
 
       - name: deploy
         run: |
           git config --global user.email "gh-actions@sww1235.net"
           git config --global user.name "Robots"
-          pwd
+          # after cd, will be in $HOME
           cd ..
-          pwd
           git clone https://${{secrets.GHA_DEPLOY}}@github.com/sww1235/sww1235.github.io.git website
-          # move www directory contents to ghpages repo
+          # overwrite www directory contents of ghpages repo with new files
           cp -rf  Personal_Website/www/. website/
           # cd into ghpages repo
           cd website
