@@ -33,7 +33,9 @@ jobs:
         run: sudo apt-get install pandoc
 
       - name: build
-        run: ./build.sh
+        run: |
+          pandoc --version
+          ./build.sh
 
         # may want to add caching here if the external link testing takes
         # too long
