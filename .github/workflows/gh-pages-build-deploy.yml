@@ -24,13 +24,19 @@ jobs:
     runs-on: ubuntu-latest
 
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      # first install pandoc from dpkg
+       - name: Install Pandoc
+        run: |
+          # because ubuntu is dumb and doesn't backport important software
+         sudo apt purge pandoc
+         wget https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-1-amd64.deb
+         sudo dpkg -i pandoc-2.13.1-amd64.deb
+         # remove deb file to not polute repo
+         rm pandoc-2.13.1-amd64.deb
 
-      - name: Install Pandoc
-        run: sudo apt-get install pandoc/groovy-backports
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+     - uses: actions/checkout@v2
 
       - name: build
         run: |
@@ -45,10 +51,18 @@ jobs:
         with:
           directory: "./www"
           # hash-href links to top of page
-          arguments: "--allow-hash-href --check-favicon --check-html
-            --check-img-http --enforce-https --error-sort=path --report-invalid-tags
-            --report-missing-names --report-missing-doctype --report-eof-tags
-            --report-mismatched-tags"
+          arguments: >-
+            --allow-hash-href
+            --check-favicon
+            --check-html
+            --check-img-http
+            --enforce-https
+            --error-sort=path
+            --report-invalid-tags
+            --report-missing-names
+            --report-missing-doctype
+            --report-eof-tags
+            --report-mismatched-tags
 
 
       - name: HTML5 validation
