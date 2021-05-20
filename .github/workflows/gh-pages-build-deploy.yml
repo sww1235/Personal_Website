@@ -28,7 +28,7 @@ jobs:
       # first install pandoc from dpkg
       - name: Install Pandoc
         run: |
-          # because ubuntu is dumb and doesn't backport important software
+         # because ubuntu is dumb and doesn't backport important software
          sudo apt purge pandoc
          wget https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-1-amd64.deb
          sudo dpkg -i pandoc-2.13.1-amd64.deb
