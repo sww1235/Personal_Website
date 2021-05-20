@@ -33,7 +33,7 @@ jobs:
          wget -q https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-1-amd64.deb
          sudo dpkg -i pandoc-2.13-1-amd64.deb
          # remove deb file to not polute repo
-         rm pandoc-2.13.1-amd64.deb
+         rm pandoc-2.13-1-amd64.deb
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
