@@ -217,8 +217,8 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 
 1.	Before UEFI support for XEN is merged in a freebsd release version, need to
 	fetch and compile from source. Wait until commit `97527e9c4fd37140` is
-	merged into master before removing these instructions and running on
-	release version.
+	merged into release branch before removing these instructions and running
+	on release version.
 
 2.	Run the following commands as root to build and install FreeBSD from source
 
@@ -264,7 +264,7 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 		xen_cmdline="dom0_mem=2048M dom0_max_vcpus=1 dom0=pvh com1=115200,8n1 guest_loglvl=all loglvl=all console=vga,com1"
 		boot_multicons="YES"
 		boot_serial="YES"
-		console="commconsole,vidconsole"
+		console="comconsole,vidconsole"
 		```
 	5.	run the following commands:
 		```sh
