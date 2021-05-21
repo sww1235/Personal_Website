@@ -1,16 +1,15 @@
-<h1 id="top">Main Workstation Build Script and Notes</h1>
+# Main Workstation Build Script and Notes
 
 This is the build script for my main void linux virtual machine that I use as
 my main workstation.
 
-<h2 id="notes">Notes</h2>
+## Notes {#notes}
 
+## Build Script {#build-script}
 
-<h2 id="build-script">Build Script</h2>
+### Initial Configuration {#initial-config}
 
-<h3 id="initial-configuration">Initial Configuration</h3>
-
-1.	Download the void-live-x86\_64.iso of void linux from reputable
+1.	Download the `void-live-x86_64.iso` of void linux from reputable
 	sources, currently
 	[here](https://alpha.de.repo.voidlinux.org/live/current/)
 
@@ -58,19 +57,19 @@ my main workstation.
 
 		2.	Set second partition to `ext4` and mount it at `/`
 
-	11.	Review settings
+	12.	Review settings
 
-	12.	Install
+	13.	Install
 
-	13.	Wait
+	14.	Wait
 
-	14.	Exit installer
+	15.	Exit installer
 
-	15.	Shutdown system with `shutdown -h now`
+	16.	Shutdown system with `shutdown -h now`
 
-	15.	Comment out cdrom directives in vm-manager script
+	17.	Comment out cdrom directives in vm-manager script
 
-	16. Start up VM again
+	18. Start up VM again
 
 7.	Log in as the new user you created.
 
@@ -113,93 +112,93 @@ my main workstation.
 	git config --global user.namer "Stephen Walker-Weinshenker"
 	```
 
-12.	Set up ssh-agent using user specific services. Instructions taken from
+15.	Set up ssh-agent using user specific services. Instructions taken from
 	<https://www.daveeddy.com/2018/09/15/using-void-linux-as-my-daily-driver/>
 
 	1.	Create user specific service directory:
 
-	```bash
-	sudo mkdir /etc/sv/runit-user-toxicsauce
-	```
+		```bash
+		sudo mkdir /etc/sv/runit-user-toxicsauce
+		```
 
 	2.	Create run script for user specific service by adding the following
 		into `/etc/sv/runit-user-toxicsauce/run`
 
-	```bash
-	#!/bin/sh
-	exec 2>&1
-	exec chpst -u toxicsauce:toxicsauce runsvdir /home/toxicsauce/runit/service
-	```
+		```bash
+		#!/bin/sh
+		exec 2>&1
+		exec chpst -u toxicsauce:toxicsauce runsvdir /home/toxicsauce/runit/service
+		```
 
 	3.	Mark it as executable:
 
-	```bash
-	sudo chmod +x /etc/sv/runit-user-toxicsauce/run
-	```
+		```bash
+		sudo chmod +x /etc/sv/runit-user-toxicsauce/run
+		```
 
 	4.	Create necessary user specific service directories:
 
-	```bash
-	mkdir ~/runit
-	mkdir ~/runit/sv
-	mkdir ~/runit/service
-	```
+		```bash
+		mkdir ~/runit
+		mkdir ~/runit/sv
+		mkdir ~/runit/service
+		```
 
 	5.	Start this service of services with:
 
-	```bash
-	sudo ln -s /etc/sv/runit-user-toxicsauce /var/service
-	```
+		```bash
+		sudo ln -s /etc/sv/runit-user-toxicsauce /var/service
+		```
 
 	6.	Now set up `ssh-agent` service:
 
-	```bash
-	mkdir ~/runit/sv/ssh-agent
-	```
+		```bash
+		mkdir ~/runit/sv/ssh-agent
+		```
 
 	7.	Create run script for `ssh-agent` service by adding the following into `~/runit/sv/ssh-agent/run`.
 
-	```bash
-	#!/usr/bin/env bash
-	#
-	# Start ssh-agent from runit
+		```bash
+		#!/usr/bin/env bash
+		#
+		# Start ssh-agent from runit
 
-	file=~/.ssh/ssh-agent-env
+		file=~/.ssh/ssh-agent-env
 
-	exec > "$file"
+		exec > "$file"
 
-	echo "# started $(date)"
+		echo "# started $(date)"
 
-	# For some reason, this line doesn't get emitted by ssh-agent when it is run
-	# with -d or -D.  Since we are starting the program with exec we already know
-	# the pid ahead of time though so we can create this line manually
-	echo "SSH_AGENT_PID=$$; export SSH_AGENT_PID"
+		# For some reason, this line doesn't get emitted by ssh-agent when it is run
+		# with -d or -D.  Since we are starting the program with exec we already know
+		# the pid ahead of time though so we can create this line manually
+		echo "SSH_AGENT_PID=$$; export SSH_AGENT_PID"
 
-	exec ssh-agent -D
-	```
+		exec ssh-agent -D
+		```
 
 	8.	Mark run file as executable with:
 
-	```bash
-	chmod +x ~/runit/sv/ssh-agent/run
-	```
+		```bash
+		chmod +x ~/runit/sv/ssh-agent/run
+		```
 
 	9.	Now start the service with:
 
-	```bash
-	ln -s ~/runit/sv/ssh-agent ~/runit/service
-	```
+		```bash
+		ln -s ~/runit/sv/ssh-agent ~/runit/service
+		```
 
-	**NOTE**: you need the following line in bashrc in order to get it working
-	in new shells. This is already in my dotfiles bashrc
+		**NOTE**: you need the following line in bashrc in order to get it working
+		in new shells. This is already in my dotfiles bashrc
 
-	```bash
-	# source ssh-agent file
+		```bash
+		# source ssh-agent file
 
-	[ -f $HOME/.ssh/ssh-agent-env ] && source $HOME/.ssh/ssh-agent-env
-	```
+		[ -f $HOME/.ssh/ssh-agent-env ] && source $HOME/.ssh/ssh-agent-env
+		```
 
-11.	Create Projects directory tree in `~` as follows:
+16.	Create Projects directory tree in `~` as follows:
 
 	```bash
 	mkdir -p ~/projects/src/github.com/sww1235
@@ -207,26 +206,26 @@ my main workstation.
 
 	This mirrors the structure of how golang wants to set things up.
 
-12.	Make symlink in `~` as follows:
+17.	Make symlink in `~` as follows:
 
 	```bash
 	ln -s ~/projects/src/github.com/sww1235 myprojects
 	```
 
-12.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
+18.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
 	`install.sh` script.
 
 
-14.	Clone projects from github into Projects tree as desired.
+19.	Clone projects from github into Projects tree as desired.
 
-15.	Set up void-packages per the [instructions](void-packages-setup.html) in
+20.	Set up void-packages per the [instructions](void-packages-setup.html) in
 	this wiki.
 
-16.	Make sure `build-branch-void-vm` in my fork of `void-packages` is
+21.	Make sure `build-branch-void-vm` in my fork of `void-packages` is
 	checked out, and up to date with desired patches. See the [suckless
 	page](void-suckless-config.html) for more info.
 
-17.	Build binary packages of `dwm`, `dmenu`, and `st` as follows:
+22.	Build binary packages of `dwm`, `dmenu`, and `st` as follows:
 
 	```bash
 	cd ~/Projects/src/github.com/sww1235/void-packages
@@ -235,62 +234,64 @@ my main workstation.
 	./xbps-src pkg st
 	```
 
-18.	Install `dwm`, `dmenu`, and `st` with the command:
+23.	Install `dwm`, `dmenu`, and `st` with the command:
 
 	```bash
 	sudo xbps-install --repository=hostdir/binpkgs/build-branch-void-vm dwm dmenu st
 	```
 
-19.	Install `xorg` and `xorg-fonts` to get graphics working
+24.	Install `xorg` and `xorg-fonts` to get graphics working
 
-20.	Install and run `arandr` to generate a `xrandr` command to fix the monitor
+25.	Install and run `arandr` to generate a `xrandr` command to fix the monitor
 	rotation. Save the script as `~/.screenlayout/main.sh`
 
-21.	Install `xscreensaver`, then run `xscreensaver-demo` and unselect the
+26.	Install `xscreensaver`, then run `xscreensaver-demo` and unselect the
 	screensavers that you don't want to run.
 
-21.	Modify ~/.xinitrc to contain the following:
+27.	Modify ~/.xinitrc to contain the following:
 
 	```xinitrc
 	~/.screenlayout/main.sh
 	xscreensaver &
 	exec dwm
 	```
-22.	Setup CUPS for printing:
+
+28.	Setup CUPS for printing:
 
 	1.	Install and enable the service:
 
-	```bash
-	sudo xbps-install cups
-	sudo ln -s /etc/sv/cupsd/ /var/service
-	```
-	2.	Edit /etc/cups/cupsd.conf, find line that starts with `<Limit CUPS-Add-Modify-Printer` and add `toxicsauce` after `@SYSTEM`
+		```bash
+		sudo xbps-install cups
+		sudo ln -s /etc/sv/cupsd/ /var/service
+		```
+
+	2.	Edit /etc/cups/cupsd.conf, find line that starts with `<Limit
+		CUPS-Add-Modify-Printer` and add `toxicsauce` after `@SYSTEM`
 
 	3.	Restart `cupsd` service
-	
-	4. go to <http://localhost:631/> to configure 
+
+	4. go to <http://localhost:631/> to configure
+
+29.	Install alas-utils to get audio working FIXME:
+
+30.	FIXME: Install NVIDIA drivers
+
+	1.	Take snapshot of VM before installing drivers.
+
+	2.	Install the `nonfree-repository`.
+
+		```sh
+		sudo xbps-install void-repo-nonfree
+		```
+
+	3.	Upgrade the system
+
+	4.	Install the `nvidia` package.
+
+	5.	Reboot. It should just work.
 
 
-install alas-utils to get audio working
-
-FIXME: Install NVIDIA drivers
-
-1.	Take snapshot of VM before installing drivers.
-
-2.	Install the `nonfree-repository`.
-
-	```sh
-	sudo xbps-install void-repo-nonfree
-	```
-
-3.	Upgrade the system
-
-4.	Install the `nvidia` package.
-
-5.	Reboot. It should just work.
-
-
-<h2 id="resources">Resources</h2>
+## Resources {#resources}
 
 ```tags
 build-script, main-ws-host, workstation, notes, QEMU, KVM, VFIO, Passthrough

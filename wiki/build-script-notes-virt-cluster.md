@@ -6,7 +6,6 @@ its own page.
 Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1
 hypervisor with FreeBSD as Dom0.
 
-
 ## Individual Host Setup {#initial-host-setup}
 
 ### BIOS Configuration {#bios-config}

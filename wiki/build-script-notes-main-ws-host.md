@@ -346,12 +346,9 @@ VM specific buildscripts are in their own files and are linked at the bottom of 
 -	[Void VM](build-script-notes-void-vm.html)
 -	[Win10 VM](build-script-notes-win10-vm.html)
 
-
-
 ## Resources {#Resources}
 
 <https://www.reddit.com/r/voidlinux/comments/ghwvv5/guide_how_to_setup_qemukvm_emulation_on_void_linux/>
-
 
 ```tags
 build-script, main-ws-host, workstation, notes, QEMU, KVM, VFIO, Passthrough
