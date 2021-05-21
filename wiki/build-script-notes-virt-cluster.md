@@ -1,13 +1,15 @@
-<h1 id="top">Virtualization Cluster Configuration</h1>
+# Virtualization Cluster Configuration
 
-Documentation on setup of virtualization cluster. Some info may be split into its own page.
+Documentation on setup of virtualization cluster. Some info may be split into
+its own page.
 
-Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervisor with FreeBSD as Dom0.
+Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1
+hypervisor with FreeBSD as Dom0.
 
 
-<h2 id="ind-host-setup">Individual Host Setup</h2>
+## Individual Host Setup {#initial-host-setup}
 
-<h3 id="bios-config">BIOS Configuration</h3>
+### BIOS Configuration {#bios-config}
 
 1.	Boot system into BIOS by spamming `F2` key after pressing power button.
 
@@ -31,14 +33,14 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 9.	Under `Boot->Boot Priority`: Enable Boot USB Devices First, and disable
 	Boot Network Devices Last.
 
-11.	Under `Boot->Boot Display Configuration`: Disable Suppress Alert
+10.	Under `Boot->Boot Display Configuration`: Disable Suppress Alert
 	Messages At Boot, and Enable F12 for network boot.
 
-12.	Under `Main` Select System Time and Set BIOS clock to UTC time.
+11.	Under `Main` Select System Time and Set BIOS clock to UTC time.
 
-13.	Press F10 to save and Exit. On Reboot, press `CTRL-P` to get into Intel AMT configuration
+12.	Press F10 to save and Exit. On Reboot, press `CTRL-P` to get into Intel AMT configuration
 
-<h3 id="amt-config">AMT Configuration</h3>
+### AMT Configuration {#amt-config}
 
 1.	Press `CTRL-P` at boot prompt to enter Intel AMT configuration.
 
@@ -53,7 +55,7 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 
 5.	Set static DHCP lease in DHCP server if not done already.
 
-<h3 id="os-install">Install Operating System</h3>
+### Install Operating System {#os-install}
 
 1.	Download FreeBSD-bootonly ISO from reputable sources. Use this to reduce loading times
 
@@ -212,8 +214,7 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 
 13.	Reboot
 
-
-<h2 id="cluster-setup">Cluster Setup</h2>
+## Cluster Setup {#cluster-setup}
 
 1.	Before UEFI support for XEN is merged in a freebsd release version, need to
 	fetch and compile from source. Wait until commit `97527e9c4fd37140` is
@@ -250,7 +251,8 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 
 4.	Finally start installing Xen. All commands run as root.
 
-	1.	sudo pkg install xen-kernel xen-tools. May have to regenerate pkg database
+	1.	sudo pkg install xen-kernel xen-tools. May have to regenerate pkg
+		database
 
 	2.	add the line `vm.max_user_wired=-1` to `/etc/sysctl.conf`
 
@@ -266,13 +268,16 @@ Current status of cluster, is 3 Intel NUCs, each running Xen as a tier 1 hypervi
 		boot_serial="YES"
 		console="comconsole,vidconsole"
 		```
+
 	5.	run the following commands:
+
 		```sh
 		sysrc xencommons_enable=yes
 		sysrc cloned_interfaces="bridge0"
 		sysrc ifconfig_bridge0="addm em0 SYNCDHCP"
 		sysrc ifconfig_em0="up"
 		```
+
 	6.	Reboot system
 
 ```tags

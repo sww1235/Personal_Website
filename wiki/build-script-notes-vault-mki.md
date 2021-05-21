@@ -1,21 +1,21 @@
-<h1 id="top">Vault File Server Build Script</h1>
+# Vault File Server Build Script
 
 This is the build script for my main file server **The Vault**.
 
-<h2 id="notes">Notes</h2>
+## Notes {#notes}
 
 F2 or Enter for BIOS, F11 for boot menu
 
-<h2 id="build-script">Build Script</h2>
+## Build Script {#build-script}
 
-<h3 id=prereqs">Prerequisites</h3>
+### Prerequisites {#prerequisites}
 
 1.	Connect to IPMI interface of the server by going to $ip in a web browser.
 
 	-	If this is first startup of system, then configure static IP for IPMI,
 		and admin user and password.
 
-<h3 id="initial-configuration">Initial Configuration</h3>
+### Initial Configuration {#initial-config}
 
 1.	Download the bootonly ISO of the current release of FreeBSD from reputable
 	sources. (12.2 as of 11/07/2020)
@@ -116,9 +116,9 @@ F2 or Enter for BIOS, F11 for boot menu
 	pkg install nano sudo ipmitool openipmi
 	```
 
-13.	Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
+11.	Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
 
-14.	Configure static IP addressing. First, run `ifconfig` to see what interface
+12.	Configure static IP addressing. First, run `ifconfig` to see what interface
 	is actually connected, then add the following lines to `/etc/rc.conf` and
 	modify existing lines so they read as follows.
 
@@ -133,9 +133,10 @@ F2 or Enter for BIOS, F11 for boot menu
 	nameserver $gateway
 	```
 
-14.	Setup system logging and disable sendmail:
+13.	Setup system logging and disable sendmail:
 
 	1.	Edit `/etc/rc.conf` and add the following lines to disable sendmail and enable syslog.
+
 		```conf
 		# disable sendmail and enable syslog
 		syslogd_enable="YES"
@@ -183,7 +184,7 @@ F2 or Enter for BIOS, F11 for boot menu
 		command was doing. Do not need to do this for periodic and periodic
 		snapshot sections.
 
-15.	Random sysadmin tweaks:
+14.	Random sysadmin tweaks:
 
 	1.	Edit `/etc/periodic.conf` and include the following lines:
 
@@ -213,7 +214,7 @@ F2 or Enter for BIOS, F11 for boot menu
 
 19.	Clone projects from github into Projects tree as desired.
 
-<h3 id="ups-config">UPS Configuration</h3>
+### UPS Configuration {#ups-config}
 
 1.	Install Network UPS Tools from packages. `sudo pkg install nut`
 
@@ -248,7 +249,7 @@ F2 or Enter for BIOS, F11 for boot menu
 		apply power from all machines connected to the UPS to get them to come
 		back up.
 
-<h3 id="zfs-config">ZFS Configuration</h3>
+### ZFS Configuration {#zfs-config}
 
 Also see the [ZFS chapter of the FreeBSD
 handbook](https://www.freebsd.org/doc/handbook/zfs.html)
@@ -303,13 +304,13 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	sudo zfs create -o compress=lz4 the-vault/media
 	sudo zfs create -o compress=lz4 the-vault/archive
 	```
+
 7.	Install `freebsd-snapshot` from pkg.
 
 8.	Edit `/etc/periodic.conf` and add the following lines:
 
 	```conf
 	daily_status_zfs
-
 	```
 
 9.	Edit `/etc/crontab` and include the following:
@@ -321,6 +322,7 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	0       0       *       *       *       root    /usr/local/sbin/periodic-snapshot daily
 	0       0       *       *       0       root    /usr/local/sbin/periodic-snapshot weekly
 	```
+
 9.	Edit `/etc/periodic.conf` and configure according to the datasets. Current config as below.
 
 	```conf
@@ -331,9 +333,7 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	snapshot_schedule="/the-vault/backups:4:7:0 /the-vault/storage:4:7:0 /the-vault/media:2:3:0 /the-vault/archive:2:3:0"
 	```
 
-
-
-<h3 id="backups-config">Backups Configuration</h3>
+### Backups Configuration {#backups-config}
 
 Heavily borrowed from <https://blog.alt255.com/post/restic/>
 
@@ -388,8 +388,6 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 	restic backup --exclude-caches --exclude-if-present '.nobackup' /the-vault/storage
 	```
 
-
-
 6.	Create `/etc/periodic/daily/601.restic-backblaze-backups` with the following
 	contents, and chmod it to 710, so only root can read and wheel can execute
 	if need be.
@@ -438,7 +436,6 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 		--exclude-caches \
 		--exclude-if-present '.no-backup' \
 		/the-vault/storage
-
 	```
 
 7.	Create `/etc/periodic/daily/600.restic-check` with the following contents,
@@ -462,10 +459,10 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 
 8.	Configure snapshot policies and pruning. TODO
 
-<h3 id="filesharing">Fileshare Configuration</h3>
+### Fileshare Configuration {#filesharing-config}
 
 
-<h2 id="resources">Resources</h2>
+## Resources {#resources}
 
 -	<https://people.freebsd.org/~thierry/nut_FreeBSD_HowTo.txt>
 

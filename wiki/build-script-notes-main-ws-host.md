@@ -166,7 +166,7 @@ VM specific buildscripts are in their own files and are linked at the bottom of 
 		[ -f $HOME/.ssh/ssh-agent-env ] && source $HOME/.ssh/ssh-agent-env
 		```
 
-TODO: add in instructions around btrfs and mounting separate file systems
+		TODO: add in instructions around btrfs and mounting separate file systems
 
 13.	Create Projects directory tree in `~` as follows:
 
