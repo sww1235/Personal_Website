@@ -1,3 +1,3 @@
 # Contact Me
 
-Send me an email at sww1235 \<at sign\> googles mail service . com
+Send me an email at website \<at sign\> name of this website.

@@ -1,7 +1,7 @@
 # About
 
-I am a Senior Electrical Engineering Student studying at [Colorado State
-University](http://www.colostate.edu)
+I am a Electrical Engineer (no PE yet). I graduated from [Colorado State
+University](http://www.colostate.edu) in May of 2019
 
 You can find the most recent copy of my resume on
 [Github](https://github.com/sww1235/LaTeX-Resume/blob/master/LaTeX-Resume-2016.pdf)
