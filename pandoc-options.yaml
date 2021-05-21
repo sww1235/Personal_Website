@@ -28,8 +28,11 @@ resource-path:
   - .
   - ./html-parts/
   - ./templates/
+  - ./filters/
 
 include-before-body: [banner.html, nav-bar.html]
 include-after-body: [footer.html]
 
+filters:
+  - links-to-html.lua
 
