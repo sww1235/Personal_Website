@@ -6,7 +6,7 @@ OTHERDIR=other-pages
 PROJDIR=projects
 OUTDIR=www
 
-#VERBOSE="--verbose"
+VERBOSE="--verbose"
 
 # https://www.arthurkoziel.com/convert-md-to-html-pandoc/
 # use pandoc and HTML template to convert markdown files to HTML.

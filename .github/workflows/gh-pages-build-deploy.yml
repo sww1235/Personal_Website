@@ -31,7 +31,7 @@ jobs:
          # because ubuntu is dumb and doesn't backport important software
          sudo apt purge pandoc
          wget -q https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-1-amd64.deb
-         sudo dpkg -i pandoc-2.13-1-amd64.deb
+         sudo apt install ./pandoc-2.13-1-amd64.deb
          # remove deb file to not polute repo
          rm pandoc-2.13-1-amd64.deb
 
