@@ -46,23 +46,23 @@ jobs:
         # may want to add caching here if the external link testing takes
         # too long
 
-      - name: Lint generated HTML and CSS
-        uses: chabad360/htmlproofer@v1.1
-        with:
-          directory: "./www"
-          # hash-href links to top of page
-          arguments: >-
-            --allow-hash-href
-            --check-favicon
-            --check-html
-            --check-img-http
-            --enforce-https
-            --error-sort=path
-            --report-invalid-tags
-            --report-missing-names
-            --report-missing-doctype
-            --report-eof-tags
-            --report-mismatched-tags
+      #- name: Lint generated HTML and CSS
+      #  uses: chabad360/htmlproofer@v1.1
+      #  with:
+      #    directory: "./www"
+      #    # hash-href links to top of page
+      #    arguments: >-
+      #      --allow-hash-href
+      #      --check-favicon
+      #      --check-html
+      #      --check-img-http
+      #      --enforce-https
+      #      --error-sort=path
+      #      --report-invalid-tags
+      #      --report-missing-names
+      #      --report-missing-doctype
+      #      --report-eof-tags
+      #      --report-mismatched-tags
 
 
       - name: HTML5 validation
