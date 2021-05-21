@@ -29,7 +29,7 @@ resource-path:
   - ./html-parts/
   - ./templates/
 
-include-before-body: [banner.html, header.html, nav-bar.html]
+include-before-body: [banner.html, nav-bar.html]
 include-after-body: [footer.html]
 
 
