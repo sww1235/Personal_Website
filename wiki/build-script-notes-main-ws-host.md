@@ -1,14 +1,14 @@
-<h1 id="top">Main Workstation Build Script and Notes</h1>
+# Main Workstation Build Script and Notes
 
 This is the build script for my main workstation PC and associated VMs.
 
-<h2 id="notes">Notes</h2>
+## Notes {#notes}
 
 VM specific buildscripts are in their own files and are linked at the bottom of the page
 
-<h2 id="build-script">Build Script</h2>
+## Build Script {#build-script}
 
-<h3 id="initial-configuration">Initial Configuration</h3>
+### Initial Configuration {#initial-config}
 
 1.	Download the void-live-musl\_x86-64 .iso of void linux from reputable
 	sources, currently
@@ -79,91 +79,92 @@ VM specific buildscripts are in their own files and are linked at the bottom of 
 	sudo usermod -a -G socklog $USER
 	# log out and log back in
 	```
+
 12.	Set up ssh-agent using user specific services. Instructions taken from
 	<https://www.daveeddy.com/2018/09/15/using-void-linux-as-my-daily-driver/>
 
 	1.	Create user specific service directory:
 
-	```bash
-	sudo mkdir /etc/sv/runit-user-toxicsauce
-	```
+		```bash
+		sudo mkdir /etc/sv/runit-user-toxicsauce
+		```
 
 	2.	Create run script for user specific service by adding the following
 		into `/etc/sv/runit-user-toxicsauce/run`
 
-	```bash
-	#!/bin/sh
-	exec 2>&1
-	exec chpst -u toxicsauce:toxicsauce runsvdir /home/toxicsauce/runit/service
-	```
+		```bash
+		#!/bin/sh
+		exec 2>&1
+		exec chpst -u toxicsauce:toxicsauce runsvdir /home/toxicsauce/runit/service
+		```
 
 	3.	Mark it as executable:
 
-	```bash
-	sudo chmod +x /etc/sv/runit-user-toxicsauce/run
-	```
+		```bash
+		sudo chmod +x /etc/sv/runit-user-toxicsauce/run
+		```
 
 	4.	Create necessary user specific service directories:
 
-	```bash
-	mkdir ~/runit
-	mkdir ~/runit/sv
-	mkdir ~/runit/service
-	```
+		```bash
+		mkdir ~/runit
+		mkdir ~/runit/sv
+		mkdir ~/runit/service
+		```
 
 	5.	Start this service of services with:
 
-	```bash
-	sudo ln -s /etc/sv/runit-user-toxicsauce /var/service
-	```
+		```bash
+		sudo ln -s /etc/sv/runit-user-toxicsauce /var/service
+		```
 
 	6.	Now set up `ssh-agent` service:
 
-	```bash
-	mkdir ~/runit/sv/ssh-agent
-	```
+		```bash
+		mkdir ~/runit/sv/ssh-agent
+		```
 
 	7.	Create run script for `ssh-agent` service by adding the following into `~/runit/sv/ssh-agent/run`.
 
-	```bash
-	#!/usr/bin/env bash
-	#
-	# Start ssh-agent from runit
+		```bash
+		#!/usr/bin/env bash
+		#
+		# Start ssh-agent from runit
 
-	file=~/.ssh/ssh-agent-env
+		file=~/.ssh/ssh-agent-env
 
-	exec > "$file"
+		exec > "$file"
 
-	echo "# started $(date)"
+		echo "# started $(date)"
 
-	# For some reason, this line doesn't get emitted by ssh-agent when it is run
-	# with -d or -D.  Since we are starting the program with exec we already know
-	# the pid ahead of time though so we can create this line manually
-	echo "SSH_AGENT_PID=$$; export SSH_AGENT_PID"
+		# For some reason, this line doesn't get emitted by ssh-agent when it is run
+		# with -d or -D.  Since we are starting the program with exec we already know
+		# the pid ahead of time though so we can create this line manually
+		echo "SSH_AGENT_PID=$$; export SSH_AGENT_PID"
 
-	exec ssh-agent -D
-	```
+		exec ssh-agent -D
+		```
 
 	8.	Mark run file as executable with:
 
-	```bash
-	chmod +x ~/runit/sv/ssh-agent/run
-	```
+		```bash
+		chmod +x ~/runit/sv/ssh-agent/run
+		```
 
 	9.	Now start the service with:
 
-	```bash
-	ln -s ~/runit/sv/ssh-agent ~/runit/service
-	```
+		```bash
+		ln -s ~/runit/sv/ssh-agent ~/runit/service
+		```
 
-	**NOTE**: you need the following line in bashrc in order to get it working
-	in new shells. This is already in my dotfiles bashrc
+		**NOTE**: you need the following line in bashrc in order to get it working
+		in new shells. This is already in my dotfiles bashrc
 
-	```bash
-	# source ssh-agent file
+		```bash
+		# source ssh-agent file
 
-	[ -f $HOME/.ssh/ssh-agent-env ] && source $HOME/.ssh/ssh-agent-env
-	```
+		[ -f $HOME/.ssh/ssh-agent-env ] && source $HOME/.ssh/ssh-agent-env
+		```
 
 TODO: add in instructions around btrfs and mounting separate file systems
 
@@ -184,13 +185,12 @@ TODO: add in instructions around btrfs and mounting separate file systems
 15.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
 	`install.sh` script.
 
-
 16.	Clone projects from github into Projects tree as desired.
 
 17.	Set up void-packages per the [instructions](void-packages-setup.html) in
 	this wiki.
 
-<h3 id="vfio-kvm-qemu-config">VFIO/KVM/QEMU Configuration</h3>
+### VFIO/KVM/QEMU Configuration {#vfio-kvm-qemu-config}
 
 1.	install qemu and socat
 
@@ -268,7 +268,7 @@ TODO: add in instructions around btrfs and mounting separate file systems
 		blacklist nouveau
 		```
 
-	2.	Create file `vfio.conf` in `/etc/modprobe.d/ and then set contents to
+	2.	Create file `vfio.conf` in `/etc/modprobe.d/` and then set contents to
 		the following, changing pcie ids as needed to those found via `lspci`
 
 		```bash
@@ -307,7 +307,6 @@ TODO: add in instructions around btrfs and mounting separate file systems
 		add_dracutmodules+=" kernel-modules "
 		omit_drivers+=" nouveau "
 		hostonly=yes
-
 		```
 
 		This adds the correct drivers into the initramfs and prevents the
@@ -326,13 +325,14 @@ TODO: add in instructions around btrfs and mounting separate file systems
 
 12.	start VM to test using script in vm-manager repo.
 
-<h3 id="extra-host-config">Extra Host Configuration</h3>
+### Extra Host Configuration [#extra-host-config}
 
 1.	Install network-ups-tools.
-	
+
 	```sh
 	sudo xbps-install network-ups-tools
 	```
+
 2.	Edit `/etc/ups/upsmon.conf` and add the following lines:
 
 	```conf
@@ -341,14 +341,14 @@ TODO: add in instructions around btrfs and mounting separate file systems
 
 3.	Start `upsmon` service `ln -s /etc/sv/upsmon/ /var/service`
 
-<h3 id="vm-specifics">VM Specific Setup</h3>
+### VM Specific Setup {#vm-specifics}
 
 -	[Void VM](build-script-notes-void-vm.html)
 -	[Win10 VM](build-script-notes-win10-vm.html)
 
 
 
-<h2 id="resources">Resources</h2>
+## Resources {#Resources}
 
 <https://www.reddit.com/r/voidlinux/comments/ghwvv5/guide_how_to_setup_qemukvm_emulation_on_void_linux/>
 

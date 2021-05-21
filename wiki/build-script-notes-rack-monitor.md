@@ -1,13 +1,13 @@
-<h1 id="top">Rack Monitor Build Script and Notes</h1>
+# Rack Monitor Build Script and Notes
 
 This is the build script and notes for the raspberry pi that monitors my Rack
 and UPS.
 
-<h2 id="notes">Notes</h2>
+## Notes {#notes}
 
-<h2 id="build-script">Build Script</h2>
+## Build Script {#build-script}
 
-<h3 id="initial-configuration">Initial Configuration</h3>
+### Initial Configuration {#initial-config}
 
 1.	Download the rpi2-musl image of void linux from reputable sources, currently
 	[here](https://alpha.de.repo.voidlinux.org/live/current/)
@@ -30,7 +30,7 @@ and UPS.
 		`ip` commands in `/etc/rc.local` to take advantage of other aspects of
 		DHCP including auto DNS server population and domain name.
 
-		also uncomment ntp_servers option
+		also uncomment `ntp_servers` option
 
 		dns server is usually pfsense default gateway
 
@@ -87,7 +87,6 @@ and UPS.
 
 9.	Install the following packages.
 
-
 	```bash
 	sudo xbps-install nano network-ups-tools rng-tools thefuck vim htop
 	```
@@ -108,7 +107,7 @@ and UPS.
 	sudo usermod -a -G socklog $USER
 	```
 
-<h3 id="nut-config">NUT Configuration</h3>
+### NUT Configuration {#nut-config}
 
 Config files for Network UPS Tool (NUT) are found at `/etc/ups/`
 
@@ -143,7 +142,6 @@ Configuration steps as follows:
 
 	-	`upsmonSlave` user is set up per example in config file with slave
 		attributes for remote monitoring by other clients.
-
 
 6.	Edit `/etc/ups/upsmon.conf` to set up local UPS monitoring. Add the
 	following lines to the config file.

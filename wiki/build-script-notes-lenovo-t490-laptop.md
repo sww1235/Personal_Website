@@ -348,7 +348,8 @@ to boot into windows 10.
 19.	Install `dwm`, `dmenu`, `st` and `slstatus` with the command:
 
 	```bash
-	sudo xbps-install --repository=hostdir/binpkgs/build-branch-the-machine dwm dmenu st slstatus
+	sudo xbps-install --repository=hostdir/binpkgs/build-branch-the-machine \
+		dwm dmenu st slstatus
 	```
 
 20.	Modify ~/.xinitrc to contain the following:
@@ -369,12 +370,13 @@ to boot into windows 10.
 
 	1.	Install and enable the service:
 
-	```bash
-	sudo xbps-install cups
-	sudo ln -s /etc/sv/cupsd/ /var/service
-	```
+		```bash
+		sudo xbps-install cups
+		sudo ln -s /etc/sv/cupsd/ /var/service
+		```
 
-	2.	Edit /etc/cups/cupsd.conf, find line that starts with `<Limit CUPS-Add-Modify-Printer` and add `toxicsauce` after `@SYSTEM`
+	2.	Edit /etc/cups/cupsd.conf, find line that starts with `<Limit
+		CUPS-Add-Modify-Printer` and add `toxicsauce` after `@SYSTEM`
 
 	3.	Restart `cupsd` service
 
