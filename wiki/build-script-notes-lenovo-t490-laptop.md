@@ -1,17 +1,17 @@
-<h1 id="top">Rack Monitor Build Script and Notes</h1>
+# Lenovo Laptop Build Script
 
 This is the build script and notes for my Lenovo T490 laptop.
 
-<h2 id="notes">Notes</h2>
+## Notes {#notes}
 
-<h2 id="build-script">Build Script</h2>
+## Build Script {#build-script}
 
-<h3 id="initial-configuration">Initial Configuration</h3>
+### Initial Configuration {#initial-configuration}
 
 Laptop will start from factory with preinstalled Windows 10 Pro + bloatware.
 Reimage then setup dual booting.
 
-<h4 id="windows-installation">Windows Installation</h4>
+#### Windows Installation {#windows-installation}
 
 1.  Download a copy of Windows 10 Pro from Microsoft
 
@@ -72,7 +72,7 @@ Reimage then setup dual booting.
 	drivers are installed and up to date. (Especially important for
 	Thunderbolt devices)
 
-<h4 id="refind-installation">rEFInd Installation</h4>
+#### rEFInd Installation {#refind-installation}
 
 Install rEFInd boot manager. These steps are shamelessly reappropriated and
 modified from <https://rodsbooks.com/refind/installing.html#windows>
@@ -119,7 +119,7 @@ modified from <https://rodsbooks.com/refind/installing.html#windows>
 Now, when the laptop is rebooted, rEFInd should present itself with an option
 to boot into windows 10.
 
-<h4 id="void-linux-installation">Void Linux Installation</h4>
+#### Void Linux Installation {#void-linux-installation}
 
 1.	Download a copy of `void-live-x86_64-date.iso` from reputable sources,
 	currently: <https://alpha.de.repo.voidlinux.org/live/current/>.
@@ -174,7 +174,7 @@ to boot into windows 10.
 
 18.	Reboot and select Void Linux at rEFInd prompt.
 
-<h4 id="void-linux-configuration">Void Linux Configuration</h4>
+#### Void Linux Configuration {#void-linux-config}
 
 1.	Login to newly installed Void Linux using root account and password found in
 	password database. This is due to the fact that we haven't configured sudo
@@ -188,10 +188,12 @@ to boot into windows 10.
 	```
 
 3.	Enable NTP and DHCP services
+
 	```bash
 	ln -s /etc/sv/ntpd /var/service
 	ln -s /etc/sv/dhcpcd /var/service
 	```
+
 4.	Create `passthrough` folder under `/mnt/` to allow passthrough partition to
 	mount correctly.
 
@@ -199,6 +201,7 @@ to boot into windows 10.
 	updates.
 
 6.	Install ntfs driver.
+
 	```bash
 	xbps-install ntfs-3g
 	```
@@ -210,6 +213,7 @@ to boot into windows 10.
 
 9.	Install and remove the following packages. Want to use simpler NTP
 	implementation.
+
 	```bash
 	sudo xbps-install nano openntpd rng-tools thefuck vim htop socklog
 	sudo xbps-remove chrony
@@ -250,77 +254,77 @@ to boot into windows 10.
 
 	1.	Create user specific service directory:
 
-	```bash
-	sudo mkdir /etc/sv/runit-user-toxicsauce
-	```
+		```bash
+		sudo mkdir /etc/sv/runit-user-toxicsauce
+		```
 
 	2.	Create run script for user specific service by adding the following
 		into `/etc/sv/runit-user-toxicsauce/run`
 
-	```bash
-	#!/bin/sh
-	exec 2>&1
-	exec chpst -u toxicsauce:toxicsauce runsvdir /home/toxicsauce/runit/service
-	```
+		```bash
+		#!/bin/sh
+		exec 2>&1
+		exec chpst -u toxicsauce:toxicsauce runsvdir /home/toxicsauce/runit/service
+		```
 
 	3.	Mark it as executable:
 
-	```bash
-	sudo chmod +x /etc/sv/runit-user-toxicsauce/run
-	```
+		```bash
+		sudo chmod +x /etc/sv/runit-user-toxicsauce/run
+		```
 
 	4.	Create necessary user specific service directories:
 
-	```bash
-	mkdir ~/runit
-	mkdir ~/runit/sv
-	mkdir ~/runit/service
-	```
+		```bash
+		mkdir ~/runit
+		mkdir ~/runit/sv
+		mkdir ~/runit/service
+		```
 
 	5.	Start this service of services with:
 
-	```bash
-	sudo ln -s /etc/sv/runit-user-toxicsauce /var/service
-	```
+		```bash
+		sudo ln -s /etc/sv/runit-user-toxicsauce /var/service
+		```
 
 	6.	Now set up `ssh-agent` service:
 
-	```bash
-	mkdir ~/runit/sv/ssh-agent
-	```
+		```bash
+		mkdir ~/runit/sv/ssh-agent
+		```
 
 	7.	Create run script for `ssh-agent` service by adding the following into `~/runit/sv/ssh-agent/run`.
 
-	```bash
-	#!/usr/bin/env bash
-	#
-	# Start ssh-agent from runit
+		```bash
+		#!/usr/bin/env bash
+		#
+		# Start ssh-agent from runit
 
-	file=~/.ssh/ssh-agent-env
+		file=~/.ssh/ssh-agent-env
 
-	exec > "$file"
+		exec > "$file"
 
-	echo "# started $(date)"
+		echo "# started $(date)"
 
-	# For some reason, this line doesn't get emitted by ssh-agent when it is run
-	# with -d or -D.  Since we are starting the program with exec we already know
-	# the pid ahead of time though so we can create this line manually
-	echo "SSH_AGENT_PID=$$; export SSH_AGENT_PID"
+		# For some reason, this line doesn't get emitted by ssh-agent when it is run
+		# with -d or -D.  Since we are starting the program with exec we already know
+		# the pid ahead of time though so we can create this line manually
+		echo "SSH_AGENT_PID=$$; export SSH_AGENT_PID"
 
-	exec ssh-agent -D
-	```
+		exec ssh-agent -D
+		```
 
 	8.	Mark run file as executable with:
 
-	```bash
-	chmod +x ~/runit/sv/ssh-agent/run
-	```
+		```bash
+		chmod +x ~/runit/sv/ssh-agent/run
+		```
 
 	9.	Now start the service with:
 
-	```bash
-	ln -s ~/runit/sv/ssh-agent ~/runit/service
-	```
+		```bash
+		ln -s ~/runit/sv/ssh-agent ~/runit/service
+		```
 
 15.	Clone projects from github into Projects tree as desired.
 
@@ -369,13 +373,14 @@ to boot into windows 10.
 	sudo xbps-install cups
 	sudo ln -s /etc/sv/cupsd/ /var/service
 	```
+
 	2.	Edit /etc/cups/cupsd.conf, find line that starts with `<Limit CUPS-Add-Modify-Printer` and add `toxicsauce` after `@SYSTEM`
 
 	3.	Restart `cupsd` service
 
 	4. go to <http://localhost:631/> to configure
 
-22.	Need to set up bumblebee/optimus for graphics, set up dropbox and 1password
+23.	Need to set up bumblebee/optimus for graphics, set up dropbox and 1password
 	cli client.
 
 	install alsa-utils to get audio working
