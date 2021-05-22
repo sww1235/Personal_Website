@@ -32,7 +32,7 @@ the root if in the same group.
 
 change IDs to match those found through lspci for your specific card
 
-```
+```sh
 /etc/modprobe.d/vfio.conf
 
 options vfio-pci ids=10de:13c2,10de:0fbb
