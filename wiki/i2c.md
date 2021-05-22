@@ -1,10 +1,6 @@
-<h1 id="top">I<sup>2</sup>C</h1>
+# I<sup>2</sup>C
 
-
-
-<h2 id="digispark">Digispark</h2>
-
-
+## Digispark {#digispark}
 
 ```tags
 electronics, protocols, i2c, communication

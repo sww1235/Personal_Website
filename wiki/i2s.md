@@ -1,4 +1,4 @@
-<h1 id="top">I<sup>2</sup>C</h1>
+# I<sup>2</sup>C
 
 I2S consists of serial data, the bit clock and the word clock. In addition there
 may be a master clock which is used by ADCs and DACs to sync their master
@@ -17,7 +17,7 @@ conversion, truncation or zero fill is applied. Quoting from the I2S spec:
 > always sends the MSB of the next word one clock period after the
 > WS changes.
 
-<h2 id="references">References</h2>
+## References {#references}
 
 -   <https://web.archive.org/web/20070102004400/http://www.nxp.com/acrobat_download/various/I2SBUS.pdf>
 
