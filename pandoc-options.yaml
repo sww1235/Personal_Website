@@ -34,5 +34,5 @@ include-before-body: [banner.html, nav-bar.html]
 include-after-body: [footer.html]
 
 filters:
-  - links-to-html.lua
+  - ./filters/links-to-html.lua
 
