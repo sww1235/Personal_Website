@@ -1,77 +1,75 @@
-<h1 id="top">Homelab Setup Notes</h1>
+# Homelab Setup Notes
 
-
-<h2 id="overview">Overview</h2>
+## Overview {#overview}
 
 Currently, my homelab consists of the following systems:
 
--   [Brian](#brian)
--   [Rack Monitor](#rack-monitor)
--   [Main Workstation Host](#ws-host)
--   [Windows 10 VM](#vm-win10)
--   [PfFirewall](#pffirewall)
--   [Den1](#den1)
+-	[Brian](#brian)
+-	[Rack Monitor](#rack-monitor)
+-	[Main Workstation Host](#ws-host)
+-	[Windows 10 VM](#vm-win10)
+-	[PfFirewall](#pffirewall)
+-	[Den1](#den1)
 
 My website and DNS are hosted through NearlyFreeSpeech.net
 
-<h2 id="future-plans">Future Plans</h2>
+## Future Plans {#future-plans}
 
--   Move fileserver duties from main workstation to dedicated FreeNAS file
+-	move fileserver duties from main workstation to dedicated FreeNAS file server with ZFS
 
-server with ZFS
+-	Migrate to 10Gb networking
 
--   Migrate to 10Gb networking
+-	~~Add UPS~~
 
--   <s>Add UPS</s>
+-	Upgrade Brian
 
--   Upgrade brian
+-	Setup pfsense box at parents house
 
--   Setup pfsense box at parents house
+-	Setup reciprocal offsite backups at parents house.
 
--   Setup reciprocal offsite backups at parents house.
+## Far Future Plans {#far-future-plans}
 
-<h2 id="far-future-plans">Far Future Plans</h2>
+-	All servers either run OpenBSD or FreeBSD unless specific exception is
+	needed.
 
--   All servers either run OpenBSD or FreeBSD unless specific exception is
-needed.
+-	Package caching servers used for all 3rd party binary packaging systems in
+	use in homelab
 
--   Package caching servers used for all 3rd party binary packaging systems in
-use in homelab
+-	All computers run custom linux image, probably a modified version of void
+	linux
 
--   All computers run custom linux image, probably a modified version of void
-linux
+-	All linux software (including kernel) is compiled from source, targeting
+	different architectures as necessary.
 
--   All linux software (including kernel) is compiled from source, targeting
-different architectures as necessary.
+-	All source code for compiled software is kept in an archive as long as that
+	version is installed in a production or testing environment, and minimally
+	for a period of 1 year if it has been installed.
 
--   All source code for compiled software is kept in an archive as long as that
-version is installed in a production or testing environment, and minimally for
-a period of 1 year if it has been installed.
-
-    -   If software is not updated, then keep most complete version. clone git
+	-	If software is not updated, then keep most complete version. clone git
 		repo if possible.
 
--   As much as possible, all images use musl libc or derivative.
+-	As much as possible, all images use musl libc or derivative.
 
--   Use automated continuous integration process for new software versions
+-	Use automated continuous integration process for new software versions
 
-    -   For all software, try to automatically pull down new releases of
-		software and build in testing environment. Send weekly email of successes
-		and failures.
+	-	For all software, try to automatically pull down new releases of
+		software and build in testing environment. Send weekly email of
+		successes and failures.
 
-    -   Software is manually pushed into production using automation similar to
+	-	Software is manually pushed into production using automation similar to
 		Ansible.
 
--   Ideally I would be able to take a stock OpenBSD image, clone some setup
-scripts, and be able to build images for the rest of the server infrastructure,
-then install them using a network boot server. This would have a temporary DHCP
-and DNS server, along with a firewall and router config based on pf, to allow
-the network to exist without any other infrastructure. This would be easily
-disabled during the initial script options, as well as after the fact.
+-	Ideally I would be able to take a stock OpenBSD image, clone some setup
+	scripts, and be able to build images for the rest of the server
+	infrastructure, then install them using a network boot server. This would
+	have a temporary DHCP and DNS server, along with a firewall and router
+	config based on pf, to allow the network to exist without any other
+	infrastructure. This would be easily disabled during the initial script
+	options, as well as after the fact.
 
-<h2 id="hosts">Hosts</h2>
+## Hosts {#hosts}
 
-<h3 id="brian">Brian</h3>
+### Brian {#brian}
 
 Brian, (name subject to change), is currently intended to be my main
 authentication server, running a combination of Kerberos and openLDAP.
@@ -82,7 +80,7 @@ See [the buildscript]() for more details
 
 **Software:** stock OpenBSD without any x11 crap
 
-<h3 id="rack-monitor">Rack Monitor</h3>
+### Rack Monitor {#rack-monitor}
 
 Runs Network UPS tools to monitor cyberpower UPS and tell other systems to shutdown
 
@@ -96,7 +94,7 @@ See [the buildscript]() for more details
 
 **Software:** Musl Void Linux for ARM
 
-<h3 id="ws-host">Main Workstation Host</h3>
+### Main Workstation Host {#main-ws-host}
 
 This acts as both a vm host using kvm/qemu, and a file server with a btrfs pool
 shared over SAMBA.
@@ -123,10 +121,9 @@ See [the buildscript]() for more details
 | **Case Fan** |Noctua - NF-A12x25 PWM 60.1 CFM 120mm Fan|
 | **Other** |Old Rackmount Case|
 
-
 **Software:** Musl Void Linux for x86\_64
 
-<h4 id="vm-win10">Primary Windows 10 VM</h4>
+#### Primary Windows 10 VM {#win-10-vm}
 
 Runs windows 10 for gaming and windows only applications.
 
@@ -134,7 +131,7 @@ Uses VFIO to pass through the GTX1060
 
 See [the buildscript]() for more details
 
-<h3 id="pffirewall">PfFirewall</h3>
+### PfFirewall {#pffirewall}
 
 Primary firewall and router for local network. Runs OpenVPN client connected to
 the server running on [Den1](#den1).
@@ -143,7 +140,7 @@ the server running on [Den1](#den1).
 
 **Software:** pfSense
 
-<h3 id="den1">Den1</h3>
+### Den1 {#den1}
 
 OpenVPN server and jump box. VPS from Mean Servers in Denver
 
