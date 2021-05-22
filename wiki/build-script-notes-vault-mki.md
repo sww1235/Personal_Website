@@ -323,7 +323,7 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	0       0       *       *       0       root    /usr/local/sbin/periodic-snapshot weekly
 	```
 
-9.	Edit `/etc/periodic.conf` and configure according to the datasets. Current config as below.
+10.	Edit `/etc/periodic.conf` and configure according to the datasets. Current config as below.
 
 	```conf
 	daily_scrub_zfs_enable="YES"
@@ -460,7 +460,6 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 8.	Configure snapshot policies and pruning. TODO
 
 ### Fileshare Configuration {#filesharing-config}
-
 
 ## Resources {#resources}
 

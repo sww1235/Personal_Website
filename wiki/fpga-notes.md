@@ -1,6 +1,6 @@
-<h1 id="top">FPGA Notes</h1>
+# FPGA Notes
 
-<h2 id="lattice-fpgas">Lattice Ice40 FPGAs</h2>
+## Lattice Ice40 FPGAs {#latice-fpgas}
 
 Using internal libraries in VHDL need to look at actual contents of files in
 install directory, located at
@@ -21,8 +21,8 @@ Also might need to declare components manually.
 Code from
 <http://we.easyelectronics.ru/teplofizik/podklyuchenie-vstroennogo-modulya-tokovogo-drayvera-fpga-serii-ice5-ice40-ultra.html>
 
-
 Verilog Library description:
+
 ```verilog
 SB_RGB_DRV RGB_DRIVER (
 .RGBLEDEN(ENABLE_LED),
@@ -40,6 +40,7 @@ defparam RGB_DRIVER.RGB2_CURRENT = "0b111111";
 ```
 
 VHDL component:
+
 ```vhdl
 component SB_RGB_DRV is
         generic (

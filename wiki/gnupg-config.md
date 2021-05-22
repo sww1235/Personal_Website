@@ -1,11 +1,11 @@
-<h1 id="top">GnuPG Configuration and Setup</h1>
+# GnuPG Configuration and Setup
 
 This is documentation around how I have setup my GnuPG keys, across multiple
 operating systems, so I don't forget and have to do a bunch of research over
 again.
 
 
-<h2 id="generating-keys">Generating Keys</h2>
+## Generating Keys {#generating-keys}
 
 1.	Install GnuPG package for your operating system. See Operating System
 	specific sections below.
@@ -31,10 +31,9 @@ again.
 	gpg --armor --gen-revoke [your key ID] > pgp-revocation.asc
 	```
 
-
 Now make sure to [backup](#backing-up-keys) and [manage](#managing-keys) your keys as follows.
 
-<h2 id="backing-up-keys">Backing Up Keys</h2>
+## Backing Up Keys {#backing-up-keys}
 
 1.	Export ASCII armored version of public keys: `gpg --armor --export >
 	pgp-public-keys.asc`
@@ -64,10 +63,9 @@ Now make sure to [backup](#backing-up-keys) and [manage](#managing-keys) your ke
 
 Enscript reference: <https://east.fm/posts/adding-fonts-to-enscript/index.html>
 
+## Managing Keys {#managing-keys}
 
-<h2 id="managing-keys">Managing Keys</h2>
-
-<h3 id="restoring-backups">Restoring Backed Up Keys</h3>
+### Restoring Backed Up Keys {#restoring-backups}
 
 1.	Scan and OCR your pages (or enter them by hand)
 
@@ -79,7 +77,7 @@ Enscript reference: <https://east.fm/posts/adding-fonts-to-enscript/index.html>
 	gpg --import-ownertrust pgp-ownertrust.asc
 	```
 
-<h3 id="revoking-keys">Revoking keys</h3>
+### Revoking keys {#revoking-keys}
 
 To revoke a compromised key, run the following command, and upload to any
 public keyservers. Also generate new keys imediately.
@@ -88,7 +86,7 @@ public keyservers. Also generate new keys imediately.
 	gpg --import pgp-revocation.asc
 	```
 
-<h3 id="renewing-keys">Renewing Keys</h3>
+### Renewing Keys {#renewing-keys}
 
 When your keypair expires, you can renew it instead of creating a new keypair.
 
@@ -98,15 +96,13 @@ When your keypair expires, you can renew it instead of creating a new keypair.
 4.	Enter new expiration time.
 5.	`Command: save` to save changes to key. Make sure to push to keyservers.
 
-<h3 id="copying-keys">Copying Keys To Another Computer</h3>
+### Copying Keys To Another Computer {#copying-keys}
 
 Easiest way is to use scp. `scp -r ~/.gnupg user@remotehost:~/`
 
+## Operating System Specific Instructions {#os-specific}
 
-
-<h2 id="os-specific">Operating System Specific Instructions</h2>
-
-<h3 id="freebsd">FreeBSD</h3>
+### FreeBSD #{freebsd}
 
 Copied from the [FreeBSD Handbook](https://www.freebsd.org/doc/en/articles/committers-guide/pgpkeys.html)
 
@@ -114,13 +110,12 @@ Copied from the [FreeBSD Handbook](https://www.freebsd.org/doc/en/articles/commi
 
 2.	Set preferences in `~/.gnupg/gpg.conf`
 
-<h3 id="void-linux">Void Linux</h3>
+### Void Linux {#void-linux}
 
 1.	Install `gnupg2`
 2.	Set preferences in `~/.gnupg/gpg.conf`
 
-
-<h2 id="references">References</h2>
+## References {#references}
 
 -	<https://msol.io/blog/tech/back-up-your-pgp-keys-with-gpg/>
 -	<https://tech.michaelaltfield.net/2009/02/05/new-gpg-key/>

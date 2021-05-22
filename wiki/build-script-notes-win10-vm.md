@@ -1,15 +1,14 @@
-<h1 id="top">Windows 10 VM Build Script and Notes</h1>
+# Windows 10 VM Build Script and Notes
 
 This is the build script and notes for the Windows 10 VM.
 
-<h2 id="notes">Notes</h2>
+## Notes {#notes}
 
-<h2 id="build-script">Build Script</h2>
+## Build Script {#build-script}
 
-<h3 id="initial-configuration">Initial Configuration</h3>
+### Initial Configuration {#initial-config}
 
-
-<h4 id="windows-installation">Windows Installation</h4>
+#### Windows Installation {#windows=install}
 
 1.  Download a copy of Windows 10 Education from Microsoft
 

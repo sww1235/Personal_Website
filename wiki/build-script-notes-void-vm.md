@@ -215,7 +215,6 @@ my main workstation.
 18.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
 	`install.sh` script.
 
-
 19.	Clone projects from github into Projects tree as desired.
 
 20.	Set up void-packages per the [instructions](void-packages-setup.html) in
@@ -289,7 +288,6 @@ my main workstation.
 	4.	Install the `nvidia` package.
 
 	5.	Reboot. It should just work.
-
 
 ## Resources {#resources}
 
