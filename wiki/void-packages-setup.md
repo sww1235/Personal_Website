@@ -1,7 +1,6 @@
-<h1 id="top">Void Packages Setup</h1>
+# Void Packages Setup
 
-Notes on setting up void packages and building from source. 
-
+Notes on setting up void packages and building from source.
 
 1.	Fork the [Void Packages](https://github.com/void-linux/void-packages)
 	repo on github if you haven't already.
@@ -14,16 +13,14 @@ Notes on setting up void packages and building from source.
 	upstream git@github.com:void-linux/void-packages.git`. This allows you to
 	run `git checkout master` and then `git pull --rebase upstream master` to
 	bring your local master branch up to date with the master void linux
-	repository. 
+	repository.
 
-
-<h2 id="contributing">Contributing to Void Packages</h2>
+## Contributing to Void Packages {#contributing}
 
 make sure your local master is up to date, then start a new branch to make your
 contributions in.
 
-
-<h2 id="building">Building packages from source</h2>
+## Building packages from source {#building-from-source}
 
 1.	`cd` into local git repo of `void-packages` and run `./xbps-src
 	binary-bootstrap`. This will initialize the packages necessary for building
@@ -37,14 +34,14 @@ contributions in.
 	hostname to enable unique changes per machine. This is especially important
 	for suckless software such as dwm.
 
-A side effect of using a custom `build-branch-$hostname` is that all custom changes will
-have full git history and can be easily applied without having to go through
-all the effort of rebuilding the patch files.
+A side effect of using a custom `build-branch-$hostname` is that all custom
+changes will have full git history and can be easily applied without having to
+go through all the effort of rebuilding the patch files.
 
 patches are stored in `srcpkgs/<pkgname>/patches`
 
-To install custom software from a branch, need to use --repository=hostdir/binpkgs/$branch
-
+To install custom software from a branch, need to use
+--repository=hostdir/binpkgs/$branch
 
 ```tags
 void-linux, void-packages, source, building

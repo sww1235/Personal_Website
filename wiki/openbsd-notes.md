@@ -1,34 +1,34 @@
-<h1 id="top">OpenBSD  Notes</h1>
+# OpenBSD Notes
 
+## Doas Configuration {#doas-config}
 
-<h2 id="doas">Doas Configuration</h2>
-
-see doas.conf(5) for more details.
+See `doas.conf(5)` for more details.
 
 This is a base configuration for all openBSD systems I use.
 
 rules work in a **last match** manner.
 
-```
+```conf
 permit persist :wheel
 permit nopass keepenv root # allow root to do whatever
 permit :wheel cmd reboot # relist command to ensure password is needed.
 permit :wheel cmd halt
 permit :wheel cmd poweroff
 ```
+
 this can be further customized based on need.
 
 sourced from openbsd doas mastery.
 
-<h2 id="power">Power Management</h2>
+## Power Management {#power}
 
 poweroff/shutdown gracefully shutdown system
 
 reboot/halt kill system immediately
 
-<h2 id="ports">Ports Usage</h2>
+## Ports Usage {#ports}
 
-most systems will be running release versions of openBSD
+most systems will be running release versions of OpenBSD
 
 use packages unless ports are needed. If ports are needed use `-stable` in order
 to get security fixes from `-current` tree.
@@ -42,7 +42,8 @@ DISTDIR=/usr/distfiles
 PACKAGE_REPOSITORY=/usr/packages
 ```
 
-create the directories above then change ownership to local user and group, make sure they are world readable.
+create the directories above then change ownership to local user and group,
+make sure they are world readable.
 
 also following commands:
 
@@ -78,7 +79,6 @@ cvs -q up -Pd -rOPENBSD_6_4
 ```
 
 default shell is `ksh`. Configuration goes in `.profile`
-
 
 ```tags
 OpenBSD, Homelab, Setup

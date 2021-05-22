@@ -1,7 +1,6 @@
-<h1 id="top">Serial</h1>
+# Serial Notes
 
-
-<h2 id="color-code">Color Code</h2>
+## Color Code {#color-code}
 
 Any other color coding should be documented on this page as well.
 

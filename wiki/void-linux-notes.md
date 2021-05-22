@@ -1,7 +1,6 @@
-<h1 id="top">Void Linux  Notes</h1>
+# Void Linux  Notes
 
-
-<h2 id="after-install">After Installation Configuration</h2>
+## After Installation Configuration {#after-install}
 
 check contents of /var/service and remove uncessary ones. If running with static
 IP ([Static Networking](#network-static)) then remove dhcpcd.
@@ -10,11 +9,11 @@ uncomment wheel line in `/etc/sudoers` using `visudo` to enable
 
 **NOTE:** Locale does not exist on Musl libc editions of void.
 
-<h3 id="timezone-clock">Timezone and Clock Configuration</h3>
+### Timezone and Clock Configuration {#timezone-clock}
 
 edit `/etc/rc.conf` as root (sudo doesn't work) and change the following lines:
 
-```
+```conf
 HARDWARECLOCK="UTC"
 TIMEZONE="America/Denver" # or appropriate timezone
 KEYMAP="us"
@@ -26,9 +25,9 @@ enable NTP:
 sudo ln -s /etc/sv/ntpd /var/service/
 ```
 
-<h3 id="network">Network Configuration</h3>
+### Network Configuration {#network}
 
-<h4 id="network-static">Static Networking</h4>
+#### Static Networking {#network-static}
 
 edit `/etc/rc.local` and add following commands.
 Verify interface names are correct from ip link.
@@ -39,10 +38,9 @@ ip addr add 10.0.1.12/24 brd + dev eth0
 ip route add default via 10.0.1.1
 ```
 
+#### DHCP {#network-dhcp}
 
-<h4 id="network-dhcp">DHCP</h4>
-
-enable dhcpcd with
+enable `dhcpcd` with
 
 ```sh
 sudo ln -s /etc/sv/dhcpcd /var/service/

@@ -1,3 +1,5 @@
+# Void Setup
+
 ## Install DWM
 
 install from xbps:
@@ -17,23 +19,24 @@ xorg-minimal
 xorg-fonts
 xterm
 
-
 change x11 path in config.mk to /usr/include/X11
 
-## qemu  install
+## QEMU Install
 
+```sh
 sudo ln -s /etc/sv/libvirtd/ /var/service
 sudo ln -s /etc/sv/virtlogd/ /var/service/
 sudo ln -s /etc/sv/virtlockd/ /var/service/
 sudo usermod -a -G libvirt toxic
 
 sudo sv start libvirtd
+```
 
 install from xbps:
 xz
 rpmextract
 
-## other tools
+## Other Tools
 
 smartmontools
 nano
@@ -48,3 +51,7 @@ install nfs-utils
 start nfs-server, rpcbind, statd services
 
 edit /etc/exports
+
+```tags
+void, linux, setup
+```

@@ -1,3 +1,5 @@
-<h1 id="top">Heimdal  Notes</h1>
+# OpenLDAP Notes
 
-<h2 id="openbsd">Installation on OpenBSD with Heimdal Kerberos</h2>
+## Heimdal Notes {#heimdal}
+
+### Installation on OpenBSD with Heimdal Kerberos {#openbsd}
