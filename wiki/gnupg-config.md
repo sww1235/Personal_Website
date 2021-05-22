@@ -4,7 +4,6 @@ This is documentation around how I have setup my GnuPG keys, across multiple
 operating systems, so I don't forget and have to do a bunch of research over
 again.
 
-
 ## Generating Keys {#generating-keys}
 
 1.	Install GnuPG package for your operating system. See Operating System
@@ -56,7 +55,7 @@ Now make sure to [backup](#backing-up-keys) and [manage](#managing-keys) your ke
 		/usr/share/enscript/afm:/usr/local/lib/ps:/usr/lib/ps:/home/toxicsauce/.fonts`.
 		Essentially take the `AFMPath` from `/etc/enscript.cfg` and add your
 		homedir font dir to the end.
-	
+
 	4.	Run `enscript -f OCR-A10 <file>` to print public, private, ownertrust,
 		and revocation files, then store them in a safe location, preferably a
 		fireproof safe.
@@ -82,9 +81,9 @@ Enscript reference: <https://east.fm/posts/adding-fonts-to-enscript/index.html>
 To revoke a compromised key, run the following command, and upload to any
 public keyservers. Also generate new keys imediately.
 
-	```sh
-	gpg --import pgp-revocation.asc
-	```
+```sh
+gpg --import pgp-revocation.asc
+```
 
 ### Renewing Keys {#renewing-keys}
 

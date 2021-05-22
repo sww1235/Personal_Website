@@ -20,7 +20,6 @@ If you want to block specific hosts or networks from other networks, you need a
 block rule on the `Interface Tab` above the allow rules if the allow any rule
 is present.
 
-
 ```tags
 Contributing, info
 ```
