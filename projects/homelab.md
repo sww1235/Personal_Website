@@ -1,21 +1,29 @@
-# Homelab Setup Notes
+# My Homelab
 
 ## Overview {#overview}
 
 Currently, my homelab consists of the following systems:
 
--	[Brian](#brian)
+-	[The Vault](#the-vault)
 -	[Rack Monitor](#rack-monitor)
 -	[Main Workstation Host](#ws-host)
--	[Windows 10 VM](#vm-win10)
+	-	[Windows 10 VM](#vm-win10)
+	-	[Void Linux VM](#vm-void)
 -	[PfFirewall](#pffirewall)
 -	[Den1](#den1)
+-	[Virt Cluster](#virt-cluster)
+	-	[Alpha](#alpha)
+	-	[Beta](#beta)
+	-	[Gamma](#gamma)
 
 My website and DNS are hosted through NearlyFreeSpeech.net
 
+Most of these machines are located inside a custom built sound dampening rack enclosure. This is documented at its own [projects page](custom-rack-enclosure.md)
+
 ## Future Plans {#future-plans}
 
--	move fileserver duties from main workstation to dedicated FreeNAS file server with ZFS
+-	~~move fileserver duties from main workstation to dedicated FreeNAS file
+	server with ZFS~~
 
 -	Migrate to 10Gb networking
 
@@ -69,26 +77,32 @@ My website and DNS are hosted through NearlyFreeSpeech.net
 
 ## Hosts {#hosts}
 
-### Brian {#brian}
+### The Vault {#the-vault}
 
-Brian, (name subject to change), is currently intended to be my main
-authentication server, running a combination of Kerberos and openLDAP.
+This is my main file server. It is a whitebox build, in a supermicro chassis
+with a ASRockRack motherboard.
 
-See [the buildscript]() for more details
+See [the buildscript](/wiki/build-script-notes-vault-mki.md)
 
-**Hardware:** Ancient Mac Mini
+**Hardware:**
 
-**Software:** stock OpenBSD without any x11 crap
+**Software:** FreeBSD
 
 ### Rack Monitor {#rack-monitor}
 
-Runs Network UPS tools to monitor cyberpower UPS and tell other systems to shutdown
+Runs Network UPS tools to monitor cyberpower UPS and tell other systems to
+shutdown
 
-Removes the need for the built in cyberpower $159 network card which also runs an ancient version of TLS
+Removes the need for the built in cyberpower $159 network card which also runs
+an ancient version of TLS
 
-This will also perform temperature monitoring of the rack and fan speed control eventually
+This will also perform temperature monitoring of the rack and fan speed control
+eventually.
 
-See [the buildscript]() for more details
+Want to replace this with a purpose built ARM board running NUT and a RTOS for
+increased reliability.
+
+See [the buildscript](/wiki/build-script-notes-rack-monitor.md) for more details
 
 **Hardware:** Raspberry Pi 2B V1.1 with 64GB microSD card
 
@@ -99,13 +113,13 @@ See [the buildscript]() for more details
 This acts as both a vm host using kvm/qemu, and a file server with a btrfs pool
 shared over SAMBA.
 
-See [the buildscript]() for more details
+See [the buildscript](/wiki/build-script-notes-main-ws-host.md) for more details
 
 **Hardware:**
 
 [PCPartPicker part list](https://pcpartpicker.com/list/zpwFbX) / [Price breakdown by merchant](https://pcpartpicker.com/list/zpwFbX/by_merchant/)
 
-|Type|Item|
+|Type |Item|
 |:--------|:------------------------------------------------------------------|
 | **CPU** |Intel - Core i3-8350K 4 GHz Quad-Core Processor|
 | **CPU Cooler** |Noctua - NH-D9L 46.44 CFM CPU Cooler|
@@ -129,7 +143,15 @@ Runs windows 10 for gaming and windows only applications.
 
 Uses VFIO to pass through the GTX1060
 
-See [the buildscript]() for more details
+See [the buildscript](/wiki/build-script-notes-win10-vm.md) for more details
+
+#### Void Linux VM {#void-vm}
+
+Runs Void Linux as my main workstation.
+
+Uses VFIO to pass through the GTX1060
+
+See [the buildscript](/wiki/build-script-notes-void-vm.md) for more details.
 
 ### PfFirewall {#pffirewall}
 
@@ -144,7 +166,7 @@ the server running on [Den1](#den1).
 
 OpenVPN server and jump box. VPS from Mean Servers in Denver
 
-See [the buildscript]() for more details
+See [the buildscript](/wiki/build-script-notes-den1.md) for more details
 
 **Hardware:** Mean Servers VPS
 
