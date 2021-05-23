@@ -6,7 +6,7 @@ OTHERDIR=other-pages
 PROJDIR=projects
 OUTDIR=www
 
-VERBOSE="--verbose"
+#VERBOSE="--verbose"
 
 # https://www.arthurkoziel.com/convert-md-to-html-pandoc/
 # use pandoc and HTML template to convert markdown files to HTML.
@@ -50,13 +50,16 @@ VERBOSE="--verbose"
 #
 #    </ul>
 #</nav>
-echo "starting to build nav-bar"
+if [ -n "${VERBOSE}" ]; then
+	echo "starting to build nav-bar"
+fi
+
 navbar="html-parts/nav-bar.html"
 # clear out file
 : > $navbar
 # then create the file anew
 {
-	printf '<nav>\n'
+	printf '<nav id=\"topnavbar\">\n'
 	printf '  <ul>\n'
 	printf '    <li><a href=\"index.html\">Home</a></li>\n'
 	printf '    <li><a href=\"about.html\">About</a></li>\n'
@@ -67,10 +70,14 @@ navbar="html-parts/nav-bar.html"
 	printf '      <ul>\n' # insert ul element to start sublist instead
 } >> $navbar
 
-echo "starting project loop"
+if [ -n "${VERBOSE}" ]; then
+	echo "starting project loop"
+fi
 
 for file in "${PROJDIR}"/*.md; do
-	echo "${file}"
+	if [ -n "${VERBOSE}" ]; then
+		echo "$file"
+	fi
 	basefile=$(basename "$file" ".md")
 	# want to skip index file in the sublist
 	if [ "$basefile" = "index" ]; then
@@ -90,10 +97,14 @@ done
 	printf '      <ul>\n' >> $navbar # insert ul element to start sublist instead
 } >> $navbar
 
-echo "starting wiki loop"
+if [ -n "${VERBOSE}" ]; then
+	echo "starting wiki loop"
+fi
 
 for file in "${WIKIDIR}"/*.md; do
-	echo "${file}"
+	if [ -n "${VERBOSE}" ]; then
+		echo "$file"
+	fi
 	basefile=$(basename "$file" ".md")
 	# want to skip index file in the sublist
 	if [ "$basefile" = "index" ]; then
@@ -118,7 +129,9 @@ done
 	printf '</nav>\n'
 } >> $navbar
 
-echo "past nav-bar building"
+if [ -n "${VERBOSE}" ]; then
+	echo "past nav-bar building"
+fi
 
 mkdir -p ${OUTDIR}
 mkdir -p ${OUTDIR}/styles
