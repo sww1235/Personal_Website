@@ -57,14 +57,14 @@ navbar="html-parts/nav-bar.html"
 # then create the file anew
 {
 	printf '<nav>\n'
-	printf '\t<ul>\n'
-	printf '\t\t<li><a href=\"index.html\">Home</a></li>\n'
-	printf '\t\t<li><a href=\"about.html\">About</a></li>\n'
-	printf '\t\t<li><a href=\"https://github.com/sww1235\">Github</a></li>\n'
+	printf '  <ul>\n'
+	printf '    <li><a href=\"index.html\">Home</a></li>\n'
+	printf '    <li><a href=\"about.html\">About</a></li>\n'
+	printf '    <li><a href=\"https://github.com/sww1235\">Github</a></li>\n'
 
 # https://stackoverflow.com/questions/5899337/proper-way-to-make-html-nested-list
-	printf '\t\t<li><a href=\"/projects/index.html\">Projects</a>\n' # don't end li element here
-	printf '\t\t\t<ul>\n' # insert ul element to start sublist instead
+	printf '    <li><a href=\"/projects/index.html\">Projects</a>\n' # don't end li element here
+	printf '      <ul>\n' # insert ul element to start sublist instead
 } >> $navbar
 
 echo "starting project loop"
@@ -79,15 +79,15 @@ for file in "${PROJDIR}"/*.md; do
 	# strip out dashes and upper case first letter of each word
 	# https://unix.stackexchange.com/a/172207/81810
 	title=$(echo "$basefile" | perl -ne 'print join " ", map { ucfirst } split /-/')
-	printf '\t\t\t\t<li><a href=\"%s/%s.html\">%s</a></li>\n' "${PROJDIR}" "$basefile" "${title}" >> $navbar
+	printf '        <li><a href=\"%s/%s.html\">%s</a></li>\n' "${PROJDIR}" "$basefile" "${title}" >> $navbar
 done
 {
-	printf '\t\t\t<ul>\n' # end ul element here
-	printf '\t\t<li>\n' # end li element here instead
+	printf '      </ul>\n' # end ul element here
+	printf '    </li>\n' # end li element here instead
 
 	# https://stackoverflow.com/questions/5899337/proper-way-to-make-html-nested-list
-	printf '\t\t<li><a href=\"/wiki/index.html\">Wiki</a>\n' >> $navbar # don't end li element here
-	printf '\t\t\t<ul>\n' >> $navbar # insert ul element to start sublist instead
+	printf '    <li><a href=\"/wiki/index.html\">Wiki</a>\n' >> $navbar # don't end li element here
+	printf '      <ul>\n' >> $navbar # insert ul element to start sublist instead
 } >> $navbar
 
 echo "starting wiki loop"
@@ -102,19 +102,19 @@ for file in "${WIKIDIR}"/*.md; do
 	# strip out dashes and upper case first letter of each word
 	# https://unix.stackexchange.com/a/172207/81810
 	title=$(echo "$basefile" | perl -ne 'print join " ", map { ucfirst } split /-/')
-	printf '\t\t\t\t<li><a href=\"%s/%s.html\">%s</a></li>\n' "${WIKIDIR}" "$basefile" "${title}" >> $navbar
+	printf '        <li><a href=\"%s/%s.html\">%s</a></li>\n' "${WIKIDIR}" "$basefile" "${title}" >> $navbar
 done
 {
-	printf '\t\t\t<ul>\n' # end ul element here
-	printf '\t\t<li>\n' # end li element here instead
+	printf '      </ul>\n' # end ul element here
+	printf '    </li>\n' # end li element here instead
 } >> $navbar
 
 # TODO: how to handle blog contents? One long string of articles or individual pages?
 
 {
-	printf '\t\t<li><a href=\"contact.html\">Contact</a></li>\n'
+	printf '    <li><a href=\"contact.html\">Contact</a></li>\n'
 
-	printf '\t</ul>\n'
+	printf '  </ul>\n'
 	printf '</nav>\n'
 } >> $navbar
 
