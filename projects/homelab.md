@@ -18,7 +18,9 @@ Currently, my homelab consists of the following systems:
 
 My website and DNS are hosted through NearlyFreeSpeech.net
 
-Most of these machines are located inside a custom built sound dampening rack enclosure. This is documented at its own [projects page](custom-rack-enclosure.md)
+Most of these machines are located inside a custom built sound dampening rack
+enclosure. This is documented at its own [projects
+page](custom-rack-enclosure.md)
 
 ## Future Plans {#future-plans}
 
