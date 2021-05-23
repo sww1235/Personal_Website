@@ -12,6 +12,7 @@ on:
       - 'styles/**'
       - 'wiki/**'
       - 'build.sh'
+      - 'pandoc-options.yaml'
     branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
