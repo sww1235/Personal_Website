@@ -2,4 +2,5 @@ www/
 tmp/
 # ignore vim temp files
 *.swp
-html-parts/nav-bar.html # ignore navbar file since it is now auto-generated
+# ignore navbar file since it is now auto-generated
+html-parts/nav-bar.html
