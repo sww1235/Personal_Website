@@ -143,7 +143,7 @@ rules:
   block-closing-brace-space-after: never-single-line
   block-closing-brace-space-before: never-single-line
   block-opening-brace-newline-after: always-multi-line
-  block-opening-brace-newline-before: never-multi-line
+  block-opening-brace-newline-before:
   block-opening-brace-space-after: never-single-line
   block-opening-brace-space-before: always
   selector-attribute-brackets-space-inside: never
