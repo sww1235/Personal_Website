@@ -126,6 +126,8 @@ mkdir -p ${OUTDIR}/${PROJDIR}
 mkdir -p ${OUTDIR}/${WIKIDIR}
 mkdir -p ${OUTDIR}/${BLOGDIR}
 
+cp styles/* ${OUTDIR}/styles/
+
 # return null for failed matches in for loops
 # rather than a literal *.html or whatever
 shopt -s nullglob
