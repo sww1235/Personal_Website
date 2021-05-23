@@ -29,9 +29,13 @@ resource-path:
   - ./html-parts/
   - ./templates/
   - ./filters/
+  - ./styles/
 
 include-before-body: [banner.html, nav-bar.html]
 include-after-body: [footer.html]
+
+css:
+  - main.css 
 
 filters:
   - ./filters/links-to-html.lua
