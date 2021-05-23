@@ -30,7 +30,8 @@ rules:
   no-invalid-double-slash-comments: true
   alpha-value-notation: number
   hue-degree-notation: angle
-  color-function-notation: modern
+  # TODO: update this to modern when HTML5 validator/css3 validator are fixed
+  color-function-notation: legacy
   color-named: always-where-possible
   color-no-hex: true
   length-zero-no-unit: true
@@ -142,7 +143,7 @@ rules:
   block-closing-brace-space-after: never-single-line
   block-closing-brace-space-before: never-single-line
   block-opening-brace-newline-after: always-multi-line
-  block-opening-brace-newline-before: never
+  block-opening-brace-newline-before: never-multi-line
   block-opening-brace-space-after: never-single-line
   block-opening-brace-space-before: always
   selector-attribute-brackets-space-inside: never
