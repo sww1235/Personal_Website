@@ -10,7 +10,7 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 
 #topnavbar ul {
 	background: white;
-	background: linear-gradient(to top, rgba(0, 82, 204, 0), rgba(0, 34, 204, 0));
+	background: linear-gradient(to top, rgba(0, 82, 204, 1), rgba(0, 34, 204, 1));
 	box-shadow: 0 0 9px rgba(0, 0, 0, 0.15);
 	padding: 0 20px;
 	border-radius: 10px;
@@ -21,7 +21,7 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 
 #topnavbar ul ul {
 	display: none;
-	background: rgba(95, 105, 117, 0);
+	background: rgba(95, 105, 117, 1);
 	border-radius: 0;
 	padding: 0;
 	position: absolute;
@@ -54,14 +54,14 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 
 #topnavbar ul ul li {
 	float: none;
-	border-top: 1px solid rgba(107, 114, 124, 0);
-	border-bottom: 1px solid rgba(87, 95, 106, 0);
+	border-top: 1px solid rgba(107, 114, 124, 1);
+	border-bottom: 1px solid rgba(87, 95, 106, 1);
 	position: relative
 }
 
 #topnavbar ul li:hover {
 	background: rgba(75, 84, 95, 0);
-	background: linear-gradient(to top, rgba(79, 89, 100, 0), rgba(95, 105, 117, 0))
+	background: linear-gradient(to top, rgba(79, 89, 100, 1), rgba(95, 105, 117, 1))
 }
 
 #topnavbar ul li a {
@@ -70,7 +70,7 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 	text-align: center;
 	text-transform: uppercase;
 	padding: 5px 10px;
-	color: rgba(178, 0, 0, 0);
+	color: rgba(178, 0, 0, 1);
 	text-decoration: none
 }
 
@@ -84,6 +84,6 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 }
 
 #topnavbar ul ul li a:hover {
-	background: rgba(75, 84, 95, 0)
+	background: rgba(75, 84, 95, 1)
 }
 
