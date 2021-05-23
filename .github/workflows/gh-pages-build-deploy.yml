@@ -6,11 +6,12 @@ on:
   push:
     paths:
       - 'blog-contents/**'
+      - 'projects/**'
       - 'html-parts/**'
       - 'other-pages/**'
       - 'styles/**'
       - 'wiki/**'
-      - 'Makefile'
+      - 'build.sh'
     branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
