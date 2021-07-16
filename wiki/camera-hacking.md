@@ -56,13 +56,9 @@ Canon eTTL protocol.
 
 ### External Flash Power {#ext-flash-power}
 
-
-
-
 ## References {#references}
 
 - [Hot Shoe Stack Exchange Answer - image source](https://photo.stackexchange.com/a/100154/99926)
-
 
 ```tags
 Camera, Photography, hacking, flash
