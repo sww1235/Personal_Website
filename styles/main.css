@@ -9,94 +9,94 @@ thanks to http://line25.com/tutorials/how-to-create-a-pure-css-dropdown-menu for
 /* formatting for the entire page */
 
 html {
-  font-family: arial, sans-serif;
-  font-size: 100%;
-  color: rgba(10, 10, 10, 1);
-  background-color: rgba(253, 253, 253, 1)
-
+	font-family: arial, sans-serif;
+	font-size: 100%;
+	color: rgba(10, 10, 10, 1);
+	background-color: rgba(253, 253, 253, 1)
 }
 
 /* formatting for main nav bar */
 
 /* navbar unordered lists */
+
 #topnavbar ul {
-  background: white;
-  background: linear-gradient(to top, rgba(0, 82, 204, 1), rgba(0, 34, 204, 1));
-  box-shadow: 0 0 9px rgba(0, 0, 0, 0.15);
-  padding: 0 20px;
-  border-radius: 10px;
-  list-style: none;
-  position: relative;
-  display: inline-table
+	background: white;
+	background: linear-gradient(to top, rgba(0, 82, 204, 1), rgba(0, 34, 204, 1));
+	box-shadow: 0 0 9px rgba(0, 0, 0, 0.15);
+	padding: 0 20px;
+	border-radius: 10px;
+	list-style: none;
+	position: relative;
+	display: inline-table
 }
 
 #topnavbar ul::after {
-  content: "";
-  clear: both;
-  display: block
+	content: "";
+	clear: both;
+	display: block
 }
 /* navbar unordered lists inside unordered lists */
 #topnavbar ul ul {
-  display: none;
-  background: rgba(95, 105, 117, 1);
-  border-radius: 0;
-  padding: 0;
-  position: absolute;
-  top: 100%
+	display: none;
+	background: rgba(95, 105, 117, 1);
+	border-radius: 0;
+	padding: 0;
+	position: absolute;
+	top: 100%
 }
 
 /* navbar unordered list inside unordered list inside unordered list */
 #topnavbar ul ul ul {
-  position: absolute;
-  left: 100%;
-  top: 0
+	position: absolute;
+	left: 100%;
+	top: 0
 }
 
 
 /* navbar list items */
 #topnavbar li {
-  float: left
+	float: left
 }
 #topnavbar ul li:hover > ul {
-  display: block
+	display: block
 }
 
 #topnavbar ul li {
-  float: left
+	float: left
 }
 
 #topnavbar ul ul li {
-  float: none;
-  border-top: 1px solid rgba(107, 114, 124, 1);
-  border-bottom: 1px solid rgba(87, 95, 106, 1);
-  position: relative
+	float: none;
+	border-top: 1px solid rgba(107, 114, 124, 1);
+	border-bottom: 1px solid rgba(87, 95, 106, 1);
+	position: relative
 }
 
 #topnavbar ul li:hover {
-  background: rgba(75, 84, 95, 0);
-  background: linear-gradient(to top, rgba(79, 89, 100, 1), rgba(95, 105, 117, 1))
+	background: rgba(75, 84, 95, 0);
+	background: linear-gradient(to top, rgba(79, 89, 100, 1), rgba(95, 105, 117, 1))
 }
 
 #topnavbar ul li a {
-  display: block;
-  width: 120px;
-  text-align: center;
-  text-transform: uppercase;
-  padding: 5px 10px;
-  color: rgba(178, 0, 0, 1);
-  text-decoration: none
+	display: block;
+	width: 120px;
+	text-align: center;
+	text-transform: uppercase;
+	padding: 5px 10px;
+	color: rgba(178, 0, 0, 1);
+	text-decoration: none
 }
 
 #topnavbar ul ul li a {
-  padding: 15px 40px;
-  color: white
+	padding: 15px 40px;
+	color: white
 }
 
 #topnavbar ul li:hover a {
-  color: white
+	color: white
 }
 
 #topnavbar ul ul li a:hover {
-  background: rgba(75, 84, 95, 1)
+	background: rgba(75, 84, 95, 1)
 }
 
