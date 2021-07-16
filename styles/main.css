@@ -35,6 +35,7 @@ html {
 	clear: both;
 	display: block
 }
+
 /* navbar unordered lists inside unordered lists */
 #topnavbar ul ul {
 	display: none;
@@ -52,11 +53,11 @@ html {
 	top: 0
 }
 
-
 /* navbar list items */
 #topnavbar li {
 	float: left
 }
+
 #topnavbar ul li:hover > ul {
 	display: block
 }
