@@ -44,7 +44,7 @@ and accessories will fit physically but not electrically, so Canon flash
 extension cables will work on the new Panasonic 4 contact hotshoes.
 
 Panasonic uses one (which one) of the 4 contacts to provide accessory power to
-equipment like its XLR audio adapter.
+equipment like their XLR audio adapter.
 
 ### TTL Protocol {#ttl-protocol}
 
@@ -55,6 +55,32 @@ of time and effort into reverse engineering these protocols, especially the
 Canon eTTL protocol.
 
 ### External Flash Power {#ext-flash-power}
+
+Most Speedlites (external on-camera flashes) use AA batteries for power. This
+provides power to the electronics and the flash mechanism. The flash mechanism
+itself needs anywhere between 200VDC-500VDC to actually power the xenon tube.
+This high voltage is typically upconverted from the ~12VDC of the AA batteries
+and stored in a capacitor. This capacitor takes time (between 1 to 5 seconds)
+to recharge between shots, thus limiting the rate at which you can take photos.
+
+The AA batteries work well, but regularly require replacement and cause slow
+recharge times, especially as they are depleted. Using NIMH rechargable AAs can
+help reduce these issues, but not eliminate them. Some newer flashes are using
+Li-Ion batteries similar (but not identical) to the batteries used by camera
+bodies, but they are also propriatary and not compatible with the camera
+batteries.
+
+Some flashes have an external power connection to help reduce the usage of
+batteries. In some cases, this is a LVDC input that replaces the batteries
+completely. In other cases, the power connection is a HVDC input that directly
+interfaces with the capacitor charging circuitry. These HVDC connections allow
+for much faster capacitor recharging.
+
+## The Goal (#the-goal}
+
+My ultimate goal is to be able to standardize on one style of battery pack
+(like Anton Bauer Vmount/Gold mount) to power all my equipment, including
+camera body and flash.
 
 ## References {#references}
 
