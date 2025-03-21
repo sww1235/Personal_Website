@@ -1,6 +1,6 @@
 # Rack Monitor Build Script and Notes
 
-This is the build script and notes for the raspberry pi that monitors my Rack
+This is the build script and notes for the Dell Wyse 5070 that monitors my Rack
 and UPS.
 
 ## Notes {#notes}
@@ -9,109 +9,75 @@ and UPS.
 
 ### Initial Configuration {#initial-config}
 
-1.	Download the rpi2-musl image of void linux from reputable sources, currently
-	[here](https://alpha.de.repo.voidlinux.org/live/current/)
+1.	Download the most recent memstick version of FreeBSD from reputable sources, currently
+	[here](https://download.freebsd.org/releases/ISO-IMAGES/)
 
 2.	Burn image to MicroSD card using either `dd` or whatever windows tool is the
 	popular thing and preferably doesn't use electron.
 
-3.	Use `cfdisk` to expand main partition from 2GB to remaining size of MicroSD
-	card.
+3. 	Boot to USB stick using `F12` key.
 
-4.	Login as root with default password of `void-linux`
+4. 	Follow installer instructions. A Few notes:
+	- Remember that hostname needs to be a FQDN
+	- Only install base system, no optional components
+ 	- Guided Root on ZFS
+  		- Can usually use GPT and default partition configuration	
 
-5.	Need to get correct time and network set up in order to update system and
-	install packages (as root) Remember that the only available text editor is
-	`vi`!
+5. Set root password at prompt
 
-	1.	Configure static IP address by editing `/etc/dhcpcd.conf` with the
-		following lines at the bottom of the file.  Actual IP addresses are
-		found in the network documentation.  We use DHCP rather than manual
-		`ip` commands in `/etc/rc.local` to take advantage of other aspects of
-		DHCP including auto DNS server population and domain name.
+6. Configure Networking
+	1. Select correct interface
+	2. Select `Use IPv4`
+ 	3. Select `No` to not use DHCP
+ 	4. Enter networking information when prompted
+ 	5. For now, select `No` to not configure IPv6. This may change in future TODO
+ 	6. Enter DNS info in the DNS configuration
 
-		also uncomment `ntp_servers` option
+7.	Proceed through remainder of installer until service enablement
 
-		dns server is usually pfsense default gateway
+8.	Enable the following services:
+	-  sshd
+ 	-  ntpd
+ 	-  ntpd_sync_on_start
+ 	-  powerd
+ 	-  dumpdev
 
-		```conf
-		interface eth0
-		inform ip_address=$IPaddress
-		static ip_address=$IPaddress
-		static routers=$defaultgateway
-		static domain_name_servers=$dnsserver
-		```
+9. Enable the following hardening options
+    - `hide_uids`
+    - `hide_gids`
+    - `hide_jail`
+    - `read_mesgbuf`
+    - `proc_debug`
+    - `random_pid`
 
-	2.	edit `/etc/rc.conf` and change the following lines to set keymap and
-		timezone:
+10.	Create new non-root user when prompted. Make sure to invite into `wheel` group. Most options can be left default.
 
-		```conf
-		TIMEZONE="America/Denver" # or appropriate timezone
-		KEYMAP="us"
-		```
+11. Select `no` when prompted, as we don't want to add more users after the main admin non-root user.
 
-	3.	Enable NTP and DHCP services:
+12. If you need to fix anything do so now, else select `EXIT` to apply the configuration.
 
-		```bash
-		ln -s /etc/sv/ntpd /var/service
-		ln -s /etc/sv/dhcpcd /var/service
-		```
+13. No need to make any manual changes so selecte `No`. 
 
-	4.	Check `/etc/ntpd.conf` for constraints line, and comment out. This
-		doesn't work on Raspi due to lack of HWCLK
+14.	Reboot the system when prompted.
 
-	5.	Add `server $gateway` to `/etc/ntpd.conf` since it doesn't seem to pick
-		it up from DHCP. NTP server will usually be the pfsense gateway, but
-		use whatever machine is actually the NTP server
+### Basic configuration {#basic-config}
 
-	6.	Create new non-root user, replacing $newusername with the actual name
-		of the user. This command adds the user to the wheel group, which
-		allows `sudo` access
-
-		```bash
-		useradd -m -s /bin/bash -U -G wheel,users,audio,video,cdrom,input $newusername
-		```
-
-	7.	Set system hostname by editing `/etc/hostname`
-
-6.	Reboot the system using `reboot` command. This should allow DHCP and NTP to
-	do their thing and allow us to update the system and install new packages.
-
-7.	Log in as the new user you created
-
-8.	Update the system by running the following command until there is no output.
-
-	```bash
-	sudo xbps-install -Svu
+1.	Log in as the new user you created during inital configuration.
+2.	Follow the steps included in [base-freebsd-config](./build-script-notes-base-freebsd-image) to establish baseline
+3.	Install the following additional packages:
 	```
-
-9.	Install the following packages.
-
-	```bash
-	sudo xbps-install nano network-ups-tools rng-tools thefuck vim htop
-	```
-
-10.	Install terminfo package to fix issues with ssh
-
-	```bash
-	sudo xbps-install st-terminfo
-	```
-
-11.	Setup syslog daemon
-
-	```bash
-	sudo xbps-install socklog-void
-	sudo ln -s /etc/sv/socklog-unix /var/service
-	sudo ln -s /etc/sv/nanoklogd /var/service
-	# so normal user can access logs
-	sudo usermod -a -G socklog $USER
-	```
+ 	pkg install nut
+ 	```
 
 ### NUT Configuration {#nut-config}
 
-Config files for Network UPS Tool (NUT) are found at `/etc/ups/`
+Always check the installation and configuration instructions online if anything new has changed during updates to NUT.
 
-`nut.conf` has a few global config options, which are not important on void.
+Thanks to [this blog](https://vermaden.wordpress.com/2025/03/06/ups-on-freebsd/) for help setting up the new 2.8.X version of NUT on FreeBSD, including the fact that you need to enable and start a service.
+
+Config files for Network UPS Tool (NUT) are found at `/usr/local/etc/nut/`
+
+`nut.conf` has a few global config options.
 
 `ups.conf` is where you configure what UPSes the system will be interacting
 with
@@ -120,63 +86,68 @@ with
 
 Configuration steps as follows:
 
-1.	Edit `/etc/ups/nut.conf` and set `MODE=netserver`. This is not strictly
-	required on void, but still better to set.
+1.	Edit `/etc/ups/nut.conf` and set `MODE=netserver`.
 
 2.	Run `nut-scanner` to generate config options for attached UPSes
 
-3.	Edit `/etc/ups/ups.conf` and add the results of `nut-scanner` to the
-	begining of the file, except the vendor line. Add `[cyberpower]` before.
+3.	Edit `ups.conf` and add the results of `nut-scanner` to the
+	begining of the file, except the vendor line. Add `[cyberpower-ups1]` before.
 	See syntax examples in config file.
 
-4.	Edit `/etc/ups/upsd.conf` and update listen directive to the IP address of
-	the local system.
+4.	Edit `upsd.conf` and update listen directive to the IP address of
+	the local system with standard port.
 
-5.	Edit `/etc/ups/upsd.users` and add an `admin` user, `upsmonMaster` and
-	`upsmonSlave` users with passwords from password safe.
+5.	Edit `upsd.users` and add an `admin` user, `upsmonLocal` and
+	`upsmonRemote` users with passwords from password safe.
 
-	-	`admin` user has set actions and all instcmds
+	-	`admin` user has set actions and all instcmds.
+		```
+  		[admin]
+  			password = $password
+  			actions = SET
+  			instcmds = ALL
+  		```
 
-	-	`upsmonMaster` user is set up per example in config file with master
-		attributes for local monitoring by the raspi.
+	-	`upsmonLocal` user is set up  with primary attributes for local monitoring.
+		```
+  		[upsmonLocal]
+  			password = $password
+  			upsmon primary
+  		```
 
-	-	`upsmonSlave` user is set up per example in config file with slave
-		attributes for remote monitoring by other clients.
+	-	`upsmonRemote` user is set up  with secondary attributes for remote monitoring by other clients.
+		```
+  		[upsmonRemote]
+  			password = $password
+  			upsmon secondary
+  		```
 
-6.	Edit `/etc/ups/upsmon.conf` to set up local UPS monitoring. Add the
+6.	Edit `upsmon.conf` to set up local UPS monitoring. Add the
 	following lines to the config file.
 
 	```conf
-	# raspi has 1 power supply connected to this UPS. It is master
+	# local system has 1 power supply connected to this UPS. It is primary
 	# because it is the monitoring system for the ups.
-	# other systems will be listed as slaves
-	MONITOR cyberpower@localhost 1 upsmonMaster $password master
+	# other systems will be listed as secondary
+	MONITOR cyberpower-ups1@localhost 1 upsmonLocal $password primary
 	# all other values can be left as defaults for now
 	```
 
-Need to change ownership of config files on void linux as the default is set up
-incorrectly:
+7. Restart `devd` so automatically generated rules are applied. `service devd restart`
 
-```bash
-sudo chown root:nut /etc/ups/*
-sudo chmod 640 /etc/ups/*
-```
+8. Make sure the correct USB device is owned by group `nut` when running `ls -l /dev/usb`
 
-start the following services:
 
- ```bash
-sudo ln -s /etc/sv/upsdrvctl/ /var/service
-sudo ln -s /etc/sv/upsd/ /var/service
-sudo ln -s /etc/sv/upsmon/ /var/service
-```
+9. Enable `nut` service with `service nut enable` and then start it: `/usr/local/etc/rc.d/nut start`
+
 
 check status of ups with the following command to make sure it is detected
 properly
 
 ```bash
-upsc cyberpower
+upsc cyberpower-ups1
 ```
 
 ```tags
-build-script, rack-monitor, notes
+build-script, rack-monitor, notes, ups
 ```
