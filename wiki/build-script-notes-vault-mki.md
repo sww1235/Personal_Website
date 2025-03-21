@@ -221,7 +221,7 @@ F2 or Enter for BIOS, F11 for boot menu
 2.	Edit `/usr/local/etc/nut/upsmon.conf` and add in the following lines:
 
 	```conf
-	MONITOR cyberpower@$ipaddress 1 upsmonSlave $password slave
+	MONITOR cyberpower-ups1@$ipaddress 1 upsmonRemote $password secondary
 	```
 
 3.	Edit `/etc/rc.conf` and add the following line:
