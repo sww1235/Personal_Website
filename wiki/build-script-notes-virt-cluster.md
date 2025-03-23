@@ -66,76 +66,16 @@ hypervisor with FreeBSD as Dom0.
 
 5.	Press enter to start the installation process.
 
-6.	Proceed through installation wizard. Press space to select options.
+6.	Follow the base installation instructions found at [freebsd-base-image](./build-script-notes-base-freebsd-image.md)
 
-	1.	Keymap = United States of America. Space will not work here, just
-		scroll down and hit enter.
-
-	2.	Enter hostname
-
-	3.	Add the ports tree.
-
-	4.	Hit Ok to configure network for installation.
-
-	5.	Configure IPv4 and use DHCP
-
-	6.	Confirm resolver config. (Defaults picked up from DHCP should be good
-		to go.)
-
-	7.	Select default (main) FreeBSD mirror.
-
-	8.	Select Auto (UFS) and then Entire Disk.
-
-	9.	Select GPT for partition scheme
-
-	10.	Review autogen partition layout, which should be good for our usages
-		then hit finish and Commit.
-
-	11.	Wait for download, verification and extraction.
-
-	12.	Enter root password from password manager.
-
-	13.	Choose yes at CMOS clock prompt. Make sure this gets set in BIOS properly.
-
-	14.	Choose timezone.
-
-	15.	Skip time and date setup if it is correct.
-
-	16.	Enable `local_unbound`, `sshd`, `ntpdate`, `ntpd`, `powerd` and
-		`dumpdev` services to be started at boot
-
-	17.	Enable all security options except `disable_syslogd`, and `secure_console`.
-
-	18.	Add new admin user.
-
-		1.	Username = `toxicsauce`
-		2.	Full Name = `toxicsauce`
-		3.	UID = (hit enter to accept default)
-		4.	Login group = (hit enter to accept default)
-		5.	Invite User to other groups = wheel
-		6.	Login class = (hit enter to accept default)
-		7.	Shell = sh (default)
-		8.	home directory = (hit enter to accept default)
-		9.	home directory permissions = (hit enter to accept defaults)
-		10.	password auth = yes
-		11.	empty password = no
-		12.	random password = no
-		13.	Enter password from password manager
-		14.	lock account = no
-		15.	check options and type in yes to confirm.
-		16.	add additional users = no.
-
-	19.	hit exit, and no to exit installer.
-
-	20. Hit reboot.
 
 	21.	Stop CD media after system has rebooted.
 
-7.	Login as the new user you created
+9.	Login as the new user you created
 
-8.	Become root with `su -`. You will need root's password.
+10.	Become root with `su -`. You will need root's password.
 
-9.	Update system and install software
+11.	Update system and install software
 
 	```sh
 	freebsd-update fetch
@@ -148,9 +88,9 @@ hypervisor with FreeBSD as Dom0.
 	pkg install nano sudo vim-console
 	```
 
-10.	Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
+12.	Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
 
-11.	Setup system logging and disable sendmail:
+13.	Setup system logging and disable sendmail:
 
 	1.	Edit `/etc/rc.conf` and add the following lines to disable sendmail and
 		enable syslog.
@@ -202,7 +142,7 @@ hypervisor with FreeBSD as Dom0.
 		command was doing. Do not need to do this for periodic and periodic
 		snapshot sections.
 
-12.	Random sysadmin tweaks:
+14.	Random sysadmin tweaks:
 
 	1.	Edit `/etc/periodic.conf` and include the following lines:
 
@@ -211,7 +151,7 @@ hypervisor with FreeBSD as Dom0.
 		weekly_locate_enable="NO"	#Disable weekly locate run.
 		```
 
-13.	Reboot
+15.	Reboot
 
 ## Cluster Setup {#cluster-setup}
 
