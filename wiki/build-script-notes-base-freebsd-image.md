@@ -76,7 +76,7 @@ Set following variables in `/etc/resolv.conf`
 nameserver QQQ.QQQ.QQQ.QQQ
 ```
 
-## Update System
+## Update System {#update-system}
 
 ```sh
 freebsd-update fetch
@@ -87,12 +87,12 @@ pkg upgrade
  ```
 
 
-## Install Basic Packages
+## Install Basic Packages {#install-base-packages}
 ```
 pkg install sudo nano
 ```
 
-## Configure Sudo
+## Configure Sudo {#configure-sudo}
 
 Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
 
@@ -100,7 +100,7 @@ check if admin user is in `wheel` group. `id username`.
 
 If not, add them to the group with the command: `pw group mod wheel -m username`
 
-## Setup system logging and disable sendmail:
+## Setup system logging and disable sendmail {#configure-logging-sendmail}
 
 1.	Edit `/etc/rc.conf` and add the following lines to disable sendmail and enable syslog.
 
@@ -147,4 +147,4 @@ daily_submit_queuerun="NO"
 ```
 6. Fix crontab logging by editing `/etc/crontab` and appending `2>&1 | /usr/bin/logger -t cron_xxx` and replacing xxx with whatever the cron command was doing. Do not need to do this for periodic and periodic snapshot sections.
 
-## Set up ssh-agent
+## Set up ssh-agent {#ssh-agent}
