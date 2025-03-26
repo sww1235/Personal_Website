@@ -77,6 +77,9 @@ nameserver QQQ.QQQ.QQQ.QQQ
 ```
 
 ## Update System {#update-system}
+1. Login as the new user you created.
+2. Become root with `su -`. You will need root's password.
+3. Run the following commands.
 
 ```sh
 freebsd-update fetch
@@ -88,17 +91,22 @@ pkg upgrade
 
 
 ## Install Basic Packages {#install-base-packages}
+
+1. Login as the new user you created.
+2. Become root with `su -`. You will need root's password.
+3. Run the following commands.
+
 ```
 pkg install sudo nano
 ```
 
 ## Configure Sudo {#configure-sudo}
 
-Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
-
-check if admin user is in `wheel` group. `id username`.
-
-If not, add them to the group with the command: `pw group mod wheel -m username`
+1. Login as the new user you created.
+2. Become root with `su -`. You will need root's password.
+3. Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
+4. check if admin user is in `wheel` group. `id username`.
+	- If not, add them to the group with the command: `pw group mod wheel -m username`
 
 ## Setup system logging and disable sendmail {#configure-logging-sendmail}
 
