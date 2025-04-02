@@ -326,7 +326,7 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 	. /root/.restic/restic-password.sh
 
 	QUIET="--quiet"
-	if [ -n "${NOQUIET}" ] || [ -n ${VERBOSE}" ]; then
+	if [ -n "${NOQUIET}" ] || [ -n "${VERBOSE}" ]; then
 		QUIET=""
 	fi
 
