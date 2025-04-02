@@ -365,6 +365,14 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 
 	```sh
 	#!/bin/sh
+
+ 	# i18n, some files have non ASCII characters
+	export LC_ALL=en_US.UTF-8
+
+	# load credentials
+	. /root/.restic/b2-credentials.sh
+	. /root/.restic/restic-password.sh
+ 	
 	export RESTIC_REPOSITORY=b2:the-vault-remote:archive
 	restic check
 
