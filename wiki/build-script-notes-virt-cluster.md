@@ -84,12 +84,14 @@ hypervisor with FreeBSD as Dom0.
 
 Follow instructions at base-image page for basic setup.
 
+Set networking on base interface to static IP in management range first. This should be in Switch ports will be set as trunk with pvid=management_vlan
+
 TODO: fix this
 
 
 ## Cluster Setup {#cluster-setup}
 
-On each host run perform the following steps.
+On each host perform the following steps.
 
 1.	sudo pkg install xen-kernel xen-tools.
 2.	add the line `vm.max_user_wired=-1` to `/etc/sysctl.conf`
@@ -108,9 +110,10 @@ On each host run perform the following steps.
 
 	```sh
 	sysrc xencommons_enable=yes
-	sysrc cloned_interfaces="bridge0"
-	sysrc ifconfig_bridge0="addm em0 SYNCDHCP"
+	sysrc cloned_interfaces="bridge0 vlan0"
 	sysrc ifconfig_em0="up"
+ 	sysrc ifconfig_vlan12="vlan 12 vlandev em0 up"
+ 	sysrc ifconfig_bridge0="addm vlan12 up"
 	```
 6.	Reboot system
 
