@@ -106,7 +106,7 @@ On each host perform the following steps.
 	boot_serial="YES"
 	console="comconsole,vidconsole"
 	```
-5.	run the following commands:
+5.	run the following commands to configure the vm networking:
 
 	```sh
 	sysrc xencommons_enable=yes
@@ -116,6 +116,18 @@ On each host perform the following steps.
  	sysrc ifconfig_bridge0="addm vlan12 up"
 	```
 6.	Reboot system
+7.	Configure NFS client for vm image storage:
+   	```sh
+    sysrc nfs_client_enable="YES"
+    service nfsclient start
+    mkdir /mnt/vm-store/
+    # temporaily mount file system to confirm it is working
+    mount the-vault.internal.sww1235.net:/the-vault/vm-store/ /mnt/vm-store
+    ```
+8.	Add the following line to `/etc/fstab` so the mount persists across reboots.
+		```sh
+		the-vault.internal.sww1235.net:/the-vault/vm-store/ /mnt/vm-store
+		```
 
 ```tags
 cluster, virtualization, virt, NUC, xcp-ng
