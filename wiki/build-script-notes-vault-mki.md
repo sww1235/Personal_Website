@@ -412,7 +412,7 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
    sysrc mountd_enable="YES"
    sysrc nfsv4_server_enable="YES"
    sysrc nfsv4_server_only="YES"
-   sysrc nfs_serer_flags="-t"
+   sysrc nfs_server_flags="-t"
    sysrc nfsuserd_enable="YES"
    ```
 2. Add `V4: /the-vault/` to `/etc/exports/`. This is the root directory of all zfs shares per [this link](https://kaeru.my/notes/nfsv4-and-zfs-on-freebsd)
