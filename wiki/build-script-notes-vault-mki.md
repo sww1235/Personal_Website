@@ -224,6 +224,7 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	sudo zfs create -o compress=lz4 the-vault/storage
 	sudo zfs create -o compress=lz4 the-vault/media
 	sudo zfs create -o compress=lz4 the-vault/archive
+ 	sudo zfs create -o compress=lz4 the-vault/vm-store
 	```
 
 7.	Install `freebsd-snapshot` from pkg.
@@ -251,7 +252,7 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	snapshot_enable="YES"
 	# :4:7:0 = 4 weekly snapshots (1 per week, and storing the last 4,
 	# 1 per day and storing the last 7, and 0 per hour, storing the last 0.
-	snapshot_schedule="/the-vault/backups:4:7:0 /the-vault/storage:4:7:0 /the-vault/media:2:3:0 /the-vault/archive:2:3:0"
+	snapshot_schedule="/the-vault/backups:4:7:0 /the-vault/storage:4:7:0 /the-vault/media:2:3:0 /the-vault/archive:2:3:0 /the-vault/vm-store:4:7:0"
 	```
 
 ### Backups Configuration {#backups-config}
@@ -288,6 +289,9 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 
 	export RESTIC_REPOSITORY=b2:the-vault-remote:storage
 	restic init
+	
+ 	export RESTIC_REPOSITORY=b2:the-vault-remote:vm-store
+ 	restic init
 	```
 
 5.	Initialize the first backups of the repositories. If you do not do this
@@ -307,6 +311,9 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 
 	export RESTIC_REPOSITORY=b2:the-vault-remote:storage
 	restic backup --exclude-caches --exclude-if-present '.nobackup' /the-vault/storage
+
+ 	export RESTIC_REPOSITORY=b2:the-vault-remote:vm-store
+ 	restic backup --exclude-caches --exclude-if-present '.nobackup' /the-vault/vm-store
 	```
 
 6.	Create `/etc/periodic/daily/601.restic-backblaze-backups` with the following
@@ -357,6 +364,13 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 		--exclude-caches \
 		--exclude-if-present '.no-backup' \
 		/the-vault/storage
+
+ 	[ -z "${QUIET}" ] && echo "Starting backup set: vm-store"
+	export RESTIC_REPOSITORY=b2:the-vault-remote:vm-store
+	restic backup ${QUIET} \
+		--exclude-caches \
+		--exclude-if-present '.no-backup' \
+		/the-vault/vm-store
 	```
 
 7.	Create `/etc/periodic/daily/600.restic-check` with the following contents,
@@ -389,6 +403,24 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 8.	Configure snapshot policies and pruning. TODO
 
 ### Fileshare Configuration {#filesharing-config}
+
+#### NFS
+
+1. Run the following commands to enable the services required by the NFS server. The `mountd_enable` line is not technically required since it is forced by nfsd per [this link](https://muc.lists.freebsd.fs.narkive.com/9AJT6yVQ/bug-284262-nfsd-fails-to-start-with-nfsv4-server-only-but-without-rpcbind-mountd) but it doesn't hurt anything. You do not need `rpcbind` for nfsv4 only servers and clients.
+   ```sh
+   sysrc nfs_server_enable="YES"
+   sysrc mountd_enable="YES"
+   sysrc nfsv4_server_enable="YES"
+   sysrc nfsv4_server_only="YES"
+   sysrc nfs_serer_flags="-t"
+   sysrc nfsuserd_enable="YES"
+   ```
+2. Add `V4: /the-vault/` to `/etc/exports/`. This is the root directory of all zfs shares per [this link](https://kaeru.my/notes/nfsv4-and-zfs-on-freebsd)
+3. run the following commands to set up the actual nfs shares:
+	```sh
+ 	# sharing the vm-store to the management network only
+ 	zfs set sharenfs="-network 10.4.0.0/20" the-vault/vm-store
+ 	```
 
 ## Resources {#resources}
 
