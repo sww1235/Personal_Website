@@ -416,11 +416,13 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
    sysrc nfsuserd_enable="YES"
    ```
 2. Add `V4: /the-vault/` to `/etc/exports/`. This is the root directory of all zfs shares per [this link](https://kaeru.my/notes/nfsv4-and-zfs-on-freebsd)
-3. run the following commands to set up the actual nfs shares:
+3. Reboot after to launch services
+4. run the following commands to set up the actual nfs shares:
 	```sh
  	# sharing the vm-store to the management network only
  	zfs set sharenfs="-network 10.4.0.0/20" the-vault/vm-store
  	```
+ 5.	Start the share without rebooting by running `sudo zfs share -a`
 
 ## Resources {#resources}
 
