@@ -93,7 +93,7 @@ TODO: fix this
 
 On each host perform the following steps.
 
-1.	sudo pkg install xen-kernel xen-tools.
+1.	sudo pkg install xen-kernel xen-tools qemu-tools.
 2.	add the line `vm.max_user_wired=-1` to `/etc/sysctl.conf`
 3.	add the line `xc0     "/usr/libexec/getty Pc"         xterm   onifconsole  secure` to `/etc/ttys`
 4.	edit `/boot/loader.conf` and add the following lines for 2G memory and 1vCPU core dom0:
@@ -131,7 +131,7 @@ On each host perform the following steps.
 		```sh
 		the-vault.internal.sww1235.net:/vm-store/	/nas/vm-store	nfs	rw,nfsv4	0	0
 		```
-
+9.	Follow steps in the below listed links to configure vms as necessary:
 ```tags
 cluster, virtualization, virt, NUC, xcp-ng
 ```
