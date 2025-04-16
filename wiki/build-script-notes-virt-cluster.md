@@ -84,7 +84,7 @@ hypervisor with FreeBSD as Dom0.
 
 Follow instructions at base-image page for basic setup.
 
-Set networking on base interface to static IP in management range first. This should be in Switch ports will be set as trunk with pvid=management_vlan
+Set networking on base interface to static IP in management range first. The switch port shall be set as trunk with pvid=management_vlan. Guests will use a bridge and vlans to access the network.
 
 TODO: fix this
 
