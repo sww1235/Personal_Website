@@ -122,11 +122,14 @@ On each host perform the following steps.
     service nfsclient start
     mkdir /mnt/vm-store/
     # temporaily mount file system to confirm it is working
-    mount the-vault.internal.sww1235.net:/the-vault/vm-store/ /mnt/vm-store
+    # the lack of /the-vault/ at the end of the remote server name, is because this is
+    # relative to the mount defined in /etc/exports on the server
+    # need to specifically specify nfsv4 else it defaults to nfsv3 which causes confusing errors
+    mount -t nfs -o nfsv4 -o rw the-vault.internal.sww1235.net:/vm-store/ /mnt/vm-store
     ```
 8.	Add the following line to `/etc/fstab` so the mount persists across reboots.
 		```sh
-		the-vault.internal.sww1235.net:/the-vault/vm-store/ /mnt/vm-store
+		the-vault.internal.sww1235.net:/vm-store/	/mnt/vm-store	rw,nfsv4	0	0
 		```
 
 ```tags
