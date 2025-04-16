@@ -420,7 +420,7 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 4. run the following commands to set up the actual nfs shares:
 	```sh
  	# sharing the vm-store to the management network only
- 	zfs set sharenfs="-network 10.4.0.0/20" the-vault/vm-store
+ 	zfs set sharenfs="on,maproot=root,network 10.4.0.0/20" the-vault/vm-store
  	```
  5.	Start the share without rebooting by running `sudo zfs share -a`
 
