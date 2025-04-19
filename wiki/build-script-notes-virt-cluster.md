@@ -131,7 +131,8 @@ On each host perform the following steps.
 		```sh
 		the-vault.internal.sww1235.net:/vm-store/	/nas/vm-store	nfs	rw,nfsv4	0	0
 		```
-9.	Follow steps in the below listed links to configure vms as necessary:
+9.	Modify the `vif.default.bridge` line in `/usr/local/etc/xen/xl.conf` to be `vif.default.bridge="bridge0"` to match what was configured above.
+10.	Follow steps in the below listed links to configure vms as necessary:
 ```tags
 cluster, virtualization, virt, NUC, xcp-ng
 ```
