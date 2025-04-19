@@ -20,7 +20,7 @@ Thanks to [this link](https://trent.utfs.org/wiki/Void_Linux#Xen_DomU) for good 
     kernel = "/nas/vm-store/void_builder/vmlinuz-6.12.23_1"
     ramdisk = "/nas/vm-store/void_builder/initramfs-6.12.23_1.img"
     # extra kernel command line options
-    extra = "root=/dev/xvda1 rootfstype=ext4"
+    extra = "root=/dev/xvd1 rootfstype=ext4"
     # initial memory allocation (MB)
     memory = 512
     vcpus = 4
@@ -29,7 +29,7 @@ Thanks to [this link](https://trent.utfs.org/wiki/Void_Linux#Xen_DomU) for good 
     vif = ['']
     # Disk Devices
     # a list of 'diskspec' devices
-    disk=['/nas/vm-store/void_builder.img,xvda1,rw']
+    disk=['/nas/vm-store/void_builder/void_builder.img,raw,xvd1,rw']
     ```
 
 ## Void Builder Configuration {#void-builder-config}
