@@ -13,7 +13,7 @@ Instructions on how to mount `.img` files on FreeBSD from [here](https://gist.gi
 4.	Create an ext4 filesystem on the raw image using `mkfs.ext4 void_builder.img`.
 5.	You can confirm that the filesystem was created by running `file void_builder.img` and looking for `ext4` in the output.
 6.	`sudo mkdir /mnt/disk` if it doesn't exist already.
-7.	If on FreeBSD, use `mdconfig -a -t vnode -f /nas/vm-store/void_builder/void_builder.img` to mount the image to a virtual device.
+7.	If on FreeBSD, use `mdconfig -a -t vnode -f /nas/vm-store/void_builder/void_builder.img -u 0` to mount the image to a virtual device.
 8.	Run `mount -t ext4 void_builder.img /mnt/disk` or on FreeBSD: `mount -t ext2fs /dev/md0 /mnt/disk` to mount the new disk image temporarily.
 9.	Now extract the rootfs onto the image using `tar`. `tar -C /mnt/disk/ -xvf void-x86_64-ROOTFS-{date}.tar.xz`
 10.	Unmount the image after extracting the rootfs with `umount /mnt/disk`
