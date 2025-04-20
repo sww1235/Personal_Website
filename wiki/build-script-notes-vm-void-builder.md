@@ -16,17 +16,22 @@ Instructions on how to mount `.img` files on FreeBSD from [here](https://gist.gi
 7.	If on FreeBSD, use `mdconfig -a -t vnode -f /nas/vm-store/void_builder/void_builder.img -u 0` to mount the image to a virtual device.
 8.	Run `mount -t ext4 void_builder.img /mnt/disk` or on FreeBSD: `mount -t ext2fs /dev/md0 /mnt/disk` to mount the new disk image temporarily.
 9.	Now extract the rootfs onto the image using `tar`. `tar -C /mnt/disk/ -xvf void-x86_64-ROOTFS-{date}.tar.xz`
-10.	Unmount the image after extracting the rootfs with `umount /mnt/disk`
-11.	If on FreeBSD, you must also remove the virtual device with `mdconfig -d -u 0`
-12.	Copy the image you created to the image store at `/nas/vm-store/`
-13.	Create the file `/usr/local/etc/xen/void_builder.cfg` with the following contents:
+10.	Now you need to configure certain files within the image in order to get things booting properly.
+	1.	If on FreeBSD, you must enable the linux compat service using `service linux onestart` to start it once.
+	2.	Now `chroot /mnt/disk/`
+ 	3.	Enable the xen console agetty service with `ln -s /etc/sv/agetty-hvc0 /etc/runit/runsvdir/default/`
+	4.	Exit out of the chroot.
+11.	Unmount the image after extracting the rootfs with `umount /mnt/disk`
+12.	If on FreeBSD, you must also remove the virtual device with `mdconfig -d -u 0`
+13.	Copy the image you created to the image store at `/nas/vm-store/`
+14.	Create the file `/usr/local/etc/xen/void_builder.cfg` with the following contents:
     ```config
     name = "void_builder"
     type = "pvh"
     kernel = "/nas/vm-store/void_builder/vmlinuz-6.12.23_1"
     ramdisk = "/nas/vm-store/void_builder/initramfs-6.12.23_1.img"
     # extra kernel command line options
-    extra = "root=/dev/xvd1 rootfstype=ext4"
+    extra = "root=/dev/xvd1 rootfstype=ext4 console=hvc0 debug"
     # initial memory allocation (MB)
     memory = 512
     vcpus = 4
