@@ -41,6 +41,9 @@ Instructions on how to mount `.img` files on FreeBSD from [here](https://gist.gi
     # Disk Devices
     # a list of 'diskspec' devices
     disk=['/nas/vm-store/void_builder/void_builder.img,raw,xvd1,rw']
+    on_reboot="preserve"
+    on_crash="preserve"
+    on_poweroff="preserve"
     ```
 
 ## Void Builder Configuration {#void-builder-config}
