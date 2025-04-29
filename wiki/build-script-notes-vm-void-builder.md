@@ -20,7 +20,9 @@ Instructions on how to mount `.img` files on FreeBSD from [here](https://gist.gi
 	1.	If on FreeBSD, you must enable the linux compat service using `service linux onestart` to start it once.
 	2.	Now `chroot /mnt/disk/`
  	3.	Enable the xen console agetty service with `ln -s /etc/sv/agetty-hvc0 /etc/runit/runsvdir/default/`
-	4.	Exit out of the chroot.
+  4.	Enable the dhcpd service with `ln -s /etc/sv/dhcpd /etc/runit/runsvdir/default/`
+  5.	Enable the sshd daemon with `ln -s /etc/sv/sshd /etc/runit/runsvdir/default/`
+	6.	Exit out of the chroot.
 11.	Unmount the image after extracting the rootfs with `umount /mnt/disk`
 12.	If on FreeBSD, you must also remove the virtual device with `mdconfig -d -u 0`
 13.	Copy the image you created to the image store at `/nas/vm-store/`
