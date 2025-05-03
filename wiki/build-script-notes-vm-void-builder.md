@@ -30,10 +30,9 @@ Instructions on how to mount `.img` files on FreeBSD from [here](https://gist.gi
     ```config
     name = "void_builder"
     type = "pvh"
-    kernel = "/nas/vm-store/void_builder/vmlinuz-6.12.23_1"
-    ramdisk = "/nas/vm-store/void_builder/initramfs-6.12.23_1.img"
+    bootloader="pygrub"
     # extra kernel command line options
-    extra = "root=/dev/xvd1 rootfstype=ext4 console=hvc0 debug"
+    #extra = "root=/dev/xvd1 rootfstype=ext4 console=hvc0 debug"
     # initial memory allocation (MB)
     memory = 512
     vcpus = 4
