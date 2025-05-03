@@ -101,7 +101,7 @@ On each host perform the following steps.
 	```conf
 	if_tap_load="YES"
 	xen_kernel="/boot/xen"
-	xen_cmdline="dom0_mem=2048M dom0_max_vcpus=1 dom0=pvh com1=115200,8n1 guest_loglvl=all loglvl=all console=vga,com1"
+	xen_cmdline="dom0_mem=2048M dom0_max_vcpus=1 xtpi=dom0=false,domu=true cpuidle dom0=pvh com1=115200,8n1 guest_loglvl=all loglvl=all console=vga,com1"
 	boot_multicons="YES"
 	boot_serial="YES"
 	console="comconsole,vidconsole"
