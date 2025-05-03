@@ -414,6 +414,7 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
    sysrc nfsv4_server_only="YES"
    sysrc nfs_server_flags="-t"
    sysrc nfsuserd_enable="YES"
+   sysrc hostid_enable="YES"
    ```
 2. Add `V4: /the-vault/` to `/etc/exports/`. This is the root directory of all zfs shares per [this link](https://kaeru.my/notes/nfsv4-and-zfs-on-freebsd)
 3. Reboot after to launch services
