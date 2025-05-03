@@ -119,6 +119,11 @@ On each host perform the following steps.
 7.	Configure NFS client for vm image storage:
    	```sh
     sysrc nfs_client_enable="YES"
+    sysrc hostid_enable="YES"
+    sysrc nfsuserd_enable="YES"
+    sysrc nfscbd_enable="YES"
+    service hostid start
+    service nfsuserd start
     service nfsclient start
     mkdir /nas/vm-store
     # temporaily mount file system to confirm it is working
