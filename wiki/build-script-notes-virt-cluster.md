@@ -110,7 +110,7 @@ On each host perform the following steps.
 
 	```sh
 	sysrc xencommons_enable=yes
-	sysrc cloned_interfaces="bridge0 vlan0"
+	sysrc cloned_interfaces="bridge0 vlan12"
 	sysrc ifconfig_em0="up"
  	sysrc ifconfig_vlan12="vlan 12 vlandev em0 up"
  	sysrc ifconfig_bridge0="addm vlan12 up"
