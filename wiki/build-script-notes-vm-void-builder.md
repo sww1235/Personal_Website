@@ -29,22 +29,28 @@ Instructions on how to mount `.img` files on FreeBSD from [here](https://gist.gi
 14.	Create the file `/usr/local/etc/xen/void_builder.cfg` with the following contents:
     ```config
     name = "void_builder"
-    type = "pvh"
-    bootloader="pygrub"
-    # extra kernel command line options
-    #extra = "root=/dev/xvd1 rootfstype=ext4 console=hvc0 debug"
+    type = "hvm"
     # initial memory allocation (MB)
     memory = 512
     vcpus = 4
+    firmware="uefi"
+    bios="ovmf"
     # Network devices
     # List of virtual interface devices  or 'vifspec'
     vif = ['']
     # Disk Devices
     # a list of 'diskspec' devices
-    disk=['/nas/vm-store/void_builder/void_builder.img,raw,xvd1,rw']
-    on_reboot="preserve"
+    disk=[
+    '/nas/vm-store/void_builder/void_builder.img,raw,xvda,rw',
+    '/path/to/void-iso,raw,devtype=cdrom,hdc,r'
+    ]
+    on_reboot="restart"
     on_crash="preserve"
     on_poweroff="preserve"
+    vnc=1
+    vnclisten="0.0.0.0"
+    serial="pty"
+    usbdevice="tablet"
     ```
 
 ## Void Builder Configuration {#void-builder-config}
