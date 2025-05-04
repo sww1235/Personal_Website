@@ -224,7 +224,7 @@ multiple vdevs. if 1 vdev fails completely, **all** data in zpool is lost.
 	sudo zfs create -o compress=lz4 the-vault/storage
 	sudo zfs create -o compress=lz4 the-vault/media
 	sudo zfs create -o compress=lz4 the-vault/archive
- 	sudo zfs create -o compress=lz4 the-vault/vm-store
+	sudo zfs create -o compress=lz4 the-vault/vm-store
 	```
 
 7.	Install `freebsd-snapshot` from pkg.
@@ -289,9 +289,9 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 
 	export RESTIC_REPOSITORY=b2:the-vault-remote:storage
 	restic init
-	
- 	export RESTIC_REPOSITORY=b2:the-vault-remote:vm-store
- 	restic init
+
+	export RESTIC_REPOSITORY=b2:the-vault-remote:vm-store
+	restic init
 	```
 
 5.	Initialize the first backups of the repositories. If you do not do this
@@ -312,8 +312,8 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 	export RESTIC_REPOSITORY=b2:the-vault-remote:storage
 	restic backup --exclude-caches --exclude-if-present '.nobackup' /the-vault/storage
 
- 	export RESTIC_REPOSITORY=b2:the-vault-remote:vm-store
- 	restic backup --exclude-caches --exclude-if-present '.nobackup' /the-vault/vm-store
+	export RESTIC_REPOSITORY=b2:the-vault-remote:vm-store
+	restic backup --exclude-caches --exclude-if-present '.nobackup' /the-vault/vm-store
 	```
 
 6.	Create `/etc/periodic/daily/601.restic-backblaze-backups` with the following
@@ -365,7 +365,7 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 		--exclude-if-present '.no-backup' \
 		/the-vault/storage
 
- 	[ -z "${QUIET}" ] && echo "Starting backup set: vm-store"
+	[ -z "${QUIET}" ] && echo "Starting backup set: vm-store"
 	export RESTIC_REPOSITORY=b2:the-vault-remote:vm-store
 	restic backup ${QUIET} \
 		--exclude-caches \
@@ -374,19 +374,19 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 	```
 
 7.	Create `/etc/periodic/daily/600.restic-check` with the following contents,
-	and chmod it to 710, so only root can read and wheel cna execute if need
-	be.
+and chmod it to 710, so only root can read and wheel cna execute if need
+be.
 
 	```sh
 	#!/bin/sh
 
- 	# i18n, some files have non ASCII characters
+	# i18n, some files have non ASCII characters
 	export LC_ALL=en_US.UTF-8
 
 	# load credentials
 	. /root/.restic/b2-credentials.sh
 	. /root/.restic/restic-password.sh
- 	
+
 	export RESTIC_REPOSITORY=b2:the-vault-remote:archive
 	restic check
 
@@ -406,24 +406,28 @@ Heavily borrowed from <https://blog.alt255.com/post/restic/>
 
 #### NFS
 
-1. Run the following commands to enable the services required by the NFS server. The `mountd_enable` line is not technically required since it is forced by nfsd per [this link](https://muc.lists.freebsd.fs.narkive.com/9AJT6yVQ/bug-284262-nfsd-fails-to-start-with-nfsv4-server-only-but-without-rpcbind-mountd) but it doesn't hurt anything. You do not need `rpcbind` for nfsv4 only servers and clients.
-   ```sh
-   sysrc nfs_server_enable="YES"
-   sysrc mountd_enable="YES"
-   sysrc nfsv4_server_enable="YES"
-   sysrc nfsv4_server_only="YES"
-   sysrc nfs_server_flags="-t"
-   sysrc nfsuserd_enable="YES"
-   sysrc hostid_enable="YES"
-   ```
-2. Add `V4: /the-vault/` to `/etc/exports/`. This is the root directory of all zfs shares per [this link](https://kaeru.my/notes/nfsv4-and-zfs-on-freebsd)
-3. Reboot after to launch services
-4. run the following commands to set up the actual nfs shares:
+1.	Run the following commands to enable the services required by the NFS server.
+The `mountd_enable` line is not technically required since it is forced by nfsd per
+[this link](https://muc.lists.freebsd.fs.narkive.com/9AJT6yVQ/bug-284262-nfsd-fails-to-start-with-nfsv4-server-only-but-without-rpcbind-mountd)
+but it doesn't hurt anything. You do not need `rpcbind` for nfsv4 only servers and clients.
 	```sh
- 	# sharing the vm-store to the management network only
- 	zfs set sharenfs="-maproot=root,-network=10.4.0.0/20" the-vault/vm-store
- 	```
- 5.	Start the share without rebooting by running `sudo zfs share -a`
+	sysrc nfs_server_enable="YES"
+	sysrc mountd_enable="YES"
+	sysrc nfsv4_server_enable="YES"
+	sysrc nfsv4_server_only="YES"
+	sysrc nfs_server_flags="-t"
+	sysrc nfsuserd_enable="YES"
+	sysrc hostid_enable="YES"
+	```
+2.	Add `V4: /the-vault/` to `/etc/exports/`. This is the root directory of all zfs shares per
+[this link](https://kaeru.my/notes/nfsv4-and-zfs-on-freebsd)
+3.	Reboot after to launch services
+4.	run the following commands to set up the actual nfs shares:
+	```sh
+	# sharing the vm-store to the management network only
+	zfs set sharenfs="-maproot=root,-network=10.4.0.0/20" the-vault/vm-store
+	```
+5.	Start the share without rebooting by running `sudo zfs share -a`
 
 ## Resources {#resources}
 

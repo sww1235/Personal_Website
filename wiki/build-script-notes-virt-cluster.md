@@ -84,7 +84,9 @@ hypervisor with FreeBSD as Dom0.
 
 Follow instructions at base-image page for basic setup.
 
-Set networking on base interface to static IP in management range first. The switch port shall be set as trunk with pvid=management_vlan. Guests will use a bridge and vlans to access the network.
+Set networking on base interface to static IP in management range first.
+The switch port shall be set as trunk with `pvid=management_vlan`.
+Guests will use a bridge and vlans to access the network.
 
 TODO: fix this
 
@@ -112,26 +114,26 @@ On each host perform the following steps.
 	sysrc xencommons_enable=yes
 	sysrc cloned_interfaces="bridge0 vlan12"
 	sysrc ifconfig_em0="up"
- 	sysrc ifconfig_vlan12="vlan 12 vlandev em0 up"
- 	sysrc ifconfig_bridge0="addm vlan12 up"
+	sysrc ifconfig_vlan12="vlan 12 vlandev em0 up"
+	sysrc ifconfig_bridge0="addm vlan12 up"
 	```
 6.	Reboot system
 7.	Configure NFS client for vm image storage:
-   	```sh
-    sysrc nfs_client_enable="YES"
-    sysrc hostid_enable="YES"
-    sysrc nfsuserd_enable="YES"
-    sysrc nfscbd_enable="YES"
-    service hostid start
-    service nfsuserd start
-    service nfsclient start
-    mkdir /nas/vm-store
-    # temporaily mount file system to confirm it is working
-    # the lack of /the-vault/ at the end of the remote server name, is because this is
-    # relative to the mount defined in /etc/exports on the server
-    # need to specifically specify nfsv4 else it defaults to nfsv3 which causes confusing errors
-    mount -t nfs -o nfsv4 -o rw the-vault.internal.sww1235.net:/vm-store/ /nas/vm-store
-    ```
+	```sh
+	sysrc nfs_client_enable="YES"
+	sysrc hostid_enable="YES"
+	sysrc nfsuserd_enable="YES"
+	sysrc nfscbd_enable="YES"
+	service hostid start
+	service nfsuserd start
+	service nfsclient start
+	mkdir /nas/vm-store
+	# temporaily mount file system to confirm it is working
+	# the lack of /the-vault/ at the end of the remote server name, is because this is
+	# relative to the mount defined in /etc/exports on the server
+	# need to specifically specify nfsv4 else it defaults to nfsv3 which causes confusing errors
+	mount -t nfs -o nfsv4 -o rw the-vault.internal.sww1235.net:/vm-store/ /nas/vm-store
+	```
 8.	Add the following line to `/etc/fstab` so the mount persists across reboots.
 		```sh
 		the-vault.internal.sww1235.net:/vm-store/	/nas/vm-store	nfs	rw,nfsv4	0	0

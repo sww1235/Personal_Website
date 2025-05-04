@@ -9,7 +9,7 @@ Proceed through installation wizard. Press space to select options.
 2.	Enter hostname. (this is a FQDN)
 
 3.	Remove all optional system components unless specified in other build script.
-   
+
 4.	Select Auto (ZFS) and use defaults unless specified in other build script.
 
 5.	Wait for download, verification and extraction of distribution files
@@ -43,7 +43,7 @@ Proceed through installation wizard. Press space to select options.
 	7.	Shell = sh (default)
 	8.	home directory = (hit enter to accept default)
 	9.	home directory permissions = (hit enter to accept defaults)
-  10.	enable ZFS encryption = no (default)
+	10.	enable ZFS encryption = no (default)
 	11.	password auth = yes
 	12.	empty password = no
 	13.	random password = no
@@ -54,17 +54,18 @@ Proceed through installation wizard. Press space to select options.
 
 16.	hit exit, and no to exit installer.
 
-17. Hit reboot.
+17.	Hit reboot.
 
 ## Configure Networking {#networking}
 
 ### Static Networking Configuration
 
-This should already be set up during initial configuration. More as a reference 
+This should already be set up during initial configuration. Included as a reference
 
 Set following variables in `/etc/rc.conf`
-```
-# This is a 
+
+```conf
+# This is a FQDN
 hostname = "hostname"
 # this may change based on what the interface is called. Run ipconfig to determine what interface is needed
 ifconfig_re0 = "inet XXX.XXX.XXX.XXX netmask YYY.YYY.YYY.YYY"
@@ -72,14 +73,16 @@ defaultrouter = "ZZZ.ZZZ.ZZZ.ZZZ"
 ```
 
 Set following variables in `/etc/resolv.conf`
-```
+
+```conf
 nameserver QQQ.QQQ.QQQ.QQQ
 ```
 
 ## Update System {#update-system}
-1. Login as the new user you created.
-2. Become root with `su -`. You will need root's password.
-3. Run the following commands.
+
+1.	Login as the new user you created.
+2.	Become root with `su -`. You will need root's password.
+3.	Run the following commands.
 
 ```sh
 freebsd-update fetch
@@ -87,25 +90,25 @@ freebsd-update install
 pkg update
 # answer yes to install pkg
 pkg upgrade
- ```
+```
 
 
 ## Install Basic Packages {#install-base-packages}
 
-1. Login as the new user you created.
-2. Become root with `su -`. You will need root's password.
-3. Run the following commands.
+1.	Login as the new user you created.
+2.	Become root with `su -`. You will need root's password.
+3.	Run the following commands.
 
-```
+```sh
 pkg install sudo nano
 ```
 
 ## Configure Sudo {#configure-sudo}
 
-1. Login as the new user you created.
-2. Become root with `su -`. You will need root's password.
-3. Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
-4. check if admin user is in `wheel` group. `id username`.
+1.	Login as the new user you created.
+2.	Become root with `su -`. You will need root's password.
+3.	Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
+4.	check if admin user is in `wheel` group. `id username`.
 	- If not, add them to the group with the command: `pw group mod wheel -m username`
 
 ## Setup system logging and disable sendmail {#configure-logging-sendmail}
@@ -153,6 +156,8 @@ daily_status_mail_rejects_enable="NO"
 daily_status_include_submit_mailq="NO"
 daily_submit_queuerun="NO"
 ```
-6. Fix crontab logging by editing `/etc/crontab` and appending `2>&1 | /usr/bin/logger -t cron_xxx` and replacing xxx with whatever the cron command was doing. Do not need to do this for periodic and periodic snapshot sections.
+6.	Fix crontab logging by editing `/etc/crontab` and appending `2>&1 | /usr/bin/logger -t cron_xxx`
+and replacing xxx with whatever the cron command was doing.
+Do not need to do this for periodic and periodic snapshot sections.
 
 ## Set up ssh-agent {#ssh-agent}

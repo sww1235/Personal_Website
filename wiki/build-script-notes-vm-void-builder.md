@@ -1,41 +1,41 @@
 # Void Builder VM Configuration
 
-On each 
 ## VM Configuration {#vm-configuration}
 
 1.	Download a glibc iso file from the usual void linux download location.
 2.	If doing this on FreeBSD, you need to install the `qemu-img` packages
 3.	Create a base disk image using the following command `qemu-img create -f raw void_builder.img 20G`.
 4.	Create the file `/usr/local/etc/xen/void_builder.cfg` with the following contents:
-    ```config
-    name = "void_builder"
-    type = "hvm"
-    # initial memory allocation (MB)
-    memory = 512
-    vcpus = 4
-    firmware="uefi"
-    bios="ovmf"
-    # Network devices
-    # List of virtual interface devices  or 'vifspec'
-    vif = ['']
-    # Disk Devices
-    # a list of 'diskspec' devices
-    disk=[
-    '/nas/vm-store/void_builder/void_builder.img,raw,xvda,rw',
-    '/path/to/void-iso,raw,devtype=cdrom,hdc,r'
-    ]
-    on_reboot="restart"
-    on_crash="preserve"
-    on_poweroff="preserve"
-    vnc=1
-    vnclisten="0.0.0.0"
-    serial="pty"
-    usbdevice="tablet"
-    ```
+	```config
+	name = "void_builder"
+	type = "hvm"
+	# initial memory allocation (MB)
+	memory = 512
+	vcpus = 4
+	firmware="uefi"
+	bios="ovmf"
+	# Network devices
+	# List of virtual interface devices  or 'vifspec'
+	vif = ['']
+	# Disk Devices
+	# a list of 'diskspec' devices
+	disk=[
+	'/nas/vm-store/void_builder/void_builder.img,raw,xvda,rw',
+	'/path/to/void-iso,raw,devtype=cdrom,hdc,r'
+	]
+	on_reboot="restart"
+	on_crash="preserve"
+	on_poweroff="preserve"
+	vnc=1
+	vnclisten="0.0.0.0"
+	serial="pty"
+	usbdevice="tablet"
+	```
 
 ## Void Builder Configuration {#void-builder-config}
 
 ### OS Configuration
+
 1.	Login as `root` with password `voidlinux`
 2.	Run `void-installer`
 3.	Set keymap to `us`
@@ -60,7 +60,8 @@ On each
 	2.	Enable: `agetty-hvsi0`
 	3.	Disable: `dhcpcd`
 	4.	Disable: `wpa_supplicant`
-15.	Reboot from installer. This will boot you back into the live installer image due to the configuration of the domU. log back in and then shutdown using `shutdown -h now`.
+15.	Reboot from installer. This will boot you back into the live installer
+image due to the configuration of the domU. log back in and then shutdown using `shutdown -h now`.
 16.	The VM will be in a suspended state so you must run `xl destroy void_builder` to completely shut it down.
 17.	Comment out the `cdrom` line in diskspec line of configuration file
 18.	Start VM again with `xl create /usr/local/etc/xen/void_builder.cfg`
