@@ -105,7 +105,7 @@ F2 or Enter for BIOS, F11 for boot menu
 
 10.	Set up system as described in [base-freebsd-image-script](./build-script-notes-base-freebsd-image.md)
 
-14.	Random sysadmin tweaks:
+11.	Random sysadmin tweaks:
 
 	1.	Edit `/etc/periodic.conf` and include the following lines:
 
@@ -114,9 +114,9 @@ F2 or Enter for BIOS, F11 for boot menu
 		weekly_locate_enable="NO"	#Disable weekly locate run.
 		```
 
-15.	Set up ssh-agent
+12.	Set up ssh-agent
 
-16.	Create Projects directory tree in `~` as follows:
+13.	Create Projects directory tree in `~` as follows:
 
 	```bash
 	mkdir -p ~/projects/src/github.com/sww1235
@@ -124,16 +124,16 @@ F2 or Enter for BIOS, F11 for boot menu
 
 	This mirrors the structure of how golang wants to set things up.
 
-17.	Make symlink in `~` as follows:
+14.	Make symlink in `~` as follows:
 
 	```bash
 	ln -s ~/projects/src/github.com/sww1235 myprojects
 	```
 
-18.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
+15.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
 	`install.sh` script.
 
-19.	Clone projects from github into Projects tree as desired.
+16.	Clone projects from github into Projects tree as desired.
 
 ### UPS Configuration {#ups-config}
 
@@ -406,10 +406,13 @@ be.
 
 #### NFS
 
-1.	Run the following commands to enable the services required by the NFS server.
-The `mountd_enable` line is not technically required since it is forced by nfsd per
-[this link](https://muc.lists.freebsd.fs.narkive.com/9AJT6yVQ/bug-284262-nfsd-fails-to-start-with-nfsv4-server-only-but-without-rpcbind-mountd)
-but it doesn't hurt anything. You do not need `rpcbind` for nfsv4 only servers and clients.
+1.	Run the following commands to enable the services required by the NFS
+	server.  The `mountd_enable` line is not technically required since it is
+	forced by nfsd per [this
+	link](https://muc.lists.freebsd.fs.narkive.com/9AJT6yVQ/bug-284262-nfsd-fails-to-start-with-nfsv4-server-only-but-without-rpcbind-mountd)
+	but it doesn't hurt anything. You do not need `rpcbind` for nfsv4 only
+	servers and clients.
+
 	```sh
 	sysrc nfs_server_enable="YES"
 	sysrc mountd_enable="YES"
@@ -419,14 +422,17 @@ but it doesn't hurt anything. You do not need `rpcbind` for nfsv4 only servers a
 	sysrc nfsuserd_enable="YES"
 	sysrc hostid_enable="YES"
 	```
+
 2.	Add `V4: /the-vault/` to `/etc/exports/`. This is the root directory of all zfs shares per
 [this link](https://kaeru.my/notes/nfsv4-and-zfs-on-freebsd)
 3.	Reboot after to launch services
 4.	run the following commands to set up the actual nfs shares:
+
 	```sh
 	# sharing the vm-store to the management network only
 	zfs set sharenfs="-maproot=root,-network=10.4.0.0/20" the-vault/vm-store
 	```
+
 5.	Start the share without rebooting by running `sudo zfs share -a`
 
 ## Resources {#resources}

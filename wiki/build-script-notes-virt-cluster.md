@@ -68,7 +68,8 @@ hypervisor with FreeBSD as Dom0.
 
 5.	Press enter to start the installation process.
 
-6.	Follow the base installation instructions found at [freebsd-base-image](./build-script-notes-base-freebsd-image.md)
+6.	Follow the base installation instructions found at
+	[freebsd-base-image](./build-script-notes-base-freebsd-image.md)
 
 7.	Stop CD media after system has rebooted.
 
@@ -78,7 +79,8 @@ hypervisor with FreeBSD as Dom0.
 2.	Boot to USB using F10
 3.	Let FreeBSD boot to install menu.
 4.	Press Enter to start the installation process.
-5.	Follow the base installation instructions found at [freebsd-base-image](./build-script-notes-base-freebsd-image.md)
+5.	Follow the base installation instructions found at
+	[freebsd-base-image](./build-script-notes-base-freebsd-image.md)
 
 ### Initial Configuration
 
@@ -108,6 +110,7 @@ On each host perform the following steps.
 	boot_serial="YES"
 	console="comconsole,vidconsole"
 	```
+
 5.	run the following commands to configure the vm networking:
 
 	```sh
@@ -117,8 +120,10 @@ On each host perform the following steps.
 	sysrc ifconfig_vlan12="vlan 12 vlandev em0 up"
 	sysrc ifconfig_bridge0="addm vlan12 up"
 	```
+
 6.	Reboot system
 7.	Configure NFS client for vm image storage:
+
 	```sh
 	sysrc nfs_client_enable="YES"
 	sysrc hostid_enable="YES"
@@ -134,12 +139,14 @@ On each host perform the following steps.
 	# need to specifically specify nfsv4 else it defaults to nfsv3 which causes confusing errors
 	mount -t nfs -o nfsv4 -o rw the-vault.internal.sww1235.net:/vm-store/ /nas/vm-store
 	```
+
 8.	Add the following line to `/etc/fstab` so the mount persists across reboots.
-		```sh
-		the-vault.internal.sww1235.net:/vm-store/	/nas/vm-store	nfs	rw,nfsv4	0	0
-		```
-9.	Modify the `vif.default.bridge` line in `/usr/local/etc/xen/xl.conf` to be `vif.default.bridge="bridge0"` to match what was configured above.
+
+	```sh
+	the-vault.internal.sww1235.net:/vm-store/	/nas/vm-store	nfs	rw,nfsv4	0	0
+	```
+
+9.	Modify the `vif.default.bridge` line in `/usr/local/etc/xen/xl.conf` to be
+	`vif.default.bridge="bridge0"` to match what was configured above.
 10.	Follow steps in the below listed links to configure vms as necessary:
-```tags
-cluster, virtualization, virt, NUC, xcp-ng
-```
+	```tags cluster, virtualization, virt, NUC, xcp-ng ```

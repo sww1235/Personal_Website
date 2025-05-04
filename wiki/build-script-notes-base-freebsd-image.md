@@ -4,7 +4,8 @@
 
 Proceed through installation wizard. Press space to select options.
 
-1.	Keymap = US. This should be default. Space will not work here, just scroll down and hit enter.
+1.	Keymap = US. This should be default. Space will not work here, just scroll
+	down and hit enter.
 
 2.	Enter hostname. (this is a FQDN)
 
@@ -26,9 +27,11 @@ Proceed through installation wizard. Press space to select options.
 
 11.	Skip time and date setup if it is correct.
 
-12.	Enable `sshd`, `ntpdate`, `ntpd`, `powerd` and `dumpdev` services to be started at boot
+12.	Enable `sshd`, `ntpdate`, `ntpd`, `powerd` and `dumpdev` services to be
+	started at boot
 
-13.	Enable all security options except `clear_temp`, `disable_syslogd`, and `secure_console`.
+13.	Enable all security options except `clear_temp`, `disable_syslogd`, and
+	`secure_console`.
 
 14.	Install fw packages if prompted
 
@@ -92,7 +95,6 @@ pkg update
 pkg upgrade
 ```
 
-
 ## Install Basic Packages {#install-base-packages}
 
 1.	Login as the new user you created.
@@ -115,49 +117,52 @@ pkg install sudo nano
 
 1.	Edit `/etc/rc.conf` and add the following lines to disable sendmail and enable syslog.
 
-```conf
-# disable sendmail and enable syslog
-syslogd_enable="YES"
-sendmail_enable="NO"
-sendmail_submit_enable="NO"
-sendmail_outbound_enable="NO"
-sendmail_msp_queue_enable="NO"
-newsyslog_enable="YES" # make sure this doesn't break in future defaults
-# fix cron trying to send mail
-cron_flags="-m ''"
-```
+	```conf
+	# disable sendmail and enable syslog
+	syslogd_enable="YES"
+	sendmail_enable="NO"
+	sendmail_submit_enable="NO"
+	sendmail_outbound_enable="NO"
+	sendmail_msp_queue_enable="NO"
+	newsyslog_enable="YES" # make sure this doesn't break in future defaults
+	# fix cron trying to send mail
+	cron_flags="-m ''"
+	```
 
 2.	Create log files needed for next step:
 
-```sh
-sudo touch /var/log/console.log
-sudo chmod 600 /var/log/console.log
-sudo touch /var/log/all.log
-sudo chmod 600 /var/log/all.log
-```
+	```sh
+	sudo touch /var/log/console.log
+	sudo chmod 600 /var/log/console.log
+	sudo touch /var/log/all.log
+	sudo chmod 600 /var/log/all.log
+	```
 
 3.	Edit `/etc/syslog.conf` and uncomment the lines for `console.log` and
-		`all.log`. TODO: setup remote logging.
+	`all.log`. TODO: setup remote logging.
 
 4.	Check `/etc/newsyslog.conf` to confirm log rotation is setup correctly.
 
 5.	Edit `/etc/periodic.conf` and add the following to the beginning of the
-		file to disable sending root email and instead log to syslog. (This
-		will override the defaults in `/etc/defaults/periodic.conf`). File may need to be created first.
+	file to disable sending root email and instead log to syslog. (This will
+	override the defaults in `/etc/defaults/periodic.conf`). File may need to
+	be created first.
 
-```conf
-# redirect periodic output to syslog files
-daily_output="/var/log/daily.log" # user or /file
-weekly_output="/var/log/weekly.log" # user or /file
-monthly_output="/var/log/monthly.log" # user or /file
-# turn off sendmail periodic functions
-daily_clean_hoststat_enable="NO"
-daily_status_mail_rejects_enable="NO"
-daily_status_include_submit_mailq="NO"
-daily_submit_queuerun="NO"
-```
-6.	Fix crontab logging by editing `/etc/crontab` and appending `2>&1 | /usr/bin/logger -t cron_xxx`
-and replacing xxx with whatever the cron command was doing.
-Do not need to do this for periodic and periodic snapshot sections.
+	```conf
+	# redirect periodic output to syslog files
+	daily_output="/var/log/daily.log" # user or /file
+	weekly_output="/var/log/weekly.log" # user or /file
+	monthly_output="/var/log/monthly.log" # user or /file
+	# turn off sendmail periodic functions
+	daily_clean_hoststat_enable="NO"
+	daily_status_mail_rejects_enable="NO"
+	daily_status_include_submit_mailq="NO"
+	daily_submit_queuerun="NO"
+	```
+
+6.	Fix crontab logging by editing `/etc/crontab` and appending `2>&1 |
+	/usr/bin/logger -t cron_xxx` and replacing xxx with whatever the cron
+	command was doing.  Do not need to do this for periodic and periodic
+	snapshot sections.
 
 ## Set up ssh-agent {#ssh-agent}

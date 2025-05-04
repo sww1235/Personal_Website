@@ -63,17 +63,24 @@ and UPS.
 ### Basic configuration {#basic-config}
 
 1.	Log in as the new user you created during inital configuration.
-2.	Follow the steps included in [base-freebsd-config](./build-script-notes-base-freebsd-image) to establish baseline
+2.	Follow the steps included in
+	[base-freebsd-config](./build-script-notes-base-freebsd-image) to establish
+	baseline
 3.	Install the following additional packages:
+
 	```sh
 	pkg install nut
 	```
 
 ### NUT Configuration {#nut-config}
 
-Always check the installation and configuration instructions online if anything new has changed during updates to NUT.
+Always check the installation and configuration instructions online if anything
+new has changed during updates to NUT.
 
-Thanks to [this blog](https://vermaden.wordpress.com/2025/03/06/ups-on-freebsd/) for help setting up the new 2.8.X version of NUT on FreeBSD, including the fact that you need to enable and start a service.
+Thanks to [this
+blog](https://vermaden.wordpress.com/2025/03/06/ups-on-freebsd/) for help
+setting up the new 2.8.X version of NUT on FreeBSD, including the fact that you
+need to enable and start a service.
 
 Config files for Network UPS Tool (NUT) are found at `/usr/local/etc/nut/`
 
@@ -101,6 +108,7 @@ Configuration steps as follows:
 	`upsmonRemote` users with passwords from password safe.
 
 	-	`admin` user has set actions and all instcmds.
+
 		```conf
 		[admin]
 			password = $password
@@ -109,6 +117,7 @@ Configuration steps as follows:
 		```
 
 	-	`upsmonLocal` user is set up  with primary attributes for local monitoring.
+
 		```conf
 		[upsmonLocal]
 			password = $password
@@ -116,6 +125,7 @@ Configuration steps as follows:
 		```
 
 	-	`upsmonRemote` user is set up  with secondary attributes for remote monitoring by other clients.
+
 		```conf
 		[upsmonRemote]
 			password = $password
