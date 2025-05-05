@@ -149,4 +149,7 @@ On each host perform the following steps.
 9.	Modify the `vif.default.bridge` line in `/usr/local/etc/xen/xl.conf` to be
 	`vif.default.bridge="bridge0"` to match what was configured above.
 10.	Follow steps in the below listed links to configure vms as necessary:
-	```tags cluster, virtualization, virt, NUC, xcp-ng ```
+
+```tags
+cluster, virtualization, virt, NUC, xcp-ng
+```

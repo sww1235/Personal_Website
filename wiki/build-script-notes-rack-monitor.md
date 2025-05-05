@@ -147,9 +147,7 @@ Configuration steps as follows:
 
 8.	Make sure the correct USB device is owned by group `nut` when running `ls -l /dev/usb`
 
-
 9.	Enable `nut` service with `service nut enable` and then start it: `/usr/local/etc/rc.d/nut start`
-
 
 check status of ups with the following command to make sure it is detected
 properly
