@@ -92,7 +92,6 @@ Guests will use a bridge and vlans to access the network.
 
 TODO: fix this
 
-
 ## Cluster Setup {#cluster-setup}
 
 On each host perform the following steps.

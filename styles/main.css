@@ -12,7 +12,7 @@ html {
 	font-family: arial, sans-serif;
 	font-size: 100%;
 	color: rgb(10, 10, 10, 100%);
-	background-color: rgb(253, 253, 253, 100%)
+	background-color: rgb(253 253 253 100%)
 }
 
 /* formatting for main nav bar */
@@ -21,8 +21,8 @@ html {
 
 #topnavbar ul {
 	background: white;
-	background: linear-gradient(to top, rgb(0, 82, 204, 100%), rgb(0, 34, 204, 100%));
-	box-shadow: 0 0 9px rgb(0, 0, 0, 0.15);
+	background: linear-gradient(to top, rgb(0 82 204 100%), rgb(0 34 204 100%));
+	box-shadow: 0 0 9px rgb(0 0 0 15%);
 	padding: 0 20px;
 	border-radius: 10px;
 	list-style: none;
@@ -39,7 +39,7 @@ html {
 /* navbar unordered lists inside unordered lists */
 #topnavbar ul ul {
 	display: none;
-	background: rgb(95, 105, 117, 100%);
+	background: rgb(95 105 117 100%);
 	border-radius: 0;
 	padding: 0;
 	position: absolute;
@@ -68,14 +68,14 @@ html {
 
 #topnavbar ul ul li {
 	float: none;
-	border-top: 1px solid rgb(107, 114, 124, 100%);
-	border-bottom: 1px solid rgb(87, 95, 106, 100%);
+	border-top: 1px solid rgb(107 114 124 100%);
+	border-bottom: 1px solid rgb(87 95 106 100%);
 	position: relative
 }
 
 #topnavbar ul li:hover {
-	background: rgb(75, 84, 95, 0);
-	background: linear-gradient(to top, rgb(79, 89, 100, 1), rgb(95, 105, 117, 100%))
+	background: rgb(75 84 95 0%);
+	background: linear-gradient(to top, rgb(79 89 100 100%), rgb(95 105 117 100%))
 }
 
 #topnavbar ul li a {
@@ -84,7 +84,7 @@ html {
 	text-align: center;
 	text-transform: uppercase;
 	padding: 5px 10px;
-	color: rgb(178, 0, 0, 100%);
+	color: rgb(178 0 0 100%);
 	text-decoration: none
 }
 
@@ -98,6 +98,6 @@ html {
 }
 
 #topnavbar ul ul li a:hover {
-	background: rgb(75, 84, 95, 100%)
+	background: rgb(75 84 95 100%)
 }
 

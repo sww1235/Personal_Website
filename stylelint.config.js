@@ -170,4 +170,3 @@ export default {
 		"comment-whitespace-inside": "always"
 	}
 }
-
