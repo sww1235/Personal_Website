@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: stylelint
-        uses: actions-hub/stylelint@master
+        uses: sww1235/stylelint_gh_action@master
         env:
           PATTERN: "styles/*.css"
 
