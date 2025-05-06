@@ -6,9 +6,11 @@ export default {
 		"no-descending-specificity": true,
 		"declaration-block-no-duplicate-custom-properties": true,
 		"declaration-block-no-duplicate-properties": [
-			true, "ignore":[
+			true, {
+				ignore: [
 				"consecutive-duplicates-with-different-values"
-			]
+				]
+			}
 		],
 		"font-family-no-duplicate-names": true,
 		"keyframe-block-no-duplicate-selectors": true,
@@ -100,16 +102,18 @@ export default {
 		"comment-empty-line-before": "always",
 		"custom-property-empty-line-before": "never",
 		"declaration-empty-line-before": [
-			"never",
-			"except": "after-comment"
+			"never", {
+			except: ["after-comment"]
+			}
 
 		],
 		"rule-empty-line-before": [
-			"always",
-			"ignore": [
-				"after-comment",
-				"first-nested"
-			]
+			"always",{
+				ignore: [
+					"after-comment",
+					"first-nested"
+				]
+			}
 		],
 		"declaration-block-single-line-max-declarations": 1,
 		"declaration-property-max-values": {},
@@ -160,13 +164,13 @@ export default {
 		//"selector-nested-pattern: "",
 		"font-family-name-quotes": "always-where-recommended",
 		"function-url-quotes":[
-			"always",
-			"except":[
-				"empty"]
+			"always",{
+				except:["empty"]
+			}
 		],
 		"selector-attribute-quotes": "always",
 		"declaration-block-no-redundant-longhand-properties": true,
 		"shorthand-property-no-redundant-values": true,
 		"comment-whitespace-inside": "always"
 	}
-}
+};
