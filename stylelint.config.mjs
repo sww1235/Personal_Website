@@ -69,7 +69,7 @@ export default {
 		"function-disallowed-list": null,
 		"function-url-no-scheme-relative": false,
 		"function-url-scheme-allowed-list": null,
-		"function-url-scheme-disallowed-list": null
+		"function-url-scheme-disallowed-list": null,
 		"length-zero-no-unit": true,
 		"media-feature-name-allowed-list": null,
 		"media-feature-name-disallowed-list": null,
@@ -82,7 +82,7 @@ export default {
 		"rule-selector-property-disallowed-list": null,
 		"selector-attribute-name-disallowed-list": null,
 		"selector-attribute-operator-allowed-list": null,
-		"selector-attribute-operator-disallowed-list": null,:
+		"selector-attribute-operator-disallowed-list": null,
 		"selector-combinator-allowed-list": null,
 		"selector-combinator-disallowed-list": null,
 		"selector-disallowed-list": null,
@@ -121,25 +121,25 @@ export default {
 		"max-nesting-depth": 5,
 		"number-max-precision": 2,
 		//TODO: decide on value here
-		"selector-max-attribute": 2
+		"selector-max-attribute": 2,
 		//TODO: decide on value here
-		"selector-max-class": 2
+		"selector-max-class": 2,
 		//TODO: decide on value here
-		"selector-max-combinators": 2
+		"selector-max-combinators": 2,
 		//TODO: decide on value here
-		"selector-max-compound-selectors": 2
+		"selector-max-compound-selectors": 2,
 		//TODO: decide on value here
-		"selector-max-id": 2
+		"selector-max-id": 2,
 		//TODO: decide on value here
-		"selector-max-pseudo-class": 2
+		"selector-max-pseudo-class": 2,
 		//TODO: decide on value here
-		"selector-max-specificity": 2
+		"selector-max-specificity": 2,
 		//TODO: decide on value here
-		"selector-max-type": 2
+		"selector-max-type": 2,
 		//TODO: decide on value here
-		"selector-max-universal": 2
+		"selector-max-universal": 2,
 		//TODO: decide on value here
-		"time-min-milliseconds": 100
+		"time-min-milliseconds": 100,
 		"alpha-value-notation": "number",
 		"color-function-alias-notation": "without-alpha",
 		//TODO: update this to modern when HTML5 validator/css3 validator are fixed
