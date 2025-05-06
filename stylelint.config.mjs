@@ -38,7 +38,7 @@ export default {
 		"selector-anb-no-unmatchable": true,
 		"annotation-no-unknown": true,
 		"at-rule-descriptor-no-unknown": true,
-		"at-rule-descriptor-value-unknown": true,
+		"at-rule-descriptor-value-no-unknown": true,
 		"at-rule-no-unknown": true,
 		"declaration-property-value-no-unknown": true,
 		"function-no-unknown": true,
@@ -67,7 +67,7 @@ export default {
 		"declaration-property-value-disallowed-list": null,
 		"function-allowed-list": null,
 		"function-disallowed-list": null,
-		"function-url-no-scheme-relative": false,
+		"function-url-no-scheme-relative": true,
 		"function-url-scheme-allowed-list": null,
 		"function-url-scheme-disallowed-list": null,
 		"length-zero-no-unit": true,
@@ -86,7 +86,7 @@ export default {
 		"selector-combinator-allowed-list": null,
 		"selector-combinator-disallowed-list": null,
 		"selector-disallowed-list": null,
-		"selector-no-qualifying-type": false,
+		"selector-no-qualifying-type": null,
 		"selector-no-vendor-prefix": true,
 		"selector-pseudo-class-allowed-list": null,
 		"selector-pseudo-class-disallowed-list": null,
@@ -95,7 +95,7 @@ export default {
 		"unit-allowed-list": null,
 		"unit-disallowed-list": null,
 		"value-no-vendor-prefix": true,
-		"function-case-name": "lower",
+		"function-name-case": "lower",
 		"selector-type-case": "lower",
 		"value-keyword-case": "lower",
 		"at-rule-empty-line-before": "always",
@@ -133,17 +133,16 @@ export default {
 		//TODO: decide on value here
 		"selector-max-pseudo-class": 2,
 		//TODO: decide on value here
-		"selector-max-specificity": 2,
+		"selector-max-specificity": null,
 		//TODO: decide on value here
 		"selector-max-type": 2,
 		//TODO: decide on value here
 		"selector-max-universal": 2,
 		//TODO: decide on value here
 		"time-min-milliseconds": 100,
-		"alpha-value-notation": "number",
+		"alpha-value-notation": "percentage",
 		"color-function-alias-notation": "without-alpha",
-		//TODO: update this to modern when HTML5 validator/css3 validator are fixed
-		"color-function-notation": "legacy",
+		"color-function-notation": "modern",
 		"color-hex-length": "long",
 		"font-weight-notation": "named-where-possible",
 		"hue-degree-notation": "angle",
