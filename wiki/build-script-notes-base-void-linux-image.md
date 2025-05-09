@@ -1,6 +1,5 @@
 # Base Void Linux Machine Configuration
 
-
 These steps should be followed roughly in order but may not be applicable on all installs.
 
 ## Initial Installation {#initial-installation}
