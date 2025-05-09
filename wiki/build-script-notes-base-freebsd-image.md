@@ -38,21 +38,37 @@ Proceed through installation wizard. Press space to select options.
 15.	Add new admin user.
 
 	1.	Username = `toxicsauce`
+
 	2.	Full Name = `toxicsauce`
+
 	3.	UID = (hit enter to accept default)
+
 	4.	Login group = (hit enter to accept default)
+
 	5.	Invite User to other groups = wheel
+
 	6.	Login class = (hit enter to accept default)
+
 	7.	Shell = sh (default)
+
 	8.	home directory = (hit enter to accept default)
+
 	9.	home directory permissions = (hit enter to accept defaults)
+
 	10.	enable ZFS encryption = no (default)
+
 	11.	password auth = yes
+
 	12.	empty password = no
+
 	13.	random password = no
+
 	14.	Enter password from password manager
+
 	15.	lock account = no
+
 	16.	check options and type in yes to confirm.
+
 	17.	add additional users = no.
 
 16.	hit exit, and no to exit installer.
@@ -84,7 +100,9 @@ nameserver QQQ.QQQ.QQQ.QQQ
 ## Update System {#update-system}
 
 1.	Login as the new user you created.
+
 2.	Become root with `su -`. You will need root's password.
+
 3.	Run the following commands.
 
 ```sh
@@ -98,7 +116,9 @@ pkg upgrade
 ## Install Basic Packages {#install-base-packages}
 
 1.	Login as the new user you created.
+
 2.	Become root with `su -`. You will need root's password.
+
 3.	Run the following commands.
 
 ```sh
@@ -108,8 +128,11 @@ pkg install sudo nano
 ## Configure Sudo {#configure-sudo}
 
 1.	Login as the new user you created.
+
 2.	Become root with `su -`. You will need root's password.
+
 3.	Configure sudo. `visudo` and uncomment line `%wheel ALL=(ALL) ALL`
+
 4.	check if admin user is in `wheel` group. `id username`.
 	- If not, add them to the group with the command: `pw group mod wheel -m username`
 
