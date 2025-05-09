@@ -81,12 +81,15 @@
 		at `/`
 
 13.	Select `Install`
-14.	Enable/disable the following services:
+
+14.	Enable/disable the following services. Leave the others as default.
+
 	1.	Enable: `agetty-hvc0`
 
 	2.	Enable: `agetty-hvsi0`
-	3.	Disable: `dhcpcd`
-	4.	Disable: `wpa_supplicant`
+
+	3.	Disable: `wpa_supplicant`
+
 15.	Reboot from installer. This will boot you back into the live installer
 	image due to the configuration of the domU. log back in and then shutdown
 	using `shutdown -h now`.

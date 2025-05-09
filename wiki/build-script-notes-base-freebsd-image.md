@@ -1,5 +1,7 @@
 # Base FreeBSD Machine Configuration
 
+These steps should be followed roughly in order but may not be applicable on all installs.
+
 ## Initial Installation {#initial-installation}
 
 Proceed through installation wizard. Press space to select options.
@@ -112,6 +114,31 @@ pkg update
 # answer yes to install pkg
 pkg upgrade
 ```
+
+## Fix $TERM {#fix-term}
+
+This is a problem caused by using `st` as my main terminal emulator on my
+laptop and workstation which has a different `$TERM` entry with associated
+`terminfo` file that is not available on systems without `st` installed on it.
+This is the fix for systems that are never going to have graphical terminals
+installed on them or FreeBSD systems.
+
+1.	Edit `/etc/ssh/sshd_config` on the remote machine and change the line
+	`#PermitRootLogin prohibit-password` to: `PermitRootLogin yes`. This can be
+	quickly accomplished with the command: `$ sudo sed -i 's/#PermitRootLogin
+	prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config`. This
+	temporarily enables root ssh login with a password.
+
+2.	Restart the `sshd` service on the remote machine.
+
+3.	On a machine with `st` installed on it, run the following command,
+	replacing `remote-host` with the correct hostname. `infocmp | ssh
+	root@remote-host "tic -"`
+
+4.	Re-ssh into remote machine and revert back the changes to
+	`/etc/ssh/sshd_config` made in step 1.
+
+5.	Restart the `sshd` service on the remote machine.
 
 ## Install Basic Packages {#install-base-packages}
 
