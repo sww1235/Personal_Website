@@ -99,7 +99,60 @@
 
 17.	Comment out the `cdrom` line in diskspec line of configuration file
 
-18.	Start VM again with `xl create /usr/local/etc/xen/void_builder.cfg`
+18.	Start VM again with `xl create /usr/local/etc/xen/void_builder.cfg -c`
+
+19.	If dropped into a UEFI shell, run `fs0:\boot\efi\EFI\void_grub\grubx64.efi`
+	using tab to get completions, in order to boot into the system again.
+
+20.	SSH into the system while still keeping the vm console open.
+
+20.	Install `rEFInd` once in the system with the commands:
+
+	```bash
+	sudo xbps-install refind
+	sudo refind-install
+	```
+
+21.	Change the timeout setting in `/boot/efi/EFI/refind/refind.conf` to 5 seconds.
+
+22.	Uncomment the `textonly` setting in `/boot/efi/EFI/refind/refind.conf`
+
+23.	Uncomment the line `resolution 1024 768` in `/boot/efi/EFI/refind/refind.conf`
+
+24.	Reboot and immediately enter the vm console again with `xl console void_builder` if dropped.
+
+25.	Type `exit` at UEFI prompt to drop to BIOS config.
+
+26.	Select `Boot Maintenance Manager` -> `Boot Options` -> `Add Boot Option`
+	and then choose the disk with the EFI system partion, typically the first
+	option.
+
+27.	Now navigate through the file system to find and select the EFI executable.
+	With `rEFInd` installed, it is typically at `EFI/refind/refind_x64.efi`
+
+28.	Enter name of boot option by hitting enter in the description box. This
+	should be called `void_linux`
+
+29. Select `Commit Changes and Exit`
+
+30.	Now select `Change Boot Order` and then hit enter again to load the menu.
+
+31.	Select the `void_linux` option in the list with the arrow keys, and move it
+	to the top with the `+` key.
+
+32. Select `Commit Changes and Exit` and then `Continue` to boot into the new
+	boot entry as long as it is present in `Boot Next Value` entry.
+
+33.	At the `rEFInd` prompt, you will probably have to select the
+	`/boot/vmlinuz` entry as the grub cfg file may still be the default.
+
+34.	Remove the `/boot/grub` folder and the `/boot/efi/EFI/void_linux/grubx64.efi` file and containing folder.
+
+35. Reboot again to make sure everything functions correctly.
+
+36.	Uninstall the following packages `grub grub-i386-efi grub-x86_64-efi void-live-audio void-docs-browse`
+
+37.	Run `sudo xbps-remove -o` and `sudo xbps-remove -O` to remove unnessary dependancies and clean cache.
 
 ### Package Builder Configuration {#pkg-build-cfg}
 
@@ -111,15 +164,21 @@ Most of this was manually parsed from
 [this](https://github.com/void-ansible-roles/xbps-mini-builder/blob/master/tasks/main.yml)
 ansible script.
 
-1.	Install `git`, `make` packages using `xbps-install`.
+1.	Install `git`, `make`, `snooze` 'and `nginx` packages using `xbps-install`.
 
-2.	Create the user that will run the scripts and build packages: `useradd -r pkg-builder`
+2.	Create the user that will run the scripts and build packages: `useradd -r -m
+	pkg-builder`
 
-3.	Create build directory and configure it and script as `pkg-builder` user:
+3.	Now change to `pkg-builder` user to run the following steps.
 
 	```sh
 	sudo su # change to root
 	su pkg-builder # change to pkg-builder user
+	```
+
+4.	Create build directories and install scripts.
+
+	```sh
 	mkdir -p /opt/void-packages-main/
 	mkdir -p /opt/void-packages-custom/
 	chown pkg-builder:root /opt/void-packages-main/
@@ -137,7 +196,61 @@ ansible script.
 	chmod 0755 /opt/void-packages-custom/xbps-mini-builder
 	```
 
-4.	Create `packages.list` file with the list of packages to build for each repo:
+5.	Create `packages.list` file in the `/opt/void-packages-*/` directories with
+	the list of packages to build for each repo:
+
+6.	Create `etc/conf` file in each `/opt/void-packages-*/` directory with the following contents:
+
+7.	Change to root.
+
+8.	Change ownership and mode of these config files:
+
+	```bash
+	chown root:root /opt/void-packages-main/etc/conf
+	chmod 0644 /opt/void-packages-main/etc/conf
+	chown root:root /opt/void-packages-custom/etc/conf
+	chmod 0644 /opt/void-packages-custom/etc/conf
+	```
+
+9.	Edit the `xbps-mini-builder` script in `/opt/void-packages-custom/` and
+	change the `git clone` line to use
+	`https://github.com/sww1235/personal-void-packages` instead of the official
+	`void-packages` repo. Also change the `cd` lines after that to change to
+	`personal-void-packages` instead of `void-packages`
+
+10.	Create a set of RSA keys to sign packages with `sudo -u pkg-builder openssl
+	genrsa -out /home/pkg-builder/private.pem`
+
+11.	Create service directory:
+
+	```bash
+	mkdir -p /etc/sv/pkg-builder/
+	chown root:root /etc/sv/pkg-builder/
+	chmod 0755 /etc/sv/pkg-builder/
+	```
+
+12.	Create file with contents at `/etc/sv/pkg-builder` and then set owner and mode:
+
+	File contenst:
+
+	```bash
+	#!/bin/sh
+
+	exec chpst -u pkg-builder:pkg-builder snooze /opt/void-packages-main/xbps-mini-builder
+	exec chpst -u pkg-builder:pkg-builder snooze /opt/void-packages-custom/xbps-mini-builder
+	```
+
+	Change owner/mode:
+
+	```bash
+	chmod 0755 /etc/sv/pkg-builder/
+	chown root:root /etc/sv/pkg-builder/
+	```
+
+13.	Enable the service with `ln -s /etc/sv/pkg-builder/ /var/service`
+
+14.	Configure nginx to host the binpkgs directory for both `void-packages-main`
+	and `void-packages-custom`:
 
 #### Create Void Packages Fork
 
@@ -149,13 +262,18 @@ ansible script.
 
 #### Create Custom Package Repository
 
+**Note**: this may already be done.
+
 1.	Create a new git repository.
 
 ## Client Configuration {#client-config}
 
-To use custom repositories on a client system, you must create a file in `/etc/xbps.d/` with the contents `repository=<URL>` where `<URL>` is either a local directory or a URL to a remote repository.
+To use custom repositories on a client system, you must create a file in
+`/etc/xbps.d/` with the contents `repository=<URL>` where `<URL>` is either a
+local directory or a URL to a remote repository.
 
-To enable the use of the repositories hosted on `void-builder`, make the following changes to each client system:
+To enable the use of the repositories hosted on `void-builder`, make the
+following changes to each client system:
 
 1.	Delete the file `/etc/xbps.d/00-repository-main.conf` if it exists.
 
