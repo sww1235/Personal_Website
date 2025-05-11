@@ -1,5 +1,10 @@
 # Void Builder VM Configuration
 
+TODO:
+
+-	Configure logging properly
+-	Investigate certs and HTTPS
+
 ## VM Configuration {#vm-configuration}
 
 1.	Download a glibc iso file from the usual void linux download location.
@@ -172,8 +177,7 @@ ansible script.
 3.	Now change to `pkg-builder` user to run the following steps.
 
 	```sh
-	sudo su # change to root
-	su pkg-builder # change to pkg-builder user
+	sudo su pkg-builder # change to pkg-builder user
 	```
 
 4.	Create build directories and install scripts.
@@ -215,7 +219,7 @@ ansible script.
 9.	Edit the `xbps-mini-builder` script in `/opt/void-packages-custom/` and
 	change the `git clone` line to use
 	`https://github.com/sww1235/personal-void-packages` instead of the official
-	`void-packages` repo. Also change the `cd` lines after that to change to
+	`void-packages` repo. Also change the `REPOF` variable to
 	`personal-void-packages` instead of `void-packages`
 
 10.	Create a set of RSA keys to sign packages with `sudo -u pkg-builder openssl
@@ -250,7 +254,27 @@ ansible script.
 13.	Enable the service with `ln -s /etc/sv/pkg-builder/ /var/service`
 
 14.	Configure nginx to host the binpkgs directory for both `void-packages-main`
-	and `void-packages-custom`:
+	and `void-packages-custom`. The server directive below will set that up if
+	placed in `/etc/nginx/nginx.conf`
+
+	```conf
+	server {
+		listen	*:80;
+		server_name void-builder.internal.sww1235.net;
+
+		location {
+			root /opt/void-packages-main/void-packages/hostdir/binpkgs;
+			autoindex on;
+		}
+		location {
+			root /opt/void-packages-custom/personal-void-packages/hostdir/binpkgs;
+			autoindex on;
+		}
+	}
+	```
+
+15.	Also set `user html;` and `worker_processes 4;` at the beginning of the
+	`/etc/nginx/nginx.conf` file.
 
 #### Create Void Packages Fork
 
@@ -275,7 +299,7 @@ local directory or a URL to a remote repository.
 To enable the use of the repositories hosted on `void-builder`, make the
 following changes to each client system:
 
-1.	Delete the file `/etc/xbps.d/00-repository-main.conf` if it exists.
+1.	Move the file `/etc/xbps.d/00-repository-main.conf` to `/etc/xbps.d/10-repository-official.conf`.
 
 2.	Create the file `/etc/xbps.d/00-repository-a-void-builder-main.conf` with contents `repository=<URL>`.
 
