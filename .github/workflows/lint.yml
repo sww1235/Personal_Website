@@ -26,7 +26,7 @@ jobs:
       - name: markdownlint-cli
         # You may pin to the exact commit or the version.
         # uses: nosborn/github-action-markdown-cli@9fc95163471d6460c35cccad13645912aaa25d5f
-        uses: nosborn/github-action-markdown-cli@v1.1.1
+        uses: nosborn/github-action-markdown-cli@v3.4.0
         with:
           # configuration file (JSON or YAML)
           config_file: .markdownlint.yaml
