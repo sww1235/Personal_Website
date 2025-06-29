@@ -226,10 +226,15 @@ ansible script.
 	`void-packages` repo. Also change the `REPOF` variable to
 	`personal-void-packages` instead of `void-packages`
 
-10.	Create a set of RSA keys to sign packages with `sudo -u pkg-builder openssl
+10.	Edit the `xbps-mini-builder` script in `/opt/void-packages-main/` and
+	change the `git clone` line to use
+	`-b build-branch-builder --single-branch https://github.com/sww1235/void-packages` instead of the official
+	`void-packages` repo.
+
+11.	Create a set of RSA keys to sign packages with `sudo -u pkg-builder openssl
 	genrsa -out /home/pkg-builder/private.pem`
 
-11.	Create service directory:
+12.	Create service directory:
 
 	```bash
 	mkdir -p /etc/sv/pkg-builder/
@@ -237,7 +242,7 @@ ansible script.
 	chmod 0755 /etc/sv/pkg-builder/
 	```
 
-12.	Create file with contents at `/etc/sv/pkg-builder` and then set owner and mode:
+13.	Create file with contents at `/etc/sv/pkg-builder` and then set owner and mode:
 
 	File contenst:
 
@@ -255,9 +260,9 @@ ansible script.
 	chown root:root /etc/sv/pkg-builder/
 	```
 
-13.	Enable the service with `ln -s /etc/sv/pkg-builder/ /var/service`
+14.	Enable the service with `ln -s /etc/sv/pkg-builder/ /var/service`
 
-14.	Configure nginx to host the binpkgs directory for both `void-packages-main`
+15.	Configure nginx to host the binpkgs directory for both `void-packages-main`
 	and `void-packages-custom`. The server directive below will set that up if
 	placed in `/etc/nginx/nginx.conf`
 
@@ -277,7 +282,7 @@ ansible script.
 	}
 	```
 
-15.	Also set `user nginx;` and `worker_processes 4;` at the beginning of the
+16.	Also set `user nginx;` and `worker_processes 4;` at the beginning of the
 	`/etc/nginx/nginx.conf` file.
 
 #### Create Void Packages Fork
