@@ -273,7 +273,9 @@ ansible script.
 	}
 	```
 
-15.	Also set `user html;` and `worker_processes 4;` at the beginning of the
+15.	Create html user
+
+15.	Also set `user nginx;` and `worker_processes 4;` at the beginning of the
 	`/etc/nginx/nginx.conf` file.
 
 #### Create Void Packages Fork
