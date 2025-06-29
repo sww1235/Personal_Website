@@ -205,6 +205,10 @@ ansible script.
 
 6.	Create `etc/conf` file in each `/opt/void-packages-*/` directory with the following contents:
 
+	```conf
+ 	XBPS_ALLOW_RESTRICTED=yes
+ 	```
+
 7.	Change to root.
 
 8.	Change ownership and mode of these config files:
@@ -272,8 +276,6 @@ ansible script.
 		}
 	}
 	```
-
-15.	Create html user
 
 15.	Also set `user nginx;` and `worker_processes 4;` at the beginning of the
 	`/etc/nginx/nginx.conf` file.
