@@ -174,29 +174,29 @@ ansible script.
 2.	Create the user that will run the scripts and build packages: `useradd -r -m
 	pkg-builder`
 
-4.	Create build directories and install scripts.
+3.	Create build directories and install scripts.
 
 	```sh
 	sudo mkdir -p /opt/void-packages-main/
 	sudo mkdir -p /opt/void-packages-custom/
-	sudo chown pkg-builder:root /opt/void-packages-main/
-	sudo chown pkg-builder:root /opt/void-packages-custom/
+	sudo chown pkg-builder:pkg-builder /opt/void-packages-main/
+	sudo chown pkg-builder:pkg-builder /opt/void-packages-custom/
 	sudo chmod 0755 /opt/void-packages-main/
 	sudo chmod 0755 /opt/void-packages-custom/
-	sudo cd /opt/void-packages-main/
+	cd /opt/void-packages-main/
 	# Obtain script and change ownership
-	sudo git clone https://github.com/sww1235/xbps-mini-builder.git .
-	sudo chown pkg-builder:root *
-	sudo chown pkg-builder:root .*
+	sudo -u pkg-builder git clone https://github.com/sww1235/xbps-mini-builder.git .
+	sudo chown pkg-builder:pkg-builder *
+	sudo chown pkg-builder:pkg-builder .*
 	sudo chmod 0755 xbps-mini-builder
 	cd /opt/void-packages-custom/
-	sudo git clone https://github.com/sww1235/xbps-mini-builder.git .
-	sudo chown pkg-builder:root *
-	sudo chown pkg-builder:root .*
+	sudo -u pkg-builder git clone https://github.com/sww1235/xbps-mini-builder.git .
+	sudo chown pkg-builder:pkg-builder *
+	sudo chown pkg-builder:pkg-builder .*
 	sudo chmod 0755 xbps-mini-builder
 	```
 
-5.	Create `packages.list` file in the `/opt/void-packages-*/` directories with
+4.	Create `packages.list` file in the `/opt/void-packages-*/` directories with
 	the list of packages to build for each repo:
 
 	**void-packages-main**:
@@ -213,7 +213,7 @@ ansible script.
 	TBD
 	```
 
-6.	Create `etc/conf` file in each `/opt/void-packages-*/` directory with the
+5.	Create `etc/conf` file in each `/opt/void-packages-*/` directory with the
 	following contents:
 
 	**void-packages-main**:
@@ -227,66 +227,90 @@ ansible script.
 	```conf
 	TBD
 	```
-8.	Change ownership and mode of these config files:
 
-	```bash
-	sudo chown root:root /opt/void-packages-main/etc/conf
+6.	Change ownership and mode of these config files:
+
+	```sh
+	sudo chown pkg-builder:pkg-builder /opt/void-packages-main/etc/conf
 	sudo chmod 0644 /opt/void-packages-main/etc/conf
-	sudo chown root:root /opt/void-packages-custom/etc/conf
+	sudo chown pkg-builder:pkg-builder /opt/void-packages-custom/etc/conf
 	sudo chmod 0644 /opt/void-packages-custom/etc/conf
-	sudo chown root:root /opt/void-packages-main/packages.list
+	sudo chown pkg-builder:pkg-builder /opt/void-packages-main/packages.list
 	sudo chmod 0644 /opt/void-packages-main/packages.list
-	sudo chown root:root /opt/void-packages-custom/packages.list
+	sudo chown pkg-builder:pkg-builder /opt/void-packages-custom/packages.list
 	sudo chmod 0644 /opt/void-packages-custom/packages.list
 	```
 
-9.	Edit the `xbps-mini-builder` script in `/opt/void-packages-main/` and
-	change the `git clone` line to use
-	`https://github.com/sww1235/void-packages` instead of the official
-	`void-packages` repo.
-
-9.	Edit the `xbps-mini-builder` script in `/opt/void-packages-custom/` and
-	change the `git clone` line to use
-	`https://github.com/sww1235/personal-void-packages` instead of the official
-	`void-packages` repo. Also change the `REPOF` variable to
-	`personal-void-packages` instead of `void-packages`
-
-10.	Edit the `xbps-mini-builder` script in `/opt/void-packages-main/` and
-	change the `git clone` line to use
-	`-b build-branch-builder --single-branch https://github.com/sww1235/void-packages` instead of the official
-	`void-packages` repo.
-
-11.	Create a set of RSA keys to sign packages with `sudo -u pkg-builder openssl
+7.	Create a set of RSA keys to sign packages with `sudo -u pkg-builder openssl
 	genrsa -out /home/pkg-builder/private.pem`
 
-12.	Create service directory:
+8.	Create service directory:
 
 	```bash
 	sudo mkdir -p /etc/sv/pkg-builder/
 	sudo chmod 0755 /etc/sv/pkg-builder/
 	```
 
-13.	Create file with contents at `/etc/sv/pkg-builder/run` and then set owner and mode:
+9.	Create file with contents at `/etc/sv/pkg-builder/run` and then set owner and mode:
 
-	File contenst:
+	File contents:
 
-	```bash
+	```sh
 	#!/bin/sh
 
-	exec chpst -u pkg-builder:pkg-builder snooze /opt/void-packages-main/xbps-mini-builder
-	exec chpst -u pkg-builder:pkg-builder snooze /opt/void-packages-custom/xbps-mini-builder
+	set -e
+	exec 2>&1
+	echo "sleeping until time to run"
+
+	exec snooze chpst -u pkg-builder:pkg-builder /opt/void-packages-main/xbps-mini-builder \
+		--branch-name="build-branch-builder" --repo="https://github.com/sww1235/void-packages"
+
+	exec snooze chpst -u pkg-builder:pkg-builder /opt/void-packages-custom/xbps-mini-builder
 	```
 
-	Change owner/mode:
+	Change mode:
 
-	```bash
+	```sh
 	chmod 0755 /etc/sv/pkg-builder/
 	chmod 0755 /etc/sv/pkg-builder/run
 	```
 
-14.	Enable the service with `ln -s /etc/sv/pkg-builder/ /var/service`
+10.	Create file with contents at `/etc/sv/pkg-builder/log/run` and then set owner and mode:
 
-15.	Configure nginx to host the binpkgs directory for both `void-packages-main`
+	File contents
+
+	```sh
+	#!/bin/sh
+
+	exec svlogd -tt /var/log/pkg-builder
+	```
+
+	Change mode:
+	```sh
+	chmod +x /etc/sv/pkg-builder/log/run
+	```
+
+11.	Create the directory `/var/log/pkg-builder/` and then create
+	`/var/log/pkg-builder/config` with the following contents:
+
+	```conf
+	# max size in bytes
+	s100000
+
+	# keep max of 10 files
+	n10
+
+	# minimum of 5 files
+	N5
+
+	# rotate every number of seconds
+	# 24 hours
+	t86400
+	```
+
+12.	Enable the service with `ln -s /etc/sv/pkg-builder/ /var/service`
+
+13.	Configure nginx to host the binpkgs directory for both `void-packages-main`
 	and `void-packages-custom`. The server directive below will set that up if
 	placed in `/etc/nginx/nginx.conf`
 
@@ -306,7 +330,7 @@ ansible script.
 	}
 	```
 
-16.	Also set `user nginx;` and `worker_processes 4;` at the beginning of the
+14.	Also set `user nginx;` and `worker_processes 4;` at the beginning of the
 	`/etc/nginx/nginx.conf` file.
 
 #### Create Void Packages Fork
