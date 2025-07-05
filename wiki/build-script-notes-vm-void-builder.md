@@ -169,56 +169,81 @@ Most of this was manually parsed from
 [this](https://github.com/void-ansible-roles/xbps-mini-builder/blob/master/tasks/main.yml)
 ansible script.
 
-1.	Install `git`, `make`, `snooze` 'and `nginx` packages using `xbps-install`.
+1.	Install `st-terminfo`, `git`, `make`, `snooze` 'and `nginx` packages using `xbps-install`.
 
 2.	Create the user that will run the scripts and build packages: `useradd -r -m
 	pkg-builder`
 
-3.	Now change to `pkg-builder` user to run the following steps.
-
-	```sh
-	sudo su pkg-builder # change to pkg-builder user
-	```
-
 4.	Create build directories and install scripts.
 
 	```sh
-	mkdir -p /opt/void-packages-main/
-	mkdir -p /opt/void-packages-custom/
-	chown pkg-builder:root /opt/void-packages-main/
-	chown pkg-builder:root /opt/void-packages-custom/
-	chmod 0755 /opt/void-packages-main/
-	chmod 0755 /opt/void-packages-custom/
-	cd /opt/void-packages-main/
+	sudo mkdir -p /opt/void-packages-main/
+	sudo mkdir -p /opt/void-packages-custom/
+	sudo chown pkg-builder:root /opt/void-packages-main/
+	sudo chown pkg-builder:root /opt/void-packages-custom/
+	sudo chmod 0755 /opt/void-packages-main/
+	sudo chmod 0755 /opt/void-packages-custom/
+	sudo cd /opt/void-packages-main/
 	# Obtain script and change ownership
-	git clone https://github.com/sww1235/xbps-mini-builder.git
-	chown pkg-builder:root /opt/void-packages-main/xbps-mini-builder
-	chmod 0755 /opt/void-packages-main/xbps-mini-builder
+	sudo git clone https://github.com/sww1235/xbps-mini-builder.git .
+	sudo chown pkg-builder:root *
+	sudo chown pkg-builder:root .*
+	sudo chmod 0755 xbps-mini-builder
 	cd /opt/void-packages-custom/
-	git clone https://github.com/sww1235/xbps-mini-builder.git
-	chown pkg-builder:root /opt/void-packages-custom/xbps-mini-builder
-	chmod 0755 /opt/void-packages-custom/xbps-mini-builder
+	sudo git clone https://github.com/sww1235/xbps-mini-builder.git .
+	sudo chown pkg-builder:root *
+	sudo chown pkg-builder:root .*
+	sudo chmod 0755 xbps-mini-builder
 	```
 
 5.	Create `packages.list` file in the `/opt/void-packages-*/` directories with
 	the list of packages to build for each repo:
 
-6.	Create `etc/conf` file in each `/opt/void-packages-*/` directory with the following contents:
+	**void-packages-main**:
 
 	```conf
- 	XBPS_ALLOW_RESTRICTED=yes
- 	```
+	dwm
+	st
+	dmenu
+	```
 
-7.	Change to root.
+	**void-packages-custom**:
 
+	```conf
+	TBD
+	```
+
+6.	Create `etc/conf` file in each `/opt/void-packages-*/` directory with the
+	following contents:
+
+	**void-packages-main**:
+
+	```conf
+	XBPS_ALLOW_RESTRICTED=yes
+	```
+
+	**void-packages-custom**:
+
+	```conf
+	TBD
+	```
 8.	Change ownership and mode of these config files:
 
 	```bash
-	chown root:root /opt/void-packages-main/etc/conf
-	chmod 0644 /opt/void-packages-main/etc/conf
-	chown root:root /opt/void-packages-custom/etc/conf
-	chmod 0644 /opt/void-packages-custom/etc/conf
+	sudo chown root:root /opt/void-packages-main/etc/conf
+	sudo chmod 0644 /opt/void-packages-main/etc/conf
+	sudo chown root:root /opt/void-packages-custom/etc/conf
+	sudo chmod 0644 /opt/void-packages-custom/etc/conf
+	sudo chown root:root /opt/void-packages-main/packages.list
+	sudo chmod 0644 /opt/void-packages-main/packages.list
+	sudo chown root:root /opt/void-packages-custom/packages.list
+	sudo chmod 0644 /opt/void-packages-custom/packages.list
 	```
+
+9.	Edit the `xbps-mini-builder` script in `/opt/void-packages-main/` and
+	change the `git clone` line to use
+	`https://github.com/sww1235/void-packages` instead of the official
+	`void-packages` repo.
 
 9.	Edit the `xbps-mini-builder` script in `/opt/void-packages-custom/` and
 	change the `git clone` line to use
@@ -237,12 +262,11 @@ ansible script.
 12.	Create service directory:
 
 	```bash
-	mkdir -p /etc/sv/pkg-builder/
-	chown root:root /etc/sv/pkg-builder/
-	chmod 0755 /etc/sv/pkg-builder/
+	sudo mkdir -p /etc/sv/pkg-builder/
+	sudo chmod 0755 /etc/sv/pkg-builder/
 	```
 
-13.	Create file with contents at `/etc/sv/pkg-builder` and then set owner and mode:
+13.	Create file with contents at `/etc/sv/pkg-builder/run` and then set owner and mode:
 
 	File contenst:
 
@@ -257,7 +281,7 @@ ansible script.
 
 	```bash
 	chmod 0755 /etc/sv/pkg-builder/
-	chown root:root /etc/sv/pkg-builder/
+	chmod 0755 /etc/sv/pkg-builder/run
 	```
 
 14.	Enable the service with `ln -s /etc/sv/pkg-builder/ /var/service`
