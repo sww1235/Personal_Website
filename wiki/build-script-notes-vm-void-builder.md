@@ -319,11 +319,11 @@ ansible script.
 		listen	*:80;
 		server_name void-builder.internal.sww1235.net;
 
-		location {
+		location /void-packages/main/ {
 			root /opt/void-packages-main/void-packages/hostdir/binpkgs;
 			autoindex on;
 		}
-		location {
+		location /void-packages/custom/ {
 			root /opt/void-packages-custom/personal-void-packages/hostdir/binpkgs;
 			autoindex on;
 		}
