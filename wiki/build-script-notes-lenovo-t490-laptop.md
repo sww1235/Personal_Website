@@ -110,8 +110,8 @@ modified from <https://rodsbooks.com/refind/installing.html#windows>
     configuration file.
 
 11. Type `bcdedit /set "{bootmgr}" path \EFI\refind\refind_x64.efi` to set
-    rEFInd as the default EFI boot program. Note that "{bootmgr}" is
-    entered as such, including both the quotes and braces ({}).
+    rEFInd as the default EFI boot program. Note that `{bootmgr}` is
+    entered as such, including both the quotes and braces `({})`.
 
 12. Type `bcdedit /set "{bootmgr}" description "rEFInd description"` to set a
     description (change rEFInd description as you see fit).

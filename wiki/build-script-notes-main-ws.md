@@ -2,12 +2,15 @@
 
 This is the build script for my main workstation PC.
 
+## TODO
+
+- 	Change to rEFInd for boot manager
 
 ## Build Script {#build-script}
 
 ### Initial Configuration {#initial-config}
 
-1.	Download the void-live-\_x86-64 .iso of void linux from reputable
+1.	Download the `void-live-x86_64.iso` of void linux from reputable
 	sources, currently
 	[here](https://alpha.de.repo.voidlinux.org/live/current/)
 
@@ -24,40 +27,85 @@ This is the build script for my main workstation PC.
 6.	Proceed through installation wizard
 
 	1.	Keyboard=us
+
 	2.	Select Static and enter information from static-ip document
+
 	3.	Source=network
+
 	4.	Hostname=the-beast
-	5.	Timezone=America/Denver or appropriate
-	6.	Root password from password manager - generated
-	7.	User account from password manager
-	8.	Select grub to autoinstall GRUB2 bootloader. TODO: change to rEFInd instead
-	9.	Partition main SSD using GPT scheme
-	10.	Set filesystems
-	11.	Review settings
-	12.	Install
-	13.	Wait
-	14.	Reboot
 
-7.	Log in as the new user you created
+	5.	System Locale=en\_US.UTF-8
 
-8.	Update the system by running the following command until there is no output.
+	6.	Timezone=America/Denver or appropriate
 
-	```bash
+	7.	Root password from password manager - generated
+
+	8.	User account from password manager
+
+	9.	Select grub to autoinstall GRUB2 bootloader. TODO: change to rEFInd instead
+
+	10.	Partition main SSD using GPT scheme
+
+		1.	Create a 500MiB partition of type `EFI system`
+
+		2.	Create a second partition with the remaining space of type
+			`linux-filesystem`
+
+		3.	Select write to write partitions to disk
+
+	11.	Set filesystems
+
+		1.	Set 500MiB partition `vfat` filesystem and mount it at `/boot/efi`
+
+		2.	Set second partition to `ext4` and mount it at `/`
+
+	12.	Review settings
+
+	13.	Install
+
+	14.	Wait
+
+	15.	Reboot
+
+7.  Login to newly installed Void Linux using root account and password found
+	in password database. This is due to the fact that we haven't configured
+	sudo yet.
+
+8.  Configure `sudo` to allow full access to members of `wheel` group. Run
+	`visudo` and uncomment the line
+
+	```sudo
+	#%wheel ALL=(ALL) ALL
+	```
+
+9.	Log out and log back in as the new user you created
+
+10.	Update the system by running the following command until there is no output.
+
+	```sh
 	sudo xbps-install -Svu
 	```
-9.	Configure custom repository using steps found in [void-builder config](./build-script-notes-vm-void-builder.md)
+11.	Configure custom repository using steps found in [void-builder config](./build-script-notes-vm-void-builder.md)
 
-10.	Install the following packages. The st-terminfo install fixes `st-256color
+12.	Install the following packages. The st-terminfo install fixes `st-256color
 	unknown terminal type` issues as well as backspace and tab issues when
 	sshing in from other computers using the `st` terminal emulator.
 
-	```bash
-	sudo xbps-install nano vim-huge gvim st-terminfo
+	```sh
+	sudo xbps-install vim-huge gvim st-terminfo git xorg xorg-fonts arandr xscreensaver cups \
+		firefox freecad kicad rsync tmux zip wget unzip
 	```
 
-11.	Setup system logging using socklog
+13.  Enable NTP service
 
-	```bash
+	```sh
+	sudo xbps-install chrony
+	ln -s /etc/sv/ntpd /var/service
+	```
+
+14.	Setup system logging using socklog
+
+	```sh
 	sudo xbps-install socklog-void
 	# enable services
 	sudo ln -s /etc/sv/socklog-unix/ /var/service
@@ -67,19 +115,19 @@ This is the build script for my main workstation PC.
 	# log out and log back in
 	```
 
-12.	Set up ssh-agent using user specific services. Instructions taken from
+15.	Set up ssh-agent using user specific services. Instructions taken from
 	<https://www.daveeddy.com/2018/09/15/using-void-linux-as-my-daily-driver/>
 
 	1.	Create user specific service directory:
 
-		```bash
+		```sh
 		sudo mkdir /etc/sv/runit-user-toxicsauce
 		```
 
 	2.	Create run script for user specific service by adding the following
 		into `/etc/sv/runit-user-toxicsauce/run`
 
-		```bash
+		```sh
 		#!/bin/sh
 		exec 2>&1
 		exec chpst -u toxicsauce:toxicsauce runsvdir /home/toxicsauce/runit/service
@@ -87,13 +135,13 @@ This is the build script for my main workstation PC.
 
 	3.	Mark it as executable:
 
-		```bash
+		```sh
 		sudo chmod +x /etc/sv/runit-user-toxicsauce/run
 		```
 
 	4.	Create necessary user specific service directories:
 
-		```bash
+		```sh
 		mkdir ~/runit
 		mkdir ~/runit/sv
 		mkdir ~/runit/service
@@ -101,19 +149,19 @@ This is the build script for my main workstation PC.
 
 	5.	Start this service of services with:
 
-		```bash
+		```sh
 		sudo ln -s /etc/sv/runit-user-toxicsauce /var/service
 		```
 
 	6.	Now set up `ssh-agent` service:
 
-		```bash
+		```sh
 		mkdir ~/runit/sv/ssh-agent
 		```
 
 	7.	Create run script for `ssh-agent` service by adding the following into `~/runit/sv/ssh-agent/run`.
 
-		```bash
+		```sh
 		#!/usr/bin/env bash
 		#
 		# Start ssh-agent from runit
@@ -134,28 +182,37 @@ This is the build script for my main workstation PC.
 
 	8.	Mark run file as executable with:
 
-		```bash
+		```sh
 		chmod +x ~/runit/sv/ssh-agent/run
 		```
 
 	9.	Now start the service with:
 
-		```bash
+		```sh
 		ln -s ~/runit/sv/ssh-agent ~/runit/service
 		```
 
 		**NOTE**: you need the following line in bashrc in order to get it working
 		in new shells. This is already in my dotfiles bashrc
 
-		```bash
+		```sh
 		# source ssh-agent file
 
 		[ -f $HOME/.ssh/ssh-agent-env ] && source $HOME/.ssh/ssh-agent-env
 		```
 
-		TODO: add in instructions around btrfs and mounting separate file systems
+16. Generate ssh-keys `ssh-keygen -t ed25519` and enter passphrase from password manager
 
-13.	Create Projects directory tree in `~` as follows:
+17. Add public key to github.
+
+18.	Set up git.
+
+	```bash
+	git config --global user.email "github@sww1235.net"
+	git config --global user.name "Stephen Walker-Weinshenker"
+	```
+
+18.	Create Projects directory tree in `~` as follows:
 
 	```bash
 	mkdir -p ~/projects/src/github.com/sww1235
@@ -163,16 +220,18 @@ This is the build script for my main workstation PC.
 
 	This mirrors the structure of how golang wants to set things up.
 
-14.	Make symlink in `~` as follows:
+19.	Make symlink in `~` as follows:
 
 	```bash
 	ln -s ~/projects/src/github.com/sww1235 myprojects
 	```
 
-15.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
+20.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
 	`install.sh` script.
 
-16.	Clone projects from github into Projects tree as desired.
+21.	Clone projects from github into Projects tree as desired.
+		TODO: add in instructions around btrfs and mounting separate file systems
+
 
 ### Extra Host Configuration [#extra-host-config}
 

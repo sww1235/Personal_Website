@@ -108,8 +108,8 @@ my main workstation.
 14.	Set up git.
 
 	```bash
-	git config --global user.email "sww1235@gmail.com"
-	git config --global user.namer "Stephen Walker-Weinshenker"
+	git config --global user.email "github@sww1235.net"
+	git config --global user.name "Stephen Walker-Weinshenker"
 	```
 
 15.	Set up ssh-agent using user specific services. Instructions taken from
