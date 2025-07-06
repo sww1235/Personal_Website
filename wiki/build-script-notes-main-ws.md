@@ -10,9 +10,8 @@ This is the build script for my main workstation PC.
 
 ### Initial Configuration {#initial-config}
 
-1.	Download the `void-live-x86_64.iso` of void linux from reputable
-sources, currently
-[here](https://alpha.de.repo.voidlinux.org/live/current/)
+1.	Download the `void-live-x86_64.iso` of void linux from reputable sources,
+	currently [here](https://alpha.de.repo.voidlinux.org/live/current/)
 
 2.	Burn image to USB thumbdrive using either `dd` or whatever windows tool is
 the popular thing and preferably doesn't use electron.
@@ -20,7 +19,7 @@ the popular thing and preferably doesn't use electron.
 3.	Login as root with default password of `void-linux` to live image.
 
 4.	Make sure you are booted using UEFI by validating presence of
-`/sys/firmware/efi` directory
+	`/sys/firmware/efi` directory
 
 5.	run `void-installer`
 
