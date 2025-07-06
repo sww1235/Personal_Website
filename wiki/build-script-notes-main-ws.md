@@ -11,16 +11,16 @@ This is the build script for my main workstation PC.
 ### Initial Configuration {#initial-config}
 
 1.	Download the `void-live-x86_64.iso` of void linux from reputable
-	sources, currently
-	[here](https://alpha.de.repo.voidlinux.org/live/current/)
+sources, currently
+[here](https://alpha.de.repo.voidlinux.org/live/current/)
 
 2.	Burn image to USB thumbdrive using either `dd` or whatever windows tool is
-	the popular thing and preferably doesn't use electron.
+the popular thing and preferably doesn't use electron.
 
 3.	Login as root with default password of `void-linux` to live image.
 
 4.	Make sure you are booted using UEFI by validating presence of
-	`/sys/firmware/efi` directory
+`/sys/firmware/efi` directory
 
 5.	run `void-installer`
 
@@ -118,7 +118,7 @@ This is the build script for my main workstation PC.
 	```
 
 15.	Set up ssh-agent using user specific services. Instructions taken from
-	<https://www.daveeddy.com/2018/09/15/using-void-linux-as-my-daily-driver/>
+		<https://www.daveeddy.com/2018/09/15/using-void-linux-as-my-daily-driver/>
 
 	1.	Create user specific service directory:
 
@@ -165,7 +165,7 @@ This is the build script for my main workstation PC.
 
 		```sh
 		#!/usr/bin/env bash
-		#
+
 		# Start ssh-agent from runit
 
 		file=~/.ssh/ssh-agent-env
@@ -203,20 +203,21 @@ This is the build script for my main workstation PC.
 		[ -f $HOME/.ssh/ssh-agent-env ] && source $HOME/.ssh/ssh-agent-env
 		```
 
-16. Generate ssh-keys `ssh-keygen -t ed25519` and enter passphrase from password manager
+16. Generate ssh-keys `ssh-keygen -t ed25519` and enter passphrase from
+	password manager
 
 17. Add public key to github.
 
 18.	Set up git.
 
-	```bash
+	```sh
 	git config --global user.email "github@sww1235.net"
 	git config --global user.name "Stephen Walker-Weinshenker"
 	```
 
 18.	Create Projects directory tree in `~` as follows:
 
-	```bash
+	```sh
 	mkdir -p ~/projects/src/github.com/sww1235
 	```
 
@@ -224,12 +225,12 @@ This is the build script for my main workstation PC.
 
 19.	Make symlink in `~` as follows:
 
-	```bash
+	```sh
 	ln -s ~/projects/src/github.com/sww1235 myprojects
 	```
 
-20.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
-	`install.sh` script.
+20.	Clone dotfiles repo from GitHub using ssh and install vim and bash files
+	using `install.sh` script.
 
 21. Modify ~/.xinitrc to contain the following:
 
