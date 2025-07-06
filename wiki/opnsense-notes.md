@@ -10,4 +10,4 @@ move automatically and silently in this order `WAN -> OPT1 -> LAN` with LAN inte
 
 make sure to use /32s in the allowed IPs for the tunnel IPs.
 
-[^1]: https://forum.opnsense.org/index.php?topic=22640.msg107727#msg107727
+[^1]: <https://forum.opnsense.org/index.php?topic=22640.msg107727#msg107727>

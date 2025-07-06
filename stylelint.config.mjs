@@ -125,9 +125,9 @@ export default {
 		//TODO: decide on value here
 		"selector-max-class": 2,
 		//TODO: decide on value here
-		"selector-max-combinators": 2,
+		//"selector-max-combinators": 2,
 		//TODO: decide on value here
-		"selector-max-compound-selectors": 2,
+		//"selector-max-compound-selectors": 2,
 		//TODO: decide on value here
 		"selector-max-id": 2,
 		//TODO: decide on value here
@@ -135,7 +135,7 @@ export default {
 		//TODO: decide on value here
 		"selector-max-specificity": null,
 		//TODO: decide on value here
-		"selector-max-type": 2,
+		//"selector-max-type": 2,
 		//TODO: decide on value here
 		"selector-max-universal": 2,
 		//TODO: decide on value here

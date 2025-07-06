@@ -111,53 +111,53 @@ TODO:
 
 20.	SSH into the system while still keeping the vm console open.
 
-20.	Install `rEFInd` once in the system with the commands:
+21.	Install `rEFInd` once in the system with the commands:
 
 	```bash
 	sudo xbps-install refind
 	sudo refind-install
 	```
 
-21.	Change the timeout setting in `/boot/efi/EFI/refind/refind.conf` to 5 seconds.
+22.	Change the timeout setting in `/boot/efi/EFI/refind/refind.conf` to 5 seconds.
 
-22.	Uncomment the `textonly` setting in `/boot/efi/EFI/refind/refind.conf`
+23.	Uncomment the `textonly` setting in `/boot/efi/EFI/refind/refind.conf`
 
-23.	Uncomment the line `resolution 1024 768` in `/boot/efi/EFI/refind/refind.conf`
+24.	Uncomment the line `resolution 1024 768` in `/boot/efi/EFI/refind/refind.conf`
 
-24.	Reboot and immediately enter the vm console again with `xl console void_builder` if dropped.
+25.	Reboot and immediately enter the vm console again with `xl console void_builder` if dropped.
 
-25.	Type `exit` at UEFI prompt to drop to BIOS config.
+26.	Type `exit` at UEFI prompt to drop to BIOS config.
 
-26.	Select `Boot Maintenance Manager` -> `Boot Options` -> `Add Boot Option`
+27.	Select `Boot Maintenance Manager` -> `Boot Options` -> `Add Boot Option`
 	and then choose the disk with the EFI system partion, typically the first
 	option.
 
-27.	Now navigate through the file system to find and select the EFI executable.
+28.	Now navigate through the file system to find and select the EFI executable.
 	With `rEFInd` installed, it is typically at `EFI/refind/refind_x64.efi`
 
-28.	Enter name of boot option by hitting enter in the description box. This
+29.	Enter name of boot option by hitting enter in the description box. This
 	should be called `void_linux`
 
-29. Select `Commit Changes and Exit`
+30. Select `Commit Changes and Exit`
 
-30.	Now select `Change Boot Order` and then hit enter again to load the menu.
+31.	Now select `Change Boot Order` and then hit enter again to load the menu.
 
-31.	Select the `void_linux` option in the list with the arrow keys, and move it
+32.	Select the `void_linux` option in the list with the arrow keys, and move it
 	to the top with the `+` key.
 
-32. Select `Commit Changes and Exit` and then `Continue` to boot into the new
+33. Select `Commit Changes and Exit` and then `Continue` to boot into the new
 	boot entry as long as it is present in `Boot Next Value` entry.
 
-33.	At the `rEFInd` prompt, you will probably have to select the
+34.	At the `rEFInd` prompt, you will probably have to select the
 	`/boot/vmlinuz` entry as the grub cfg file may still be the default.
 
-34.	Remove the `/boot/grub` folder and the `/boot/efi/EFI/void_linux/grubx64.efi` file and containing folder.
+35.	Remove the `/boot/grub` folder and the `/boot/efi/EFI/void_linux/grubx64.efi` file and containing folder.
 
-35. Reboot again to make sure everything functions correctly.
+36. Reboot again to make sure everything functions correctly.
 
-36.	Uninstall the following packages `grub grub-i386-efi grub-x86_64-efi void-live-audio void-docs-browse`
+37.	Uninstall the following packages `grub grub-i386-efi grub-x86_64-efi void-live-audio void-docs-browse`
 
-37.	Run `sudo xbps-remove -o` and `sudo xbps-remove -O` to remove unnessary dependancies and clean cache.
+38.	Run `sudo xbps-remove -o` and `sudo xbps-remove -O` to remove unnessary dependancies and clean cache.
 
 ### Package Builder Configuration {#pkg-build-cfg}
 
@@ -286,6 +286,7 @@ ansible script.
 	```
 
 	Change mode:
+
 	```sh
 	chmod +x /etc/sv/pkg-builder/log/run
 	```
