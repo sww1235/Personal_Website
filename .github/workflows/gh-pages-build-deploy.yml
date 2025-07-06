@@ -2,7 +2,7 @@ name: Build and Deploy
 
 # Controls when the action will run.
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     paths:
       - 'blog-contents/**'
@@ -24,7 +24,6 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
 
     steps:
       # first install pandoc from dpkg
@@ -73,30 +72,50 @@ jobs:
           css: true
           root: www/
 
-      #- name: upload validation logs
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: validation-log
-      #    path: log.log
 
-      - name: deploy
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: www-contents
+          path: www/*
+          if-no-files-found: error
+          retention-days: 1
+          overwrite: true
+          include-hidden-files: false
+
+  # Deploy website to sww1235.github.io
+  deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: sww1235/sww1235.github.io
+          ref: main
+          token: ${{ secrets.PAGES_DEPLOY_KEY }}
+
+
+      - name: download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: www-contents
+          path: ~/website
+
+      - name: update sww1235.github.io
         run: |
           git config --global user.email "gh-actions@sww1235.net"
           git config --global user.name "Robots"
-          # after cd, will be in $HOME
-          cd ..
-          git clone https://${{secrets.GHA_DEPLOY}}@github.com/sww1235/sww1235.github.io.git website
           # overwrite www directory contents of ghpages repo with new files
-          cp -rf  Personal_Website/www/. website/
-          # cd into ghpages repo
-          cd website
+          cp -rf  ~/website .
           # check if there were differences between existing website and newly built files.
           # allows build to succeed if the actual website pages didn't change at all.
           if ! git diff-index --quiet HEAD --; then
-          # add files to gh pages repo and commit
-          git add -A
-          # commit files to gh pages
-          git commit -m "Website as of $(date -Iseconds -u )"
-          git push
+            # add files to gh pages repo and commit
+            git add -A
+            # commit files to gh pages
+            git commit -m "Website as of $(date -Iseconds -u )"
+            git push
           fi
-
