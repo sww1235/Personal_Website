@@ -214,7 +214,7 @@ This is the build script for my main workstation PC.
 	git config --global user.name "Stephen Walker-Weinshenker"
 	```
 
-18.	Create Projects directory tree in `~` as follows:
+19.	Create Projects directory tree in `~` as follows:
 
 	```sh
 	mkdir -p ~/projects/src/github.com/sww1235
@@ -222,23 +222,23 @@ This is the build script for my main workstation PC.
 
 	This mirrors the structure of how golang wants to set things up.
 
-19.	Make symlink in `~` as follows:
+20.	Make symlink in `~` as follows:
 
 	```sh
 	ln -s ~/projects/src/github.com/sww1235 myprojects
 	```
 
-20.	Clone dotfiles repo from GitHub using ssh and install vim and bash files
+21.	Clone dotfiles repo from GitHub using ssh and install vim and bash files
 	using `install.sh` script.
 
-21. Modify ~/.xinitrc to contain the following:
+22. Modify ~/.xinitrc to contain the following:
 
 	```xinitrc
 	slstatus &
 	exec dwm
 	```
 
-22.	Clone projects from github into Projects tree as desired.
+23.	Clone projects from github into Projects tree as desired.
 
 ### Extra Host Configuration [#extra-host-config}
 
