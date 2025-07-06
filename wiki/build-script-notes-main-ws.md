@@ -85,7 +85,9 @@ This is the build script for my main workstation PC.
 	```sh
 	sudo xbps-install -Svu
 	```
-11.	Configure custom repository using steps found in [void-builder config](./build-script-notes-vm-void-builder.md)
+
+11.	Configure custom repository using steps found in [void-builder
+	config](./build-script-notes-vm-void-builder.md)
 
 12.	Install the following packages. The st-terminfo install fixes `st-256color
 	unknown terminal type` issues as well as backspace and tab issues when
@@ -96,7 +98,7 @@ This is the build script for my main workstation PC.
 		firefox freecad kicad rsync tmux zip wget unzip
 	```
 
-13.  Enable NTP service
+13.  Enable NTP service:
 
 	```sh
 	sudo xbps-install chrony
