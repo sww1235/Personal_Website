@@ -97,7 +97,7 @@ This is the build script for my main workstation PC.
 	sudo xbps-install firefox freecad kicad rsync tmux zip wget unzip
 	```
 
-13.  Enable NTP service:
+13.	Enable NTP service:
 
 	```sh
 	sudo xbps-install chrony
