@@ -14,7 +14,7 @@ This is the build script for my main workstation PC.
 	currently [here](https://alpha.de.repo.voidlinux.org/live/current/)
 
 2.	Burn image to USB thumbdrive using either `dd` or whatever windows tool is
-the popular thing and preferably doesn't use electron.
+	the popular thing and preferably doesn't use electron.
 
 3.	Login as root with default password of `void-linux` to live image.
 
@@ -90,11 +90,11 @@ the popular thing and preferably doesn't use electron.
 
 12.	Install the following packages. The st-terminfo install fixes `st-256color
 	unknown terminal type` issues as well as backspace and tab issues when
-	sshing in from other computers using the `st` terminal emulator.
+	`ssh`ing in from other computers using the `st` terminal emulator.
 
 	```sh
-	sudo xbps-install vim-huge gvim st-terminfo git xorg xorg-fonts arandr xscreensaver cups \
-		firefox freecad kicad rsync tmux zip wget unzip
+	sudo xbps-install vim-huge gvim st-terminfo git xorg xorg-fonts arandr xscreensaver cups
+	sudo xbps-install firefox freecad kicad rsync tmux zip wget unzip
 	```
 
 13.  Enable NTP service:
@@ -240,7 +240,6 @@ the popular thing and preferably doesn't use electron.
 
 22.	Clone projects from github into Projects tree as desired.
 
-
 ### Extra Host Configuration [#extra-host-config}
 
 1.	Install network-ups-tools.
@@ -256,7 +255,6 @@ the popular thing and preferably doesn't use electron.
 	```
 
 3.	Start `upsmon` service `ln -s /etc/sv/upsmon/ /var/service`
-
 
 ```tags
 build-script, main-ws-host, workstation, notes
