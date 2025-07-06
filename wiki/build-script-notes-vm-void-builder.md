@@ -320,11 +320,11 @@ ansible script.
 		server_name void-builder.internal.sww1235.net;
 
 		location /void-packages/main/ {
-			root /opt/void-packages-main/void-packages/hostdir/binpkgs;
+			alias /opt/void-packages-main/void-packages/hostdir/binpkgs;
 			autoindex on;
 		}
 		location /void-packages/custom/ {
-			root /opt/void-packages-custom/personal-void-packages/hostdir/binpkgs;
+			alias /opt/void-packages-custom/personal-void-packages/hostdir/binpkgs;
 			autoindex on;
 		}
 	}
