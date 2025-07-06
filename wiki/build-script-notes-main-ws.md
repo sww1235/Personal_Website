@@ -231,8 +231,14 @@ This is the build script for my main workstation PC.
 20.	Clone dotfiles repo from GitHub using ssh and install vim and bash files using
 	`install.sh` script.
 
-21.	Clone projects from github into Projects tree as desired.
-		TODO: add in instructions around btrfs and mounting separate file systems
+21. Modify ~/.xinitrc to contain the following:
+
+	```xinitrc
+	slstatus &
+	exec dwm
+	```
+
+22.	Clone projects from github into Projects tree as desired.
 
 
 ### Extra Host Configuration [#extra-host-config}
