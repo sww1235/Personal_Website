@@ -106,13 +106,14 @@ jobs:
 
       - name: update sww1235.github.io
         run: |
+          pwd
           git config --global user.email "gh-actions@sww1235.net"
           git config --global user.name "Robots"
           # overwrite www directory contents of ghpages repo with new files
           cp -rf  ~/website .
           # check if there were differences between existing website and newly built files.
           # allows build to succeed if the actual website pages didn't change at all.
-          if ! git diff-index --quiet HEAD --; then
+          if git diff-index --quiet HEAD --; then
             # add files to gh pages repo and commit
             git add -A
             # commit files to gh pages
