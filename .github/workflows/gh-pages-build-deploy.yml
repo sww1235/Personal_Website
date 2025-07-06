@@ -67,7 +67,7 @@ jobs:
 
 
       - name: HTML5 validation
-        uses: Cyb3r-Jak3/html5validator-action@v0.6
+        uses: Cyb3r-Jak3/html5validator-action
         with:
           css: true
           root: www/
