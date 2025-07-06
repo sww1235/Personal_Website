@@ -19,11 +19,11 @@ Reimage then setup dual booting.
 
 3.  Disable fast boot in preinstalled windows.
 
-1.  Go to Settings -> System -> Power & Sleep -> Additional Power Settings ->
-	Choose What Power Buttons Do -> Change settings that are currently
-	unavailable
+	1.  Go to Settings -> System -> Power & Sleep -> Additional Power Settings
+		-> Choose What Power Buttons Do -> Change settings that are currently
+		unavailable
 
-2.  Uncheck "Turn on Fast Startup". This prevents skipping the BIOS screen.
+	2.  Uncheck "Turn on Fast Startup". This prevents skipping the BIOS screen.
 
 4.  Verify BIOS is set to allow booting from USB sticks. Also verify that BIOS
 	is only set to UEFI mode
@@ -45,14 +45,14 @@ Reimage then setup dual booting.
 
 11. Wipe out all existing partitions on the main SSD, then create the following:
 
--   A main 120GB partition for windows
--   A 500GB partition for passthrough between Windows and Linux OS installs.
+	-   A main 120GB partition for windows
+	-   A 500GB partition for passthrough between Windows and Linux OS installs.
 
-	Leave the remaining space unpartitioned. This will be partitioned during
-	the linux install.
+		Leave the remaining space unpartitioned. This will be partitioned
+		during the linux install.
 
-	These will both be NTFS. Windowe will create additional partitions at the
-	beginning of the partition list for recovery ETC.
+		These will both be NTFS. Windowe will create additional partitions at
+		the beginning of the partition list for recovery ETC.
 
 12. Select the 120GB partiton to install windows on.
 
