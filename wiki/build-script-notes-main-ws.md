@@ -93,8 +93,12 @@ This is the build script for my main workstation PC.
 	`ssh`ing in from other computers using the `st` terminal emulator.
 
 	```sh
+	sudo xbps-install void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree
 	sudo xbps-install vim-huge gvim st-terminfo git xorg xorg-fonts arandr xscreensaver cups
-	sudo xbps-install firefox freecad kicad rsync tmux zip wget unzip
+	sudo xbps-install firefox freecad kicad rsync tmux zip wget unzip dbus mono
+	sudo xbps-install libgcc-32bit libstdc++-32bit libdrm-32bit libglvnd-32bit mesa-dri-32bit
+	sudo xbps-install mesa-vulkan-radeon mesa-vaapi mesa-vdpau
+	sudo xbps-install steam
 	```
 
 13.	Enable NTP service:
@@ -231,14 +235,29 @@ This is the build script for my main workstation PC.
 21.	Clone dotfiles repo from GitHub using ssh and install vim and bash files
 	using `install.sh` script.
 
-22. Modify ~/.xinitrc to contain the following:
+22.	Modify ~/.xinitrc to contain the following:
 
 	```xinitrc
 	slstatus &
 	exec dwm
 	```
 
-23.	Clone projects from github into Projects tree as desired.
+23.	Run `startx` to start x11 session.
+
+24.	Run `arandr` to generate a `xrandr` command to fix the monitor
+	rotation. Save the script as `~/.screenlayout/main.sh`
+
+25.	Install `xscreensaver`, then run `xscreensaver-demo` and unselect the
+	screensavers that you don't want to run.
+
+26.	Modify ~/.xinitrc to contain the following:
+
+	```xinitrc
+	~/.screenlayout/main.sh
+	xscreensaver &
+	slstatus &
+	exec dwm
+	```
 
 ### Extra Host Configuration [#extra-host-config}
 
