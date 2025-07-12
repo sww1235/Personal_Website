@@ -94,7 +94,8 @@ This is the build script for my main workstation PC.
 
 	```sh
 	sudo xbps-install void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree
-	sudo xbps-install vim-huge gvim st-terminfo git xorg xorg-fonts arandr xscreensaver cups
+	sudo xbps-install vim-huge gvim st-terminfo git xorg xorg-fonts arandr xscreensaver cups htop
+	sudo xbps-install calc alsa-utils acpi diff-pdf ffmpeg lm_sensors pv qiv texlive-bin tmux vlc wireshark xtools xz
 	sudo xbps-install firefox freecad kicad rsync tmux zip wget unzip dbus mono
 	sudo xbps-install libgcc-32bit libstdc++-32bit libdrm-32bit libglvnd-32bit mesa-dri-32bit
 	sudo xbps-install mesa-vulkan-radeon mesa-vaapi mesa-vdpau
