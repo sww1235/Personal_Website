@@ -37,7 +37,7 @@ jobs:
          rm pandoc-2.13-1-amd64.deb
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: build
         run: |
@@ -91,7 +91,7 @@ jobs:
     needs: build
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: sww1235/sww1235.github.io
           ref: main
