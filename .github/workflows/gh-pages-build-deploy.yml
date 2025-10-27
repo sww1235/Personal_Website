@@ -75,7 +75,7 @@ jobs:
 
 
       - name: upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: www-contents
           path: www/*
