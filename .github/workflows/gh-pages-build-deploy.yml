@@ -99,7 +99,7 @@ jobs:
 
 
       - name: download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: www-contents
           path: ~/website
